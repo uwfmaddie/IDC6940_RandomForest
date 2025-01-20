@@ -1,0 +1,22 @@
+## Week 2 Research Progress
+
+[@rigatti2017random]
+The goal of this paper is to explore and describe
+the random forest technique. It provides an overview of the decision
+tree process and how random forests are created using decision trees.
+The explanations in the article are very useful for understanding the
+process. It goes into detail about CART models, how a decision tree is
+formed using randomization techniques such as bootstrapping and bagging,
+and then randomization at each node. The article briefly explains being
+able to tune the model with number of splits and number of trees, which
+affect the computational intensity. The article then focuses on using a
+random forest to analyze survival data. Colon cancer data is used to
+create models using both random forest and Cox, and results are found to
+be comparable. The main drawback the author writes of the random forest
+as compared to Cox, is that it doesn't give insights into partial
+effects of the predictors, making it much more difficult to understand
+how the predictors may individually or collectively be influencing the
+prediction.
+
+[@oshiro2012many]
+The purpose of this article is to research whether there is an optimal number of trees within a random forest. The goal is to determine if there's a treshold in which increasing the number of trees provides no significant performance gain as compared to the increase of computational cost. The article states that in general, the user sets the number of trees on a trial and error basis. They review the results from an analysis of increasing the number of trees, between 2 and 4096, doubling the number of trees at every iteration for 29 data sets. The number of attributes within each random forest is also analyzed with the growth of trees. Results were analyzed using ROC curve (AUC) and the percentage of attributes used. In general, as the number of trees increased, so did the AUC. However, there was no significant difference btween the given number of trees and double that number. We needed to do at least 4x the number to see a significant improvement. There was no significant difference between 128 trees until 4096 trees. The article suggests that based on their experiments, a range between 64 and 128 trees in a forest tends to be an optimal balance between AUC, processing time, and memory usage. 
