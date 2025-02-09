@@ -1,3 +1,4 @@
+##Maddie's Literature Reviews
 ## Week 2 Research Progress
 
 [@rigatti2017random]
@@ -35,3 +36,48 @@ The purpose of this article is to explore predicting different diseases using ra
 
 [@boulesteix2012overview]
 The purpose of this article is to provide an overview of the random forest algorithm, with a specific emphasis on applications to bioinformatics and computational biology. One item that was discussed was VIMs, or variable importance measures. They claim that “Random forest (RF) methodology is used to address two main classes of problems: to construct a prediction rule in a supervised learning problem and to assess and rank variables with respect to their ability to predict the response.” Variable importance measures, or VIMs, are automatically computed for each predictor in the random forest algorithm and can be used to identify predictors that are involved in interactions. Since random forest works well with high-dimensional data, it is often appropriate for clinical or bioinformatics use cases. The author describes the basics of how the random forest algorithm functions, and then brings up the standard method has an important pitfall: “In the split selection process, predictors may be favored or disfavored depending on their scale of measurement or, in the case of categorical predictors, on their number of categories.” The author further describes this pitfall in the article, and how it can lead to bias. The author describes another class of decision trees, called conditional inference forests (CIF), which addresses the issue found in the standard random forest. The author brings up how if there’s a large number of predictors, then the default value of sqrt(p) or p/3 may be too small, as in their case it happened to randomly select predictors that were all noninformative, resulting in trees that weren’t accurate. The article reviews the use cases of RF in genetic epidemiology, and using SNP’s (single nucleotide polymorphism)  as predictors, and shows an analysis using SNP data to demonstrate how the Gini VIM favored uncorrelated SNPs over strongly correlated SNPs, even if they were all noninformantive; therefore it was recommended to use permutation VIM. In conclusion, the RF algorithm is a useful tool for prediction, but does have its setbacks such as producing less than desirable results stemmed from bias or poor distribution of the predictor. 
+
+##Jisa's Literature Reviews
+## Week 2 Research Progress
+Article 1:
+Breiman, L. (2001). Random forests. Machine Learning, 45(1), 5–32. https://doi.org/10.1023/A:1010933404324Links to an external site.
+
+This foundational document presents the Random Forest algorithm, describing how it is formed by aggregating many decision trees. Breiman explains that each tree is built using a random selection of the features and the data. This randomness makes the ensemble model much more robust and accurate. The Random Forest is also able to work with large datasets that have a high dimensionality and has variable importance measures built right into it.
+
+Article 2:
+Biau, G., & Scornet, E. (2016). A random forest guided tour. Test, 25(2), 197–227. https://doi.org/10.1007/s11749-016-0481-7Links to an external site.
+
+This article provides a detailed review of the Random Forest algorithm, with an emphasis on the  foundational theories and practical real world applications. The authors describe, in depth, the mathematics that drive the algorithm, covering aspects like:
+ the selection of parameters that control algorithm performance
+the resampling mechanism (i.e., making bootstrap samples of the training data) that makes the algorithm work
+the measures of variable importance that help one understand how and why the algorithm reaches the conclusions it does.
+
+## Week 3 Research Progress
+Article 3: "Random Forests for Clinical Decision Support Systems" by Zhang et al. (2018)
+Goal: To show how to apply Random Forests to predict patient sepsis risk in ICU patients
+Why Important: Seizure can be predicted early and this helps to reduce mortality rates to improve our patient outcomes.
+Methods:  Input features for the algorithm were patient vitals and lab results, feature importance in mind (e.g., lactate levels, BP worsening).
+Results/Limitations: There was high sensitivity and specificity but the model needed constant updating for evolving ICU regimens.
+
+Article 4: "Random Forest-Based Prediction of Diabetes Progression" by Smith et al. (2021)
+Goal: Prediction progression of diabetes from longitudinal patient data
+Why Important: Provides insight for tailoring interventions to delay or potentially avoiding disease progression in the hands of healthcare providers.
+Methods: A patient health metrics dataset (eg, glucose values, BMI, age) was used to train the RF logistic model for cross-validation performance checks.
+Results/Limitations: over 90% accuracy but the model was too complex so interpretability failed.
+
+## Week 4 Research Progress
+Article 5
+Application of Random Forest Model to Predict the Demand of Essential Medicines for Non-Communicable Diseases Management in Public Health Facilities” by Mbonyinshuti et al. (2022)
+
+Goal: To build a predictive model using the Random Forest approach to estimate the consumption for essential medicines used in managing NCDs in public health facilities in Rwanda.
+Importance: Proper forecasting will guarantee the uninterrupted supply of essential medicines which in turn prevents healthcare shortages as well as optimizes the supply chain management within healthcare systems.
+Methods: This study approached demand forecasting with the consumption data from 2015 to 2019 for around 500 medical products. To achieve this, first a Random Forest model was trained for demand prediction on a monthly basis using month, year, district and name of medicine as the main variables of the model. After that, the data was processed sequentially as the model’s name suggests.
+Results/Limitations: The model achieved an accuracy of 78% for the training set and 71% for the testing set which is good enough to determine medicine demand trends and thus is useful in predicting medicine demand. However, the limitation of this study is that the data only covers Rwanda and the rest of the world has yet to see if this model is applicable for other regions.
+
+ 
+Article 6
+Random Forest Algorithms in Health Care Sectors: A Review of Applications” by Haripriya et al. (2021)
+Goal: To evaluate the use of Random Forest algorithms in healthcare in terms of predicting patient safety outcomes and analyzing the components of safety culture.
+Importance: Knowing the factors that affect patient safety is a very important consideration if the quality of healthcare and medical mistakes are to be reduced.
+Methods: The study examined the records of several hospitals in the United States under the assumption that the organizational safety components are related to the grade the patient receives for safety in the hospital. They used Random Forest member classification in their assessments.
+Results/Limitations: The analysis established that the knowledge pertaining the quality of health care, organizational factors, and the goals of top management have ascertained a significant impact on the patient safety outcome. This study highlights the importance of further research to make the conclusions more applicable across different types of healthcare systems.

@@ -1,7 +1,7 @@
 ---
-title: "Writing a great story for data science projects - spring 2025"
-subtitle: "This is a Report Template Quarto"
-author: "Students names (Advisor: Dr. Cohen)"
+title: "Random Forest in the Health Industry - Spring 2025"
+subtitle: "An analysis of the random forest algorithm and its applications in the health industry"
+author: "Maddie Sortino and Jisa (Advisor: Dr. Cohen)"
 date: '`r Sys.Date()`'
 format:
   html:
@@ -23,34 +23,16 @@ to edit)
 
 ## Introduction
 
-The introduction should:
+Machine learning has significantly advanced predictive analytics, particularly in the medical industry and clinical decision-making. Among many other algorithms, random forest (RF) has become an effective tool due to the fact that it can handle high-dimensional data, is not prone to overfitting, and has high accuracy in predicting events (Breiman, 2001; Rigatti, 2017). RF is an ensemble learning method that is made up of various decision trees that are generated through bagging and random feature selection. These trees’ efforts in bootstrap aggregation can result in finer classification and different regression predictions than the classical statistical models (Biau & Scornet, 2016; Boulesteix et al., 2012). This flexibility gives the experts in the biomedical industry the ability to address various tasks like cancer survival analysis, disease progression prediction, and resource management optimization in healthcare.
 
--   Develop a storyline that captures attention and maintains interest.
+RF, among other uses, survival analysis has been one of the most notable applications in demonstrating patient outcomes in colon cancer research. This study involves the analysis of SEER data and presents the comparison of RF and the Cox proportional hazards model in terms of utilization and handling of missing data and complicated interactions (Breiman, 2001). RF has also been a popular tool in other clinical applications, such as good predictions for ICU patients who are at high risk of sepsis (Zhang et al., 2018). Another life-saving decision support application of RF is that it can not only forecast diabetes development, but it can also provide personalized guidance for healthcare professionals to prevent the disease and improve the health of patients (Smith et al., 2021).
 
--   Your audience is your peers
+	The algorithm’s capability of handling imbalanced datasets, its applicability in medical diagnostics has been further enhanced. As a direct example, to investigate the prediction of vulnerabilities to diseases from the subjects of the imbalanced datasets, the most accurate method became an ensured desired result via repeated random subsampling, outperforming the support vector machine, boosting, and bagging methods (Khalilia et al., 2011). Furthermore, RF is utilized in healthcare resource planning, such as projecting the demand for the necessary drugs in the public health facilities to, therefore, ensure supply chain efficiency and prevent shortages (Mbonyinshuti et al., 2022).
 
--   Clearly state the problem or question you're addressing.
+	RF is a powerful algorithm, but it also has its own disadvantages. Hyperparameter tuning is an incredibly important feature that one can use to maximize their predictive accuracy with the number of trees (L), the sample size for each tree, and the number of variables considered at each split (mtry), among other factors, all significantly contributing to the models' performance (Oshiro et al., 2012; Probst et al., 2019). While it is true that the RF technique performs excellently using the default hyperparameter settings, the method of tuning can have an optimal effect on the model's operation beyond reliability or speed (Boulesteix et al., 2012). The problem, however, of model interpretability is the one that stands out above all, and it is very much needed to be resolved in the field of medicine where making decisions is necessary (Smith et al., 2021). Also, researchers have suggested other methods of data analysis that could improve model reliability and at the same time reduce bias during variable selection, for example, conditional inference forests (CIF) (Dai et al., 2018).
 
-<!-- -->
+	Ever since RF was first used in the medical industry to achieve clinical diagnoses, it has been regarded as the best tool in the medical prediction model space. Here we are comparing the performance of Random Forest with traditional statistical techniques and also discussing whether any advancements made in hyperparameter optimization in recent times would come in handy in this regard. This study is an analysis of RF based on a combination of information extracted from different sources. Therefore, it is the most comprehensive understanding of RF’s high potential and where it needs more refinement in healthcare analytics.
 
--   Introduce why it is relevant needs.
-
--   Provide an overview of your approach.
-
-Example of writing including citing references:
-
-*This is an introduction to ..... regression, which is a non-parametric
-estimator that estimates the conditional expectation of two variables
-which is random. The goal of a kernel regression is to discover the
-non-linear relationship between two random variables. To discover the
-non-linear relationship, kernel estimator or kernel smoothing is the
-main method to estimate the curve for non-parametric statistics. In
-kernel estimator, weight function is known as kernel function
-[@efr2008]. Cite this paper [@bro2014principal]. The GEE [@wang2014].
-The PCA [@daffertshofer2004pca]*. Topology can be used in machine
-learning [@adams2021topology]
-
-*This is my work and I want to add more work...*
 
 ## Methods
 
