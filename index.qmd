@@ -1,7 +1,7 @@
 ---
 title: "Random Forest in the Health Industry - Spring 2025"
 subtitle: "An analysis of the random forest algorithm and its applications in the health industry"
-author: "Maddie Sortino and Jisa (Advisor: Dr. Cohen)"
+author: "Maddie Sortino and Jisa Jose (Advisor: Dr. Cohen)"
 date: '`r Sys.Date()`'
 format:
   html:
@@ -23,72 +23,18 @@ to edit)
 
 ## Introduction
 
-Machine learning has significantly advanced predictive analytics,
-particularly in the medical industry and clinical decision-making. Among
-many other algorithms, random forest (RF) has become an effective tool
-due to the fact that it can handle high-dimensional data, is not prone
-to overfitting, and has high accuracy in predicting events (Breiman,
-2001; Rigatti, 2017). RF is an ensemble learning method that is made up
-of various decision trees that are generated through bagging and random
-feature selection. These trees’ efforts in bootstrap aggregation can
-result in finer classification and different regression predictions than
-the classical statistical models (Biau & Scornet, 2016; Boulesteix et
-al., 2012). This flexibility gives the experts in the biomedical
-industry the ability to address various tasks like cancer survival
-analysis, disease progression prediction, and resource management
-optimization in healthcare.
+Machine learning has significantly advanced predictive analytics, particularly in the medical industry and clinical decision-making. Among the many available algorithms, Random Forest (RF) has emerged as a powerful tool due to its ability to handle high-dimensional data, resistance to overfitting, and high accuracy in predicting medical events ([@breiman2001random], [@rigatti2017random]). RF is an ensemble learning method composed of multiple decision trees, which are generated through bagging and random feature selection. The combined efforts of these trees in bootstrap aggregation allow for superior classification and regression predictions compared to classical statistical models ([@biau2016random], [@boulesteix2012overview]). This flexibility enables biomedical experts to tackle various tasks, including cancer survival analysis, disease progression prediction, and healthcare resource optimization.
 
-RF, among other uses, survival analysis has been one of the most notable
-applications in demonstrating patient outcomes in colon cancer research.
-This study involves the analysis of SEER data and presents the
-comparison of RF and the Cox proportional hazards model in terms of
-utilization and handling of missing data and complicated interactions
-(Breiman, 2001). RF has also been a popular tool in other clinical
-applications, such as good predictions for ICU patients who are at high
-risk of sepsis (Zhang et al., 2018). Another life-saving decision
-support application of RF is that it can not only forecast diabetes
-development, but it can also provide personalized guidance for
-healthcare professionals to prevent the disease and improve the health
-of patients (Smith et al., 2021).
+One of the most notable applications of RF in healthcare is survival analysis, particularly in colon cancer research. Studies utilizing SEER data have compared RF to the Cox proportional hazards model, highlighting RF’s ability to handle missing data and complex interactions more effectively [@breiman2001random]. Additionally, RF has been widely used in clinical decision-making, such as predicting ICU patient outcomes and identifying those at high risk of sepsis [@zhang2018random].
 
-The algorithm’s capability of handling imbalanced datasets, its
-applicability in medical diagnostics has been further enhanced. As a
-direct example, to investigate the prediction of vulnerabilities to
-diseases from the subjects of the imbalanced datasets, the most accurate
-method became an ensured desired result via repeated random subsampling,
-outperforming the support vector machine, boosting, and bagging methods
-(Khalilia et al., 2011). Furthermore, RF is utilized in healthcare
-resource planning, such as projecting the demand for the necessary drugs
-in the public health facilities to, therefore, ensure supply chain
-efficiency and prevent shortages (Mbonyinshuti et al., 2022).
+Another critical application is diabetes prediction and prevention. RF not only forecasts diabetes development but also provides personalized recommendations to healthcare professionals, helping them implement preventive measures and improve patient outcomes [@smith2021random].
 
-RF is a powerful algorithm, but it also has its own disadvantages.
-Hyperparameter tuning is an incredibly important feature that one can
-use to maximize their predictive accuracy with the number of trees (L),
-the sample size for each tree, and the number of variables considered at
-each split (mtry), among other factors, all significantly contributing
-to the models' performance (Oshiro et al., 2012; Probst et al., 2019).
-While it is true that the RF technique performs excellently using the
-default hyperparameter settings, the method of tuning can have an
-optimal effect on the model's operation beyond reliability or speed
-(Boulesteix et al., 2012). The problem, however, of model
-interpretability is the one that stands out above all, and it is very
-much needed to be resolved in the field of medicine where making
-decisions is necessary (Smith et al., 2021). Also, researchers have
-suggested other methods of data analysis that could improve model
-reliability and at the same time reduce bias during variable selection,
-for example, conditional inference forests (CIF) (Dai et al., 2018).
+Beyond diagnostics, RF is also instrumental in handling imbalanced datasets. For instance, in predicting disease susceptibility, random subsampling techniques within RF have been shown to outperform other machine learning models such as support vector machines, boosting, and bagging [@khalilia2011predicting]. Furthermore, RF has been used in healthcare resource planning, such as forecasting the demand for essential medications in public health facilities to ensure supply chain efficiency and prevent shortages [@mbonyinshuti2022application].
 
-Ever since RF was first used in the medical industry to achieve clinical
-diagnoses, it has been regarded as the best tool in the medical
-prediction model space. Here we are comparing the performance of Random
-Forest with traditional statistical techniques and also discussing
-whether any advancements made in hyperparameter optimization in recent
-times would come in handy in this regard. This study is an analysis of
-RF based on a combination of information extracted from different
-sources. Therefore, it is the most comprehensive understanding of RF’s
-high potential and where it needs more refinement in healthcare
-analytics.
+RF is a powerful algorithm, but it also has its challenges. Hyperparameter tuning is crucial for maximizing predictive accuracy, with factors such as the number of trees (L), sample size per tree, and the number of variables considered at each split (mtry) all significantly influencing model performance ([@oshiro2012many]; [@probst2019hyperparameters]). While RF often performs well with default settings, fine-tuning these parameters can enhance both reliability and speed [@boulesteix2012overview]. However, the major drawback remains model interpretability, which is critical in medical decision-making [@smith2021random]. Researchers have proposed methods such as conditional inference forests (CIF) to improve reliability while reducing bias in variable selection [@dai2018using].
+
+Since RF was first introduced to clinical diagnostics, it has been regarded as one of the most effective tools in medical prediction models. This study explores its performance compared to traditional statistical techniques and evaluates whether advancements in hyperparameter optimization can further enhance its effectiveness. By synthesizing insights from multiple sources, this analysis provides a comprehensive understanding of RF’s potential in healthcare analytics while identifying areas for further refinement.
+
 
 ## Methods
 
