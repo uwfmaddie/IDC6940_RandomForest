@@ -21,20 +21,69 @@ editor:
 Slides: [slides.html](slides.html){target="_blank"} ( Go to `slides.qmd`
 to edit)
 
+Literature Review: [litreview.html](litreview.html)
+
 ## Introduction
 
-Machine learning has significantly advanced predictive analytics, particularly in the medical industry and clinical decision-making. Among the many available algorithms, Random Forest (RF) has emerged as a powerful tool due to its ability to handle high-dimensional data, resistance to overfitting, and high accuracy in predicting medical events ([@breiman2001random], [@rigatti2017random]). RF is an ensemble learning method composed of multiple decision trees, which are generated through bagging and random feature selection. The combined efforts of these trees in bootstrap aggregation allow for superior classification and regression predictions compared to classical statistical models ([@biau2016random], [@boulesteix2012overview]). This flexibility enables biomedical experts to tackle various tasks, including cancer survival analysis, disease progression prediction, and healthcare resource optimization.
+Machine learning has significantly advanced predictive analytics,
+particularly in the medical industry and clinical decision-making. Among
+the many available algorithms, Random Forest (RF) has emerged as a
+powerful tool due to its ability to handle high-dimensional data,
+resistance to overfitting, and high accuracy in predicting medical
+events ([@breiman2001random], [@rigatti2017random]). RF is an ensemble
+learning method composed of multiple decision trees, which are generated
+through bagging and random feature selection. The combined efforts of
+these trees in bootstrap aggregation allow for superior classification
+and regression predictions compared to classical statistical models
+([@biau2016random], [@boulesteix2012overview]). This flexibility enables
+biomedical experts to tackle various tasks, including cancer survival
+analysis, disease progression prediction, and healthcare resource
+optimization.
 
-One of the most notable applications of RF in healthcare is survival analysis, particularly in colon cancer research. Studies utilizing SEER data have compared RF to the Cox proportional hazards model, highlighting RF’s ability to handle missing data and complex interactions more effectively [@breiman2001random]. Additionally, RF has been widely used in clinical decision-making, such as predicting ICU patient outcomes and identifying those at high risk of sepsis [@zhang2018random].
+One of the most notable applications of RF in healthcare is survival
+analysis, particularly in colon cancer research. Studies utilizing SEER
+data have compared RF to the Cox proportional hazards model,
+highlighting RF’s ability to handle missing data and complex
+interactions more effectively [@breiman2001random]. Additionally, RF has
+been widely used in clinical decision-making, such as predicting ICU
+patient outcomes and identifying those at high risk of sepsis
+[@zhang2018random].
 
-Another critical application is diabetes prediction and prevention. RF not only forecasts diabetes development but also provides personalized recommendations to healthcare professionals, helping them implement preventive measures and improve patient outcomes [@smith2021random].
+Another critical application is diabetes prediction and prevention. RF
+not only forecasts diabetes development but also provides personalized
+recommendations to healthcare professionals, helping them implement
+preventive measures and improve patient outcomes [@smith2021random].
 
-Beyond diagnostics, RF is also instrumental in handling imbalanced datasets. For instance, in predicting disease susceptibility, random subsampling techniques within RF have been shown to outperform other machine learning models such as support vector machines, boosting, and bagging [@khalilia2011predicting]. Furthermore, RF has been used in healthcare resource planning, such as forecasting the demand for essential medications in public health facilities to ensure supply chain efficiency and prevent shortages [@mbonyinshuti2022application].
+Beyond diagnostics, RF is also instrumental in handling imbalanced
+datasets. For instance, in predicting disease susceptibility, random
+subsampling techniques within RF have been shown to outperform other
+machine learning models such as support vector machines, boosting, and
+bagging [@khalilia2011predicting]. Furthermore, RF has been used in
+healthcare resource planning, such as forecasting the demand for
+essential medications in public health facilities to ensure supply chain
+efficiency and prevent shortages [@mbonyinshuti2022application].
 
-RF is a powerful algorithm, but it also has its challenges. Hyperparameter tuning is crucial for maximizing predictive accuracy, with factors such as the number of trees (L), sample size per tree, and the number of variables considered at each split (mtry) all significantly influencing model performance ([@oshiro2012many]; [@probst2019hyperparameters]). While RF often performs well with default settings, fine-tuning these parameters can enhance both reliability and speed [@boulesteix2012overview]. However, the major drawback remains model interpretability, which is critical in medical decision-making [@smith2021random]. Researchers have proposed methods such as conditional inference forests (CIF) to improve reliability while reducing bias in variable selection [@dai2018using].
+RF is a powerful algorithm, but it also has its challenges.
+Hyperparameter tuning is crucial for maximizing predictive accuracy,
+with factors such as the number of trees (L), sample size per tree, and
+the number of variables considered at each split (mtry) all
+significantly influencing model performance ([@oshiro2012many];
+[@probst2019hyperparameters]). While RF often performs well with default
+settings, fine-tuning these parameters can enhance both reliability and
+speed [@boulesteix2012overview]. However, the major drawback remains
+model interpretability, which is critical in medical decision-making
+[@smith2021random]. Researchers have proposed methods such as
+conditional inference forests (CIF) to improve reliability while
+reducing bias in variable selection [@dai2018using].
 
-Since RF was first introduced to clinical diagnostics, it has been regarded as one of the most effective tools in medical prediction models. This study explores its performance compared to traditional statistical techniques and evaluates whether advancements in hyperparameter optimization can further enhance its effectiveness. By synthesizing insights from multiple sources, this analysis provides a comprehensive understanding of RF’s potential in healthcare analytics while identifying areas for further refinement.
-
+Since RF was first introduced to clinical diagnostics, it has been
+regarded as one of the most effective tools in medical prediction
+models. This study explores its performance compared to traditional
+statistical techniques and evaluates whether advancements in
+hyperparameter optimization can further enhance its effectiveness. By
+synthesizing insights from multiple sources, this analysis provides a
+comprehensive understanding of RF’s potential in healthcare analytics
+while identifying areas for further refinement.
 
 ## Methods
 
