@@ -3310,13 +3310,20 @@ y_i = \beta_0 + \beta_1 X_1 +\varepsilon_i
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pROC)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Matrix)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <section id="data-exploration-and-visualization" class="level3">
 <h3 class="anchored" data-anchor-id="data-exploration-and-visualization">Data Exploration and Visualization</h3>
 <p>Data Set: <a href="https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction/data">Heart Failure Prediction Data</a></p>
 <p>This data set is a compilation of five different data sets from around the world. It contains 11 features: age, sex, chest pain type, resting blood pressure, cholesterol, fasting blood sugar, resting electrocardiogram results, max heart rate, exercise-induced angina, old peak, and slope of peak exercise ST segment. The data set is used to predict whether the patient has heart disease or not.</p>
+<p><strong>Column Descriptions:</strong><br> Age: age of the patient [years]<br> Sex: sex of the patient [M: Male, F: Female]<br> ChestPainType: chest pain type [TA: Typical Angina, ATA: Atypical Angina, NAP: Non-Anginal Pain, ASY: Asymptomatic]<br> RestingBP: resting blood pressure [mm Hg]<br> Cholesterol: serum cholesterol [mm/dl]<br> FastingBS: fasting blood sugar [1: if FastingBS &gt; 120 mg/dl, 0: otherwise]<br> RestingECG: resting electrocardiogram results [Normal: Normal, ST: having ST-T wave abnormality (T wave inversions and/or ST elevation or depression of &gt; 0.05 mV), LVH: showing probable or definite left ventricular hypertrophy by Estes’ criteria]<br> MaxHR: maximum heart rate achieved [Numeric value between 60 and 202]<br> ExerciseAngina: exercise-induced angina [Y: Yes, N: No]<br> Oldpeak: oldpeak = ST [Numeric value measured in depression]<br> ST_Slope: the slope of the peak exercise ST segment [Up: upsloping, Flat: flat, Down: downsloping]<br> HeartDisease: output class [1: heart disease, 0: Normal]<br></p>
 <p>The figures below explore the data set to examine data types, results, and distributions across the various features and classes.</p>
 <div class="cell">
 <details class="code-fold">

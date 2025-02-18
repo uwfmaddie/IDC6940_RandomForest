@@ -113,12 +113,20 @@ y_i = \beta_0 + \beta_1 X_1 +\varepsilon_i
 $$
 
 ## Analysis and Results
+
 Packages
+
 ```{r}
 library(readr)
 library(caret)
 library(pROC)
 library(ggplot2)
+library(tidyverse)
+library(lme4)
+library(nlme)
+library(Matrix)
+library(car)
+library(reshape2)
 ```
 
 ### Data Exploration and Visualization
@@ -126,9 +134,32 @@ library(ggplot2)
 Data Set: [Heart Failure Prediction
 Data](https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction/data)
 
-This data set is a compilation of five different data sets from around the world. It contains 11 features: age, sex, chest pain type, resting blood pressure, cholesterol, fasting blood sugar, resting electrocardiogram results, max heart rate, exercise-induced angina, old peak, and slope of peak exercise ST segment. The data set is used to predict whether the patient has heart disease or not.
+This data set is a compilation of five different data sets from around
+the world. It contains 11 features: age, sex, chest pain type, resting
+blood pressure, cholesterol, fasting blood sugar, resting
+electrocardiogram results, max heart rate, exercise-induced angina, old
+peak, and slope of peak exercise ST segment. The data set is used to
+predict whether the patient has heart disease or not.
 
-The figures below explore the data set to examine data types, results, and distributions across the various features and classes. 
+**Column Descriptions:**<br> Age: age of the patient \[years\]<br> Sex:
+sex of the patient \[M: Male, F: Female\]<br> ChestPainType: chest pain
+type \[TA: Typical Angina, ATA: Atypical Angina, NAP: Non-Anginal Pain,
+ASY: Asymptomatic\]<br> RestingBP: resting blood pressure \[mm Hg\]<br>
+Cholesterol: serum cholesterol \[mm/dl\]<br> FastingBS: fasting blood
+sugar \[1: if FastingBS \> 120 mg/dl, 0: otherwise\]<br> RestingECG:
+resting electrocardiogram results \[Normal: Normal, ST: having ST-T wave
+abnormality (T wave inversions and/or ST elevation or depression of \>
+0.05 mV), LVH: showing probable or definite left ventricular hypertrophy
+by Estes' criteria\]<br> MaxHR: maximum heart rate achieved \[Numeric
+value between 60 and 202\]<br> ExerciseAngina: exercise-induced angina
+\[Y: Yes, N: No\]<br> Oldpeak: oldpeak = ST \[Numeric value measured in
+depression\]<br> ST_Slope: the slope of the peak exercise ST segment
+\[Up: upsloping, Flat: flat, Down: downsloping\]<br> HeartDisease:
+output class \[1: heart disease, 0: Normal\]<br>
+
+The figures below explore the data set to examine data types, results,
+and distributions across the various features and classes.
+
 ```{r}
 data <- read.csv('heart.csv')
 head(data,5)
@@ -138,6 +169,8 @@ head(data,5)
 str(data)
 ```
 
+```{r}
+```
 
 ### Modeling and Results
 
