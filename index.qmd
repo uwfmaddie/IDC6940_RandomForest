@@ -8,7 +8,7 @@ format:
     code-fold: true
 course: Capstone Projects in Data Science
 bibliography: references.bib # file contains bibtex for references
-#always_allow_html: true # this allows to get PDF with HTML features
+always_allow_html: true # this allows to get PDF with HTML features
 self-contained: true
 execute: 
   warning: false
