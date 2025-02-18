@@ -3303,16 +3303,21 @@ y_i = \beta_0 + \beta_1 X_1 +\varepsilon_i
 </section>
 <section id="analysis-and-results" class="level2">
 <h2 class="anchored" data-anchor-id="analysis-and-results">Analysis and Results</h2>
-<section id="data-exploration-and-visualization" class="level3">
-<h3 class="anchored" data-anchor-id="data-exploration-and-visualization">Data Exploration and Visualization</h3>
-<p>Data Set: <a href="https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction/data">Heart Failure Prediction Data</a></p>
+<p>Packages</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pROC)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+<section id="data-exploration-and-visualization" class="level3">
+<h3 class="anchored" data-anchor-id="data-exploration-and-visualization">Data Exploration and Visualization</h3>
+<p>Data Set: <a href="https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction/data">Heart Failure Prediction Data</a></p>
+<p>This data set is a compilation of five different data sets from around the world. It contains 11 features: age, sex, chest pain type, resting blood pressure, cholesterol, fasting blood sugar, resting electrocardiogram results, max heart rate, exercise-induced angina, old peak, and slope of peak exercise ST segment. The data set is used to predict whether the patient has heart disease or not.</p>
+<p>The figures below explore the data set to examine data types, results, and distributions across the various features and classes.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -3337,9 +3342,23 @@ y_i = \beta_0 + \beta_1 X_1 +\varepsilon_i
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output cell-output-stdout">
+<pre><code>&#39;data.frame&#39;:   918 obs. of  12 variables:
+ $ Age           : int  40 49 37 48 54 39 45 54 37 48 ...
+ $ Sex           : chr  &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; ...
+ $ ChestPainType : chr  &quot;ATA&quot; &quot;NAP&quot; &quot;ATA&quot; &quot;ASY&quot; ...
+ $ RestingBP     : int  140 160 130 138 150 120 130 110 140 120 ...
+ $ Cholesterol   : int  289 180 283 214 195 339 237 208 207 284 ...
+ $ FastingBS     : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ RestingECG    : chr  &quot;Normal&quot; &quot;Normal&quot; &quot;ST&quot; &quot;Normal&quot; ...
+ $ MaxHR         : int  172 156 98 108 122 170 170 142 130 120 ...
+ $ ExerciseAngina: chr  &quot;N&quot; &quot;N&quot; &quot;N&quot; &quot;Y&quot; ...
+ $ Oldpeak       : num  0 1 0 1.5 0 0 0 0 1.5 0 ...
+ $ ST_Slope      : chr  &quot;Up&quot; &quot;Flat&quot; &quot;Up&quot; &quot;Flat&quot; ...
+ $ HeartDisease  : int  0 1 0 1 0 0 0 0 1 0 ...</code></pre>
+</div>
 </div>
 </section>
 <section id="modeling-and-results" class="level3">

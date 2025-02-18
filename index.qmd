@@ -113,27 +113,30 @@ y_i = \beta_0 + \beta_1 X_1 +\varepsilon_i
 $$
 
 ## Analysis and Results
+Packages
+```{r}
+library(readr)
+library(caret)
+library(pROC)
+library(ggplot2)
+```
 
 ### Data Exploration and Visualization
 
 Data Set: [Heart Failure Prediction
 Data](https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction/data)
-```{r}
-library(readr)
-library(skimr)
-```
 
+This data set is a compilation of five different data sets from around the world. It contains 11 features: age, sex, chest pain type, resting blood pressure, cholesterol, fasting blood sugar, resting electrocardiogram results, max heart rate, exercise-induced angina, old peak, and slope of peak exercise ST segment. The data set is used to predict whether the patient has heart disease or not.
 
+The figures below explore the data set to examine data types, results, and distributions across the various features and classes. 
 ```{r}
 data <- read.csv('heart.csv')
 head(data,5)
 ```
-```{python}
-import pandas as pd
-import numpy as np
+
+```{r}
+str(data)
 ```
-
-
 
 
 ### Modeling and Results
