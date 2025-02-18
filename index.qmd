@@ -116,36 +116,25 @@ $$
 
 ### Data Exploration and Visualization
 
-Data Set: [https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction/data](Heart Failure Prediction)
-
-```{r, warning=FALSE, echo=T, message=FALSE}
-# loading packages 
-library(tidyverse)
-library(knitr)
-library(ggthemes)
-library(ggrepel)
-library(dslabs)
+Data Set: [Heart Failure Prediction
+Data](https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction/data)
+```{r}
+library(readr)
+library(skimr)
 ```
 
-```{r, warning=FALSE, echo=TRUE}
-# Load Data
-kable(head(murders))
 
-ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total)) 
-
-  ggplot1 + geom_point(aes(col=region), size = 4) +
-  geom_text_repel(aes(label=abb)) +
-  scale_x_log10() +
-  scale_y_log10() +
-  geom_smooth(formula = "y~x", method=lm,se = F)+
-  xlab("Populations in millions (log10 scale)") + 
-  ylab("Total number of murders (log10 scale)") +
-  ggtitle("US Gun Murders in 2010") +
-  scale_color_discrete(name = "Region")+
-      theme_bw()
-  
-
+```{r}
+data <- read.csv('heart.csv')
+head(data,5)
 ```
+```{python}
+import pandas as pd
+import numpy as np
+```
+
+
+
 
 ### Modeling and Results
 
