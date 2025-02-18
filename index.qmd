@@ -116,13 +116,7 @@ $$
 
 ### Data Exploration and Visualization
 
--   Describe your data sources and collection process.
-
--   Present initial findings and insights through visualizations.
-
--   Highlight unexpected patterns or anomalies.
-
-A study was conducted to determine how...
+Data Set: [https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction/data](Heart Failure Prediction)
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # loading packages 
