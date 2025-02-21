@@ -112,6 +112,8 @@ library(readr)
 library(caret)
 library(ggplot2)
 library(tidyverse)
+library(gridExtra)
+library(scales)
 ```
 
 ### Data Exploration and Visualization
@@ -165,17 +167,19 @@ colSums(is.na(data))
 Distribution of Features
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # The distribution of 'Age' with a histogram - normal distribution
-ggplot(data, aes(x = Age)) +
+ageplot <- ggplot(data, aes(x = Age)) +
   geom_histogram(bins = 30, fill = "blue", color = "black") +
   theme_minimal() +
   labs(title = "Age Distribution", x = "Age", y = "Count")
-```
-```{r, warning=FALSE, echo=T, message=FALSE}
+
 # The distribution of 'Heart Disease' with a histogram - no class imbalance
-ggplot(data, aes(x = HeartDisease)) +
+hdplot <- ggplot(data, aes(x = HeartDisease)) +
   geom_bar(fill = "blue", color = "black") +
   theme_minimal() +
+  scale_x_continuous(breaks=c(0,1)) +
   labs(title = "Heart Disease Class Distribution", x = "Heart Disease", y = "Count")
+
+grid.arrange(ageplot, hdplot, ncol = 2)
 ```
 ### Modeling and Results
 
