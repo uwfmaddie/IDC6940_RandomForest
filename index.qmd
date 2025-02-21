@@ -110,14 +110,8 @@ Packages
 ```{r}
 library(readr)
 library(caret)
-library(pROC)
 library(ggplot2)
 library(tidyverse)
-library(lme4)
-library(nlme)
-library(Matrix)
-library(car)
-library(reshape2)
 ```
 
 ### Data Exploration and Visualization
@@ -153,16 +147,36 @@ and distributions across the various features and classes.
 
 ```{r}
 data <- read.csv('heart.csv')
-head(data,5)
+#head(data,5)
 ```
 
 ```{r}
 str(data)
 ```
-
+Noted abnormalities to be addressed in cleaning stage: RestingBP = 0 and Cholesterol = 0
 ```{r}
+summary(data)
+```
+Check for missing values - none found.
+```{r}
+colSums(is.na(data))
 ```
 
+Distribution of Features
+```{r, warning=FALSE, echo=T, message=FALSE}
+# The distribution of 'Age' with a histogram - normal distribution
+ggplot(data, aes(x = Age)) +
+  geom_histogram(bins = 30, fill = "blue", color = "black") +
+  theme_minimal() +
+  labs(title = "Age Distribution", x = "Age", y = "Count")
+```
+```{r, warning=FALSE, echo=T, message=FALSE}
+# The distribution of 'Heart Disease' with a histogram - no class imbalance
+ggplot(data, aes(x = HeartDisease)) +
+  geom_bar(fill = "blue", color = "black") +
+  theme_minimal() +
+  labs(title = "Heart Disease Class Distribution", x = "Heart Disease", y = "Count")
+```
 ### Modeling and Results
 
 -   Explain your data preprocessing and cleaning steps.
