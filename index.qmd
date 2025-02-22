@@ -1,5 +1,5 @@
 ---
-title: "Random Forest in the Health Industry - Spring 2025"
+title: "Random Forest in the Health Industry"
 subtitle: "An analysis of the random forest algorithm and its applications in the health industry"
 author: "Maddie Sortino and Jisa Jose (Advisor: Dr. Cohen)"
 date: '`r Sys.Date()`'
@@ -30,15 +30,14 @@ particularly in the medical industry and clinical decision-making. Among
 the many available algorithms, Random Forest (RF) has emerged as a
 powerful tool due to its ability to handle high-dimensional data,
 resistance to overfitting, and high accuracy in predicting medical
-events [@rigatti2017random]. RF is an ensemble
-learning method composed of multiple decision trees, which are generated
-through bagging and random feature selection. The combined efforts of
-these trees in bootstrap aggregation allow for superior classification
-and regression predictions compared to classical statistical models
-[@biau2016random]. This flexibility enables
-biomedical experts to tackle various tasks, including cancer survival
-analysis, disease progression prediction, and healthcare resource
-optimization.
+events [@rigatti2017random]. RF is an ensemble learning method composed
+of multiple decision trees, which are generated through bagging and
+random feature selection. The combined efforts of these trees in
+bootstrap aggregation allow for superior classification and regression
+predictions compared to classical statistical models [@biau2016random].
+This flexibility enables biomedical experts to tackle various tasks,
+including cancer survival analysis, disease progression prediction, and
+healthcare resource optimization.
 
 One of the most notable applications of RF in healthcare is survival
 analysis, particularly in colon cancer research. Studies utilizing SEER
@@ -46,7 +45,11 @@ data have compared RF to the Cox proportional hazards model,
 highlighting RF’s ability to handle missing data and complex
 interactions more effectively [@breiman2001random]. Additionally, RF has
 been widely used in clinical decision-making, such as predicting ICU
-patient outcomes and identifying those at high risk of sepsis.Another critical application is diabetes prediction and prevention. RF not only forecasts diabetes development but also provides personalized recommendations to healthcare professionals, helping them implement preventive measures and improve patient outcomes[@khine2022diabetes].
+patient outcomes and identifying those at high risk of sepsis.Another
+critical application is diabetes prediction and prevention. RF not only
+forecasts diabetes development but also provides personalized
+recommendations to healthcare professionals, helping them implement
+preventive measures and improve patient outcomes[@khine2022diabetes].
 
 Beyond diagnostics, RF is also instrumental in handling imbalanced
 datasets. For instance, in predicting disease susceptibility, random
@@ -61,11 +64,14 @@ RF is a powerful algorithm, but it also has its challenges.
 Hyperparameter tuning is crucial for maximizing predictive accuracy,
 with factors such as the number of trees (L), sample size per tree, and
 the number of variables considered at each split (mtry) all
-significantly influencing model performance [@probst2019hyperparameters]. While RF often performs well with default
+significantly influencing model performance
+[@probst2019hyperparameters]. While RF often performs well with default
 settings, fine-tuning these parameters can enhance both reliability and
 speed [@boulesteix2012overview]. However, the major drawback remains
-model interpretability, which is critical in medical decision-making. Researchers have proposed methods such as conditional inference forests (CIF) to improve reliability while
-reducing bias in variable selection [@dai2018using].
+model interpretability, which is critical in medical decision-making.
+Researchers have proposed methods such as conditional inference forests
+(CIF) to improve reliability while reducing bias in variable selection
+[@dai2018using].
 
 Since RF was first introduced to clinical diagnostics, it has been
 regarded as one of the most effective tools in medical prediction
@@ -155,32 +161,67 @@ data <- read.csv('heart.csv')
 ```{r}
 str(data)
 ```
-Noted abnormalities to be addressed in cleaning stage: RestingBP = 0 and Cholesterol = 0
+
+Noted abnormalities to be addressed in cleaning stage: RestingBP = 0 and
+Cholesterol = 0
+
 ```{r}
 summary(data)
 ```
+
 Check for missing values - none found.
+
 ```{r}
 colSums(is.na(data))
 ```
 
 Distribution of Features
+
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # The distribution of 'Age' with a histogram - normal distribution
 ageplot <- ggplot(data, aes(x = Age)) +
   geom_histogram(bins = 30, fill = "blue", color = "black") +
   theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5)) +
   labs(title = "Age Distribution", x = "Age", y = "Count")
 
 # The distribution of 'Heart Disease' with a histogram - no class imbalance
 hdplot <- ggplot(data, aes(x = HeartDisease)) +
   geom_bar(fill = "blue", color = "black") +
   theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5)) +
   scale_x_continuous(breaks=c(0,1)) +
   labs(title = "Heart Disease Class Distribution", x = "Heart Disease", y = "Count")
 
-grid.arrange(ageplot, hdplot, ncol = 2)
+# The distribution of 'Sex' with a histogram - imbalance: ~4x more males than females
+splot <- ggplot(data, aes(x = Sex)) +
+  geom_bar(fill = "blue", color = "black") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  labs(title = "Sex Distribution", x = "Sex", y = "Count")
+
+# The distribution of 'Cholesterol' with a histogram - over 150 records with a cholesterol of 0; otherwise normal distribution
+cplot <- ggplot(data, aes(x = Cholesterol)) +
+  geom_histogram(fill = "blue", color = "black") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  labs(title = "Cholesterol Distribution", x = "Cholesterol", y = "Count")
+
+grid.arrange(hdplot, splot, ageplot, cplot, ncol = 2, nrow=2)
 ```
+
+**Observations:**
+
+-   Heart disease has a balanced class distribution.
+
+-   Sex is imbalanced with significantly more males than females.
+
+-   Age has a normal distribution.
+
+-   Cholesterol has a high volume of records with '0' that may need to
+    be cleaned up or accounted for; otherwise fairly normal distribution
+    with some outliers.
+
 ### Modeling and Results
 
 -   Explain your data preprocessing and cleaning steps.
