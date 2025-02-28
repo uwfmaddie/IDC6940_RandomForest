@@ -84,9 +84,11 @@ while identifying areas for further refinement.
 
 ## Methods
 
--   Detail the models or algorithms used.
+The random forest algorithm generates numerous decision trees using randomization and then aggregates the output of these trees into one output. A voting method is used for classification and an averaging method for regression. Randomization is done in two steps. The first uses bootstrap aggregation or bagging at the data set level, creating new randomized samples for the model development and testing. The next level of randomization happens at the decision node level. A certain number of predictors are chosen, which is often the square root of the number of predictors in the data set. The algorithm tests all possible thresholds for all selected variables and chooses the variable-threshold combination which results in the best split – the split which most effectively separates cases from controls, for instance [@rigatti2017random]. This random selection of variables and threshold testing continues until either “pure” nodes are reached (containing only cases or controls) or some pre-defined endpoint [@rigatti2017random]. 
 
--   Justify your choices based on the problem and data.
+![Figure 1. [@probst2019rfhealth]](RF.png)
+
+![Figure 2. [@probst2019hyperparameters]](RF2.png)
 
 *The common non-parametric regression model is*
 $Y_i = m(X_i) + \varepsilon_i$*, where* $Y_i$ *can be defined as the sum
