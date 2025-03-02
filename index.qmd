@@ -112,19 +112,9 @@ y_i = \beta_0 + \beta_1 X_1 +\varepsilon_i
 $$
 
 ## Analysis and Results
-
-Packages
-
-```{r}
-library(readr)
-library(caret)
-library(ggplot2)
-library(tidyverse)
-library(gridExtra)
-library(scales)
-```
-
 ### Data Exploration and Visualization
+
+***Data Set Overview***
 
 Data Set: [Heart Failure Prediction
 Data](https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction/data)
@@ -136,46 +126,67 @@ electrocardiogram results, max heart rate, exercise-induced angina, old
 peak, and slope of peak exercise ST segment. The data set is used to
 predict whether the patient has heart disease or not.
 
-**Column Descriptions:**<br>
-**Age**: age of the patient (years) <br>
-**Sex**: sex of the patient (M: Male, F: Female) <br>
-**ChestPainType**: chest pain type (TA: Typical Angina, ATA: Atypical Angina, NAP: Non-Anginal Pain, ASY: Asymptomatic)<br>
-**RestingBP**: resting blood pressure (mm Hg)<br>
-**Cholesterol**: serum cholesterol (mm/dL)<br>
-**FastingBS**: fasting blood sugar (1: if FastingBS > 120 mg/dL, 0: otherwise)<br>
-**RestingECG**: resting electrocardiogram results (Normal, ST: having ST-T wave abnormality, LVH: showing probable or definite left ventricular hypertrophy by Estes' criteria)<br>
-**MaxHR**: maximum heart rate achieved (Numeric value between 60 and 202)<br>
-**ExerciseAngina**: exercise-induced angina (Y: Yes, N: No)<br>
-**Oldpeak**: oldpeak = ST (Numeric value measured in depression)<br>
-**ST_Slope**: the slope of the peak exercise ST segment (Up: upsloping, Flat: flat, Down: downsloping)<br>
-**HeartDisease**: output class (1: heart disease, 0: Normal)<br>
+- **Age**: Age of the patient (years)
+- **Sex**: Sex of the patient (M: Male, F: Female)
+- **ChestPainType**: Chest pain type (TA: Typical Angina, ATA: Atypical Angina, NAP: Non-Anginal Pain, ASY: Asymptomatic)
+- **RestingBP**: Resting blood pressure (mm Hg)
+- **Cholesterol**: Serum cholesterol (mg/dL)
+- **FastingBS**: Fasting blood sugar (1: if FastingBS > 120 mg/dL, 0: otherwise)
+- **RestingECG**: Resting electrocardiogram results (Normal, ST: having ST-T wave abnormality, LVH: showing probable or definite left ventricular hypertrophy by Estes' criteria)
+- **MaxHR**: Maximum heart rate achieved (Numeric value between 60 and 202)
+- **ExerciseAngina**: Exercise-induced angina (Y: Yes, N: No)
+- **Oldpeak**: Oldpeak = ST (Numeric value measured in depression)
+- **ST_Slope**: The slope of the peak exercise ST segment (Up: upsloping, Flat: flat, Down: downsloping)
+- **HeartDisease**: Output class (1: heart disease, 0: Normal)
 
-The figures below explore the data set to examine data types, results,
-and distributions across the various features and classes.
+
+```{r}
+#Loading packages
+library(readr)
+library(caret)
+library(ggplot2)
+library(tidyverse)
+library(gridExtra)
+library(scales)
+library(data.table)
+library(knitr)
+#install.packages("gtsummary")
+library(gtsummary)
+```
 
 ```{r}
 data <- read.csv('heart.csv')
 #head(data,5)
 ```
+***Table 1: Data Structure Overview***
 
 ```{r}
-str(data)
+# Convert to a data.table
+data_dt <- as.data.table(data)
+
+# Create the structure table with Column, Type, and Sample Values
+structure_table <- data_dt[, .(Column = names(data_dt), 
+                               Type = sapply(data_dt, class), 
+                               values = lapply(data_dt, function(x) paste(head(x, 5), collapse = ", ")))]
+
+# display the table 
+kable(structure_table, caption = "Data Structure Overview")
 ```
+(Table 1: Data structure overview of Heart Disease dataset)
 
-Noted abnormalities to be addressed in cleaning stage: RestingBP = 0 and
-Cholesterol = 0
+The data structure overview table is an essential starting point for working with the heart disease prediction dataset. The table contains column names, data types, and examples for every feature as a sample overview of the dataset. All columns within the dataset are associated to some clinically significant feature which have the potential to be used for estimating the risk of heart disease.
 
+***Table 2: Summary Statistics***
 ```{r}
-summary(data)
+# statistics of the dataset 
+tbl_summary(data) 
 ```
+(Table 2: Summary Statistics of Heart Disease dataset)
 
-Check for missing values - none found.
+The dataset comprises of 918 records and 11 features which include both categorical and numerical variables that help assess heart disease risk. Key variables indicating the health of patients include Age, Resting Blood Pressure (RestingBP), Cholesterol, Maximum Heart Rate (MaxHR), and ST Depression (Oldpeak) among others. It has no missing or duplicate values. It is also noted from the data that there are more male patients (79%) than female patients (21%) which may be noteworthy for analysis. More than half of the patients (54%) however do not experience chest pain (ASY) which is rather puzzling despite the patient potentially having heart disease. In addition, the variable depicting the target i.e. HeartDisease is relatively balanced with 55.3 percent of patients diagnosed to have heart disease and 44.7 percent of patients with no heart disease. Also, RestingBP and Cholesterol value of 0 may need some consideration as they are unrealistic and require correction prior to analysis.
 
-```{r}
-colSums(is.na(data))
-```
 
-Distribution of Features
+***Figure 1: Distribution of some Features***
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # The distribution of 'Age' with a histogram - normal distribution
@@ -208,10 +219,21 @@ cplot <- ggplot(data, aes(x = Cholesterol)) +
   labs(title = "Cholesterol Distribution", x = "Cholesterol", y = "Count")
 
 grid.arrange(hdplot, splot, ageplot, cplot, ncol = 2, nrow=2)
-```
 
-Correlation Matrix for Numeric Features
-```{r}
+```
+(Figure 1: Pictorical representation of some of distribution/trends of Heart Disease data set)
+
+Figure 1 outlines some distribution/trends which are relevant in predicting heart diseases.
+
+- **Heart Disease Distribution (Top-Left):** The distribution is appropriately balanced, minimizing the chances of bias in the model.
+- **Sex Distribution (Top-Right):** The dataset has more male patients than female, which might impact predictions.
+- **Age Distribution (Bottom-Left):** Most patients fall within the 40-70 years age range, which may reduce model accuracy for younger individuals.
+- **Cholesterol Distribution (Bottom-Right):** The presence of zero values in cholesterol is unrealistic, indicating the need for data cleaning.
+
+
+***Figure 2: Correlation Matrix – Understanding Key Relationships***
+```{r, warning=FALSE, echo=T, message=FALSE}
+
 # correlation matrix for numeric features
 library(corrplot)
 numeric_data <- data %>% select(where(is.numeric))
@@ -219,20 +241,12 @@ cor_matrix <- cor(numeric_data)
 corrplot(cor_matrix, method = "circle", type = "upper", 
          tl.col = "black", tl.cex = 0.7, addCoef.col = "black")
 ```
+(Figure 2: Relationships of features in dataset with heart disease)
 
-**Observations:**
+In figure 2, relationships of features in dataset with heart disease. Among the predictors, Oldpeak (0.40) stands out since higher ST depression is associated with heart disease risk. Patients who have heart disease are more likely to have high heart rates, which is strongly  correlated with heart disease( MaxHR (-0.40)). Age (0.28) and Fasting Blood Sugar (0.27) also emerged as positive correlates, confirming that older people and people with high fasting blood sugar levels are at risk. Cholesterol with its weak negative correlation is also interesting (-0.23) and can be explained through medication or lifestyle changes.
 
--   Heart disease has a balanced class distribution.
+These insights could assist with feature selection and simultaneously ensure that major predictors such as Oldpeak, MaxHR, and Age, which are associated , leading to  more reliable and clinically relevant predictions of heart disease.
 
--   Sex is imbalanced with significantly more males than females.
-
--   Age has a normal distribution.
-
--   Cholesterol has a high volume of records with '0' that may need to
-    be cleaned up or accounted for; otherwise fairly normal distribution
-    with some outliers.
-
-- The correlation matrix shows that features like MaxHR(Maximum Heart Rate) and Oldpeak(ST Depression) are more strongly correlated with the presence of heart disease
 
 ### Modeling and Results
 

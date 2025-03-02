@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Maddie Sortino and Jisa Jose (Advisor: Dr. Cohen)">
-<meta name="dcterms.date" content="2025-02-28">
+<meta name="dcterms.date" content="2025-03-02">
 
 <title>Random Forest in the Health Industry</title>
 <style>
@@ -3263,7 +3263,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">February 28, 2025</p>
+      <p class="date">March 2, 2025</p>
     </div>
   </div>
   
@@ -3311,24 +3311,41 @@ y_i = \beta_0 + \beta_1 X_1 +\varepsilon_i
 </section>
 <section id="analysis-and-results" class="level2">
 <h2 class="anchored" data-anchor-id="analysis-and-results">Analysis and Results</h2>
-<p>Packages</p>
+<section id="data-exploration-and-visualization" class="level3">
+<h3 class="anchored" data-anchor-id="data-exploration-and-visualization">Data Exploration and Visualization</h3>
+<p><strong><em>Data Set Overview</em></strong></p>
+<p>Data Set: <a href="https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction/data">Heart Failure Prediction Data</a></p>
+<p>This data set is a compilation of five different data sets from around the world. It contains 11 features: age, sex, chest pain type, resting blood pressure, cholesterol, fasting blood sugar, resting electrocardiogram results, max heart rate, exercise-induced angina, old peak, and slope of peak exercise ST segment. The data set is used to predict whether the patient has heart disease or not.</p>
+<ul>
+<li><strong>Age</strong>: Age of the patient (years)</li>
+<li><strong>Sex</strong>: Sex of the patient (M: Male, F: Female)</li>
+<li><strong>ChestPainType</strong>: Chest pain type (TA: Typical Angina, ATA: Atypical Angina, NAP: Non-Anginal Pain, ASY: Asymptomatic)</li>
+<li><strong>RestingBP</strong>: Resting blood pressure (mm Hg)</li>
+<li><strong>Cholesterol</strong>: Serum cholesterol (mg/dL)</li>
+<li><strong>FastingBS</strong>: Fasting blood sugar (1: if FastingBS &gt; 120 mg/dL, 0: otherwise)</li>
+<li><strong>RestingECG</strong>: Resting electrocardiogram results (Normal, ST: having ST-T wave abnormality, LVH: showing probable or definite left ventricular hypertrophy by Estes’ criteria)</li>
+<li><strong>MaxHR</strong>: Maximum heart rate achieved (Numeric value between 60 and 202)</li>
+<li><strong>ExerciseAngina</strong>: Exercise-induced angina (Y: Yes, N: No)</li>
+<li><strong>Oldpeak</strong>: Oldpeak = ST (Numeric value measured in depression)</li>
+<li><strong>ST_Slope</strong>: The slope of the peak exercise ST segment (Up: upsloping, Flat: flat, Down: downsloping)</li>
+<li><strong>HeartDisease</strong>: Output class (1: heart disease, 0: Normal)</li>
+</ul>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Loading packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;gtsummary&quot;)</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<section id="data-exploration-and-visualization" class="level3">
-<h3 class="anchored" data-anchor-id="data-exploration-and-visualization">Data Exploration and Visualization</h3>
-<p>Data Set: <a href="https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction/data">Heart Failure Prediction Data</a></p>
-<p>This data set is a compilation of five different data sets from around the world. It contains 11 features: age, sex, chest pain type, resting blood pressure, cholesterol, fasting blood sugar, resting electrocardiogram results, max heart rate, exercise-induced angina, old peak, and slope of peak exercise ST segment. The data set is used to predict whether the patient has heart disease or not.</p>
-<p><strong>Column Descriptions:</strong><br> <strong>Age</strong>: age of the patient (years) <br> <strong>Sex</strong>: sex of the patient (M: Male, F: Female) <br> <strong>ChestPainType</strong>: chest pain type (TA: Typical Angina, ATA: Atypical Angina, NAP: Non-Anginal Pain, ASY: Asymptomatic)<br> <strong>RestingBP</strong>: resting blood pressure (mm Hg)<br> <strong>Cholesterol</strong>: serum cholesterol (mm/dL)<br> <strong>FastingBS</strong>: fasting blood sugar (1: if FastingBS &gt; 120 mg/dL, 0: otherwise)<br> <strong>RestingECG</strong>: resting electrocardiogram results (Normal, ST: having ST-T wave abnormality, LVH: showing probable or definite left ventricular hypertrophy by Estes’ criteria)<br> <strong>MaxHR</strong>: maximum heart rate achieved (Numeric value between 60 and 202)<br> <strong>ExerciseAngina</strong>: exercise-induced angina (Y: Yes, N: No)<br> <strong>Oldpeak</strong>: oldpeak = ST (Numeric value measured in depression)<br> <strong>ST_Slope</strong>: the slope of the peak exercise ST segment (Up: upsloping, Flat: flat, Down: downsloping)<br> <strong>HeartDisease</strong>: output class (1: heart disease, 0: Normal)<br></p>
-<p>The figures below explore the data set to examine data types, results, and distributions across the various features and classes.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -3336,106 +3353,671 @@ y_i = \beta_0 + \beta_1 X_1 +\varepsilon_i
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#head(data,5)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+<p><strong><em>Table 1: Data Structure Overview</em></strong></p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to a data.table</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data_dt <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(data)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the structure table with Column, Type, and Sample Values</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>structure_table <span class="ot">&lt;-</span> data_dt[, .(<span class="at">Column =</span> <span class="fu">names</span>(data_dt), </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                               <span class="at">Type =</span> <span class="fu">sapply</span>(data_dt, class), </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                               <span class="at">values =</span> <span class="fu">lapply</span>(data_dt, <span class="cf">function</span>(x) <span class="fu">paste</span>(<span class="fu">head</span>(x, <span class="dv">5</span>), <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>)))]</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># display the table </span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(structure_table, <span class="at">caption =</span> <span class="st">&quot;Data Structure Overview&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code>&#39;data.frame&#39;:   918 obs. of  12 variables:
- $ Age           : int  40 49 37 48 54 39 45 54 37 48 ...
- $ Sex           : chr  &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; ...
- $ ChestPainType : chr  &quot;ATA&quot; &quot;NAP&quot; &quot;ATA&quot; &quot;ASY&quot; ...
- $ RestingBP     : int  140 160 130 138 150 120 130 110 140 120 ...
- $ Cholesterol   : int  289 180 283 214 195 339 237 208 207 284 ...
- $ FastingBS     : int  0 0 0 0 0 0 0 0 0 0 ...
- $ RestingECG    : chr  &quot;Normal&quot; &quot;Normal&quot; &quot;ST&quot; &quot;Normal&quot; ...
- $ MaxHR         : int  172 156 98 108 122 170 170 142 130 120 ...
- $ ExerciseAngina: chr  &quot;N&quot; &quot;N&quot; &quot;N&quot; &quot;Y&quot; ...
- $ Oldpeak       : num  0 1 0 1.5 0 0 0 0 1.5 0 ...
- $ ST_Slope      : chr  &quot;Up&quot; &quot;Flat&quot; &quot;Up&quot; &quot;Flat&quot; ...
- $ HeartDisease  : int  0 1 0 1 0 0 0 0 1 0 ...</code></pre>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Data Structure Overview</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Column</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">values</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Age</td>
+<td style="text-align: left;">integer</td>
+<td style="text-align: left;">40, 49, 37, 48, 54</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sex</td>
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">M, F, M, F, M</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ChestPainType</td>
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">ATA, NAP, ATA, ASY, NAP</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RestingBP</td>
+<td style="text-align: left;">integer</td>
+<td style="text-align: left;">140, 160, 130, 138, 150</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cholesterol</td>
+<td style="text-align: left;">integer</td>
+<td style="text-align: left;">289, 180, 283, 214, 195</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FastingBS</td>
+<td style="text-align: left;">integer</td>
+<td style="text-align: left;">0, 0, 0, 0, 0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RestingECG</td>
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">Normal, Normal, ST, Normal, Normal</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MaxHR</td>
+<td style="text-align: left;">integer</td>
+<td style="text-align: left;">172, 156, 98, 108, 122</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ExerciseAngina</td>
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">N, N, N, Y, N</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Oldpeak</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">0, 1, 0, 1.5, 0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ST_Slope</td>
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">Up, Flat, Up, Flat, Up</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HeartDisease</td>
+<td style="text-align: left;">integer</td>
+<td style="text-align: left;">0, 1, 0, 1, 0</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
-<p>Noted abnormalities to be addressed in cleaning stage: RestingBP = 0 and Cholesterol = 0</p>
+<p>(Table 1: Data structure overview of Heart Disease dataset)</p>
+<p>The data structure overview table is an essential starting point for working with the heart disease prediction dataset. The table contains column names, data types, and examples for every feature as a sample overview of the dataset. All columns within the dataset are associated to some clinically significant feature which have the potential to be used for estimating the risk of heart disease.</p>
+<p><strong><em>Table 2: Summary Statistics</em></strong></p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># statistics of the dataset </span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl_summary</span>(data) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code>      Age            Sex            ChestPainType        RestingBP    
- Min.   :28.00   Length:918         Length:918         Min.   :  0.0  
- 1st Qu.:47.00   Class :character   Class :character   1st Qu.:120.0  
- Median :54.00   Mode  :character   Mode  :character   Median :130.0  
- Mean   :53.51                                         Mean   :132.4  
- 3rd Qu.:60.00                                         3rd Qu.:140.0  
- Max.   :77.00                                         Max.   :200.0  
-  Cholesterol      FastingBS       RestingECG            MaxHR      
- Min.   :  0.0   Min.   :0.0000   Length:918         Min.   : 60.0  
- 1st Qu.:173.2   1st Qu.:0.0000   Class :character   1st Qu.:120.0  
- Median :223.0   Median :0.0000   Mode  :character   Median :138.0  
- Mean   :198.8   Mean   :0.2331                      Mean   :136.8  
- 3rd Qu.:267.0   3rd Qu.:0.0000                      3rd Qu.:156.0  
- Max.   :603.0   Max.   :1.0000                      Max.   :202.0  
- ExerciseAngina        Oldpeak          ST_Slope          HeartDisease   
- Length:918         Min.   :-2.6000   Length:918         Min.   :0.0000  
- Class :character   1st Qu.: 0.0000   Class :character   1st Qu.:0.0000  
- Mode  :character   Median : 0.6000   Mode  :character   Median :1.0000  
-                    Mean   : 0.8874                      Mean   :0.5534  
-                    3rd Qu.: 1.5000                      3rd Qu.:1.0000  
-                    Max.   : 6.2000                      Max.   :1.0000  </code></pre>
+<div class="cell-output-display">
+<div id="ohnwwelmnm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ohnwwelmnm table {
+font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+#ohnwwelmnm thead, #ohnwwelmnm tbody, #ohnwwelmnm tfoot, #ohnwwelmnm tr, #ohnwwelmnm td, #ohnwwelmnm th {
+border-style: none;
+}
+#ohnwwelmnm p {
+margin: 0;
+padding: 0;
+}
+#ohnwwelmnm .gt_table {
+display: table;
+border-collapse: collapse;
+line-height: normal;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 16px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+}
+#ohnwwelmnm .gt_caption {
+padding-top: 4px;
+padding-bottom: 4px;
+}
+#ohnwwelmnm .gt_title {
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
+}
+#ohnwwelmnm .gt_subtitle {
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 3px;
+padding-bottom: 5px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
+}
+#ohnwwelmnm .gt_heading {
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#ohnwwelmnm .gt_bottom_border {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#ohnwwelmnm .gt_col_headings {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#ohnwwelmnm .gt_col_heading {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
+}
+#ohnwwelmnm .gt_column_spanner_outer {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
+}
+#ohnwwelmnm .gt_column_spanner_outer:first-child {
+padding-left: 0;
+}
+#ohnwwelmnm .gt_column_spanner_outer:last-child {
+padding-right: 0;
+}
+#ohnwwelmnm .gt_column_spanner {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
+}
+#ohnwwelmnm .gt_spanner_row {
+border-bottom-style: hidden;
+}
+#ohnwwelmnm .gt_group_heading {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+text-align: left;
+}
+#ohnwwelmnm .gt_empty_group_heading {
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
+}
+#ohnwwelmnm .gt_from_md > :first-child {
+margin-top: 0;
+}
+#ohnwwelmnm .gt_from_md > :last-child {
+margin-bottom: 0;
+}
+#ohnwwelmnm .gt_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
+}
+#ohnwwelmnm .gt_stub {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+}
+#ohnwwelmnm .gt_stub_row_group {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+vertical-align: top;
+}
+#ohnwwelmnm .gt_row_group_first td {
+border-top-width: 2px;
+}
+#ohnwwelmnm .gt_row_group_first th {
+border-top-width: 2px;
+}
+#ohnwwelmnm .gt_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#ohnwwelmnm .gt_first_summary_row {
+border-top-style: solid;
+border-top-color: #D3D3D3;
+}
+#ohnwwelmnm .gt_first_summary_row.thick {
+border-top-width: 2px;
+}
+#ohnwwelmnm .gt_last_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#ohnwwelmnm .gt_grand_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#ohnwwelmnm .gt_first_grand_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
+}
+#ohnwwelmnm .gt_last_grand_summary_row_top {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: double;
+border-bottom-width: 6px;
+border-bottom-color: #D3D3D3;
+}
+#ohnwwelmnm .gt_striped {
+background-color: rgba(128, 128, 128, 0.05);
+}
+#ohnwwelmnm .gt_table_body {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#ohnwwelmnm .gt_footnotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#ohnwwelmnm .gt_footnote {
+margin: 0px;
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#ohnwwelmnm .gt_sourcenotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#ohnwwelmnm .gt_sourcenote {
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#ohnwwelmnm .gt_left {
+text-align: left;
+}
+#ohnwwelmnm .gt_center {
+text-align: center;
+}
+#ohnwwelmnm .gt_right {
+text-align: right;
+font-variant-numeric: tabular-nums;
+}
+#ohnwwelmnm .gt_font_normal {
+font-weight: normal;
+}
+#ohnwwelmnm .gt_font_bold {
+font-weight: bold;
+}
+#ohnwwelmnm .gt_font_italic {
+font-style: italic;
+}
+#ohnwwelmnm .gt_super {
+font-size: 65%;
+}
+#ohnwwelmnm .gt_footnote_marks {
+font-size: 75%;
+vertical-align: 0.4em;
+position: initial;
+}
+#ohnwwelmnm .gt_asterisk {
+font-size: 100%;
+vertical-align: 0;
+}
+#ohnwwelmnm .gt_indent_1 {
+text-indent: 5px;
+}
+#ohnwwelmnm .gt_indent_2 {
+text-indent: 10px;
+}
+#ohnwwelmnm .gt_indent_3 {
+text-indent: 15px;
+}
+#ohnwwelmnm .gt_indent_4 {
+text-indent: 20px;
+}
+#ohnwwelmnm .gt_indent_5 {
+text-indent: 25px;
+}
+#ohnwwelmnm .katex-display {
+display: inline-flex !important;
+margin-bottom: 0.75em !important;
+}
+#ohnwwelmnm div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header gt_col_headings">
+<th id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>Characteristic</strong></th>
+<th id="stat_0" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>N = 918</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">Age</td>
+<td class="gt_row gt_center" headers="stat_0">54 (47, 60)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">Sex</td>
+<td class="gt_row gt_center" headers="stat_0"><br>
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">    F</td>
+<td class="gt_row gt_center" headers="stat_0">193 (21%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">    M</td>
+<td class="gt_row gt_center" headers="stat_0">725 (79%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">ChestPainType</td>
+<td class="gt_row gt_center" headers="stat_0"><br>
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">    ASY</td>
+<td class="gt_row gt_center" headers="stat_0">496 (54%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">    ATA</td>
+<td class="gt_row gt_center" headers="stat_0">173 (19%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">    NAP</td>
+<td class="gt_row gt_center" headers="stat_0">203 (22%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">    TA</td>
+<td class="gt_row gt_center" headers="stat_0">46 (5.0%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">RestingBP</td>
+<td class="gt_row gt_center" headers="stat_0">130 (120, 140)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">Cholesterol</td>
+<td class="gt_row gt_center" headers="stat_0">223 (173, 267)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">FastingBS</td>
+<td class="gt_row gt_center" headers="stat_0">214 (23%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">RestingECG</td>
+<td class="gt_row gt_center" headers="stat_0"><br>
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">    LVH</td>
+<td class="gt_row gt_center" headers="stat_0">188 (20%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">    Normal</td>
+<td class="gt_row gt_center" headers="stat_0">552 (60%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">    ST</td>
+<td class="gt_row gt_center" headers="stat_0">178 (19%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">MaxHR</td>
+<td class="gt_row gt_center" headers="stat_0">138 (120, 156)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">ExerciseAngina</td>
+<td class="gt_row gt_center" headers="stat_0"><br>
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">    N</td>
+<td class="gt_row gt_center" headers="stat_0">547 (60%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">    Y</td>
+<td class="gt_row gt_center" headers="stat_0">371 (40%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">Oldpeak</td>
+<td class="gt_row gt_center" headers="stat_0">0.60 (0.00, 1.50)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">ST_Slope</td>
+<td class="gt_row gt_center" headers="stat_0"><br>
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">    Down</td>
+<td class="gt_row gt_center" headers="stat_0">63 (6.9%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">    Flat</td>
+<td class="gt_row gt_center" headers="stat_0">460 (50%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">    Up</td>
+<td class="gt_row gt_center" headers="stat_0">395 (43%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">HeartDisease</td>
+<td class="gt_row gt_center" headers="stat_0">508 (55%)</td>
+</tr>
+</tbody><tfoot class="gt_footnotes">
+<tr class="odd">
+<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Median (Q1, Q3); n (%)</td>
+</tr>
+</tfoot>
+
+</table>
+
 </div>
 </div>
-<p>Check for missing values - none found.</p>
+</div>
+<p>(Table 2: Summary Statistics of Heart Disease dataset)</p>
+<p>The dataset comprises of 918 records and 11 features which include both categorical and numerical variables that help assess heart disease risk. Key variables indicating the health of patients include Age, Resting Blood Pressure (RestingBP), Cholesterol, Maximum Heart Rate (MaxHR), and ST Depression (Oldpeak) among others. It has no missing or duplicate values. It is also noted from the data that there are more male patients (79%) than female patients (21%) which may be noteworthy for analysis. More than half of the patients (54%) however do not experience chest pain (ASY) which is rather puzzling despite the patient potentially having heart disease. In addition, the variable depicting the target i.e. HeartDisease is relatively balanced with 55.3 percent of patients diagnosed to have heart disease and 44.7 percent of patients with no heart disease. Also, RestingBP and Cholesterol value of 0 may need some consideration as they are unrealistic and require correction prior to analysis.</p>
+<p><strong><em>Figure 1: Distribution of some Features</em></strong></p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>           Age            Sex  ChestPainType      RestingBP    Cholesterol 
-             0              0              0              0              0 
-     FastingBS     RestingECG          MaxHR ExerciseAngina        Oldpeak 
-             0              0              0              0              0 
-      ST_Slope   HeartDisease 
-             0              0 </code></pre>
-</div>
-</div>
-<p>Distribution of Features</p>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The distribution of &#39;Age&#39; with a histogram - normal distribution</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>ageplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Age)) <span class="sc">+</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Age Distribution&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Age&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># The distribution of &#39;Heart Disease&#39; with a histogram - no class imbalance</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>hdplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> HeartDisease)) <span class="sc">+</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Heart Disease Class Distribution&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Heart Disease&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>)</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co"># The distribution of &#39;Sex&#39; with a histogram - imbalance: ~4x more males than females</span></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>splot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Sex)) <span class="sc">+</span></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Sex Distribution&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Sex&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>)</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="co"># The distribution of &#39;Cholesterol&#39; with a histogram - over 150 records with a cholesterol of 0; otherwise normal distribution</span></span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>cplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Cholesterol)) <span class="sc">+</span></span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Cholesterol Distribution&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Cholesterol&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>)</span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(hdplot, splot, ageplot, cplot, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The distribution of &#39;Age&#39; with a histogram - normal distribution</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ageplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Age)) <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Age Distribution&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Age&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># The distribution of &#39;Heart Disease&#39; with a histogram - no class imbalance</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>hdplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> HeartDisease)) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Heart Disease Class Distribution&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Heart Disease&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># The distribution of &#39;Sex&#39; with a histogram - imbalance: ~4x more males than females</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>splot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Sex)) <span class="sc">+</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Sex Distribution&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Sex&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co"># The distribution of &#39;Cholesterol&#39; with a histogram - over 150 records with a cholesterol of 0; otherwise normal distribution</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>cplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Cholesterol)) <span class="sc">+</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Cholesterol Distribution&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Cholesterol&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>)</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(hdplot, splot, ageplot, cplot, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -3445,16 +4027,24 @@ y_i = \beta_0 + \beta_1 X_1 +\varepsilon_i
 </div>
 </div>
 </div>
-<p>Correlation Matrix for Numeric Features</p>
+<p>(Figure 1: Pictorical representation of some of distribution/trends of Heart Disease data set)</p>
+<p>Figure 1 outlines some distribution/trends which are relevant in predicting heart diseases.</p>
+<ul>
+<li><strong>Heart Disease Distribution (Top-Left):</strong> The distribution is appropriately balanced, minimizing the chances of bias in the model.</li>
+<li><strong>Sex Distribution (Top-Right):</strong> The dataset has more male patients than female, which might impact predictions.</li>
+<li><strong>Age Distribution (Bottom-Left):</strong> Most patients fall within the 40-70 years age range, which may reduce model accuracy for younger individuals.</li>
+<li><strong>Cholesterol Distribution (Bottom-Right):</strong> The presence of zero values in cholesterol is unrealistic, indicating the need for data cleaning.</li>
+</ul>
+<p><strong><em>Figure 2: Correlation Matrix – Understanding Key Relationships</em></strong></p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># correlation matrix for numeric features</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>numeric_data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">where</span>(is.numeric))</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>cor_matrix <span class="ot">&lt;-</span> <span class="fu">cor</span>(numeric_data)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(cor_matrix, <span class="at">method =</span> <span class="st">&quot;circle&quot;</span>, <span class="at">type =</span> <span class="st">&quot;upper&quot;</span>, </span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.col =</span> <span class="st">&quot;black&quot;</span>, <span class="at">tl.cex =</span> <span class="fl">0.7</span>, <span class="at">addCoef.col =</span> <span class="st">&quot;black&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># correlation matrix for numeric features</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>numeric_data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">where</span>(is.numeric))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>cor_matrix <span class="ot">&lt;-</span> <span class="fu">cor</span>(numeric_data)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(cor_matrix, <span class="at">method =</span> <span class="st">&quot;circle&quot;</span>, <span class="at">type =</span> <span class="st">&quot;upper&quot;</span>, </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.col =</span> <span class="st">&quot;black&quot;</span>, <span class="at">tl.cex =</span> <span class="fl">0.7</span>, <span class="at">addCoef.col =</span> <span class="st">&quot;black&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -3464,14 +4054,9 @@ y_i = \beta_0 + \beta_1 X_1 +\varepsilon_i
 </div>
 </div>
 </div>
-<p><strong>Observations:</strong></p>
-<ul>
-<li><p>Heart disease has a balanced class distribution.</p></li>
-<li><p>Sex is imbalanced with significantly more males than females.</p></li>
-<li><p>Age has a normal distribution.</p></li>
-<li><p>Cholesterol has a high volume of records with ‘0’ that may need to be cleaned up or accounted for; otherwise fairly normal distribution with some outliers.</p></li>
-<li><p>The correlation matrix shows that features like MaxHR(Maximum Heart Rate) and Oldpeak(ST Depression) are more strongly correlated with the presence of heart disease</p></li>
-</ul>
+<p>(Figure 2: Relationships of features in dataset with heart disease)</p>
+<p>In figure 2, relationships of features in dataset with heart disease. Among the predictors, Oldpeak (0.40) stands out since higher ST depression is associated with heart disease risk. Patients who have heart disease are more likely to have high heart rates, which is strongly correlated with heart disease( MaxHR (-0.40)). Age (0.28) and Fasting Blood Sugar (0.27) also emerged as positive correlates, confirming that older people and people with high fasting blood sugar levels are at risk. Cholesterol with its weak negative correlation is also interesting (-0.23) and can be explained through medication or lifestyle changes.</p>
+<p>These insights could assist with feature selection and simultaneously ensure that major predictors such as Oldpeak, MaxHR, and Age, which are associated , leading to more reliable and clinically relevant predictions of heart disease.</p>
 </section>
 <section id="modeling-and-results" class="level3">
 <h3 class="anchored" data-anchor-id="modeling-and-results">Modeling and Results</h3>
