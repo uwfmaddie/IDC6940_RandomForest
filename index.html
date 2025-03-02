@@ -3300,7 +3300,8 @@ window.Quarto = {
 <figcaption>Figure 2. <span class="citation" data-cites="probst2019hyperparameters">(<a href="#ref-probst2019hyperparameters" role="doc-biblioref">Probst, Wright, and Boulesteix 2019b</a>)</span></figcaption>
 </figure>
 </div>
-<p><em>The common non-parametric regression model is</em> <span class="math inline">\(Y_i = m(X_i) + \varepsilon_i\)</span><em>, where</em> <span class="math inline">\(Y_i\)</span> <em>can be defined as the sum of the regression function value</em> <span class="math inline">\(m(x)\)</span> <em>for</em> <span class="math inline">\(X_i\)</span><em>. Here</em> <span class="math inline">\(m(x)\)</span> <em>is unknown and</em> <span class="math inline">\(\varepsilon_i\)</span> <em>some errors. With the help of this definition, we can create the estimation for local averaging i.e.</em> <span class="math inline">\(m(x)\)</span> <em>can be estimated with the product of</em> <span class="math inline">\(Y_i\)</span> <em>average and</em> <span class="math inline">\(X_i\)</span> <em>is near to</em> <span class="math inline">\(x\)</span><em>. In other words, this means that we are discovering the line through the data points with the help of surrounding data points. The estimation formula is printed below <span class="citation" data-cites="R-base">(<a href="#ref-R-base" role="doc-biblioref"><strong>R-base?</strong></a>)</span>:</em></p>
+<p>Figure 2 provides an overview of the hyperparameters available to tune the decision forest, along with the recommended or default values. The decision forest algorithm is designed to work well without much tuning. It’s been found that an increased number of trees provides a better output, but there’s typically a limit in which there’s no more gain in accuracy that needs to be found. ‘mtry’ has been found to have the most influential, where the best value of mtry depends on the number of variables that are related to the outcome <span class="citation" data-cites="probst2019hyperparameters">(<a href="#ref-probst2019hyperparameters" role="doc-biblioref">Probst, Wright, and Boulesteix 2019b</a>)</span>.</p>
+<p>SAMPLE METHODS SECTION: <em>The common non-parametric regression model is</em> <span class="math inline">\(Y_i = m(X_i) + \varepsilon_i\)</span><em>, where</em> <span class="math inline">\(Y_i\)</span> <em>can be defined as the sum of the regression function value</em> <span class="math inline">\(m(x)\)</span> <em>for</em> <span class="math inline">\(X_i\)</span><em>. Here</em> <span class="math inline">\(m(x)\)</span> <em>is unknown and</em> <span class="math inline">\(\varepsilon_i\)</span> <em>some errors. With the help of this definition, we can create the estimation for local averaging i.e.</em> <span class="math inline">\(m(x)\)</span> <em>can be estimated with the product of</em> <span class="math inline">\(Y_i\)</span> <em>average and</em> <span class="math inline">\(X_i\)</span> <em>is near to</em> <span class="math inline">\(x\)</span><em>. In other words, this means that we are discovering the line through the data points with the help of surrounding data points. The estimation formula is printed below <span class="citation" data-cites="R-base">(<a href="#ref-R-base" role="doc-biblioref"><strong>R-base?</strong></a>)</span>:</em></p>
 <p><span class="math display">\[
 M_n(x) = \sum_{i=1}^{n} W_n (X_i) Y_i  \tag{1}
 \]</span><span class="math inline">\(W_n(x)\)</span> <em>is the sum of weights that belongs to all real numbers. Weights are positive numbers and small if</em> <span class="math inline">\(X_i\)</span> <em>is far from</em> <span class="math inline">\(x\)</span><em>.</em></p>
@@ -3453,20 +3454,20 @@ y_i = \beta_0 + \beta_1 X_1 +\varepsilon_i
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl_summary</span>(data) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="bouizyoqky" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#bouizyoqky table {
+<div id="oemdvhjeol" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#oemdvhjeol table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#bouizyoqky thead, #bouizyoqky tbody, #bouizyoqky tfoot, #bouizyoqky tr, #bouizyoqky td, #bouizyoqky th {
+#oemdvhjeol thead, #oemdvhjeol tbody, #oemdvhjeol tfoot, #oemdvhjeol tr, #oemdvhjeol td, #oemdvhjeol th {
 border-style: none;
 }
-#bouizyoqky p {
+#oemdvhjeol p {
 margin: 0;
 padding: 0;
 }
-#bouizyoqky .gt_table {
+#oemdvhjeol .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -3491,11 +3492,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#bouizyoqky .gt_caption {
+#oemdvhjeol .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#bouizyoqky .gt_title {
+#oemdvhjeol .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -3506,7 +3507,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#bouizyoqky .gt_subtitle {
+#oemdvhjeol .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -3517,7 +3518,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#bouizyoqky .gt_heading {
+#oemdvhjeol .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -3528,12 +3529,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#bouizyoqky .gt_bottom_border {
+#oemdvhjeol .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#bouizyoqky .gt_col_headings {
+#oemdvhjeol .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -3547,7 +3548,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#bouizyoqky .gt_col_heading {
+#oemdvhjeol .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3566,7 +3567,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#bouizyoqky .gt_column_spanner_outer {
+#oemdvhjeol .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3577,13 +3578,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#bouizyoqky .gt_column_spanner_outer:first-child {
+#oemdvhjeol .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#bouizyoqky .gt_column_spanner_outer:last-child {
+#oemdvhjeol .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#bouizyoqky .gt_column_spanner {
+#oemdvhjeol .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -3594,10 +3595,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#bouizyoqky .gt_spanner_row {
+#oemdvhjeol .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#bouizyoqky .gt_group_heading {
+#oemdvhjeol .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3622,7 +3623,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#bouizyoqky .gt_empty_group_heading {
+#oemdvhjeol .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -3636,13 +3637,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#bouizyoqky .gt_from_md > :first-child {
+#oemdvhjeol .gt_from_md > :first-child {
 margin-top: 0;
 }
-#bouizyoqky .gt_from_md > :last-child {
+#oemdvhjeol .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#bouizyoqky .gt_row {
+#oemdvhjeol .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3660,7 +3661,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#bouizyoqky .gt_stub {
+#oemdvhjeol .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3672,7 +3673,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#bouizyoqky .gt_stub_row_group {
+#oemdvhjeol .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3685,13 +3686,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#bouizyoqky .gt_row_group_first td {
+#oemdvhjeol .gt_row_group_first td {
 border-top-width: 2px;
 }
-#bouizyoqky .gt_row_group_first th {
+#oemdvhjeol .gt_row_group_first th {
 border-top-width: 2px;
 }
-#bouizyoqky .gt_summary_row {
+#oemdvhjeol .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -3700,14 +3701,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#bouizyoqky .gt_first_summary_row {
+#oemdvhjeol .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#bouizyoqky .gt_first_summary_row.thick {
+#oemdvhjeol .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#bouizyoqky .gt_last_summary_row {
+#oemdvhjeol .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3716,7 +3717,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#bouizyoqky .gt_grand_summary_row {
+#oemdvhjeol .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -3725,7 +3726,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#bouizyoqky .gt_first_grand_summary_row {
+#oemdvhjeol .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3734,7 +3735,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#bouizyoqky .gt_last_grand_summary_row_top {
+#oemdvhjeol .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3743,10 +3744,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#bouizyoqky .gt_striped {
+#oemdvhjeol .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#bouizyoqky .gt_table_body {
+#oemdvhjeol .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -3754,7 +3755,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#bouizyoqky .gt_footnotes {
+#oemdvhjeol .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -3767,7 +3768,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#bouizyoqky .gt_footnote {
+#oemdvhjeol .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -3775,7 +3776,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#bouizyoqky .gt_sourcenotes {
+#oemdvhjeol .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -3788,64 +3789,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#bouizyoqky .gt_sourcenote {
+#oemdvhjeol .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#bouizyoqky .gt_left {
+#oemdvhjeol .gt_left {
 text-align: left;
 }
-#bouizyoqky .gt_center {
+#oemdvhjeol .gt_center {
 text-align: center;
 }
-#bouizyoqky .gt_right {
+#oemdvhjeol .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#bouizyoqky .gt_font_normal {
+#oemdvhjeol .gt_font_normal {
 font-weight: normal;
 }
-#bouizyoqky .gt_font_bold {
+#oemdvhjeol .gt_font_bold {
 font-weight: bold;
 }
-#bouizyoqky .gt_font_italic {
+#oemdvhjeol .gt_font_italic {
 font-style: italic;
 }
-#bouizyoqky .gt_super {
+#oemdvhjeol .gt_super {
 font-size: 65%;
 }
-#bouizyoqky .gt_footnote_marks {
+#oemdvhjeol .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#bouizyoqky .gt_asterisk {
+#oemdvhjeol .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#bouizyoqky .gt_indent_1 {
+#oemdvhjeol .gt_indent_1 {
 text-indent: 5px;
 }
-#bouizyoqky .gt_indent_2 {
+#oemdvhjeol .gt_indent_2 {
 text-indent: 10px;
 }
-#bouizyoqky .gt_indent_3 {
+#oemdvhjeol .gt_indent_3 {
 text-indent: 15px;
 }
-#bouizyoqky .gt_indent_4 {
+#oemdvhjeol .gt_indent_4 {
 text-indent: 20px;
 }
-#bouizyoqky .gt_indent_5 {
+#oemdvhjeol .gt_indent_5 {
 text-indent: 25px;
 }
-#bouizyoqky .katex-display {
+#oemdvhjeol .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#bouizyoqky div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#oemdvhjeol div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>

@@ -90,6 +90,10 @@ The random forest algorithm generates numerous decision trees using randomizatio
 
 ![Figure 2. [@probst2019hyperparameters]](RF2.png)
 
+Figure 2 provides an overview of the hyperparameters available to tune the decision forest, along with the recommended or default values. The decision forest algorithm is designed to work well without much tuning. It's been found that an increased number of trees provides a better output, but there's typically a limit in which there's no more gain in accuracy that needs to be found. 'mtry' has been found to have the most influential, where the best value of mtry depends on the number of variables that are related to the outcome [@probst2019hyperparameters].
+
+
+SAMPLE METHODS SECTION:
 *The common non-parametric regression model is*
 $Y_i = m(X_i) + \varepsilon_i$*, where* $Y_i$ *can be defined as the sum
 of the regression function value* $m(x)$ *for* $X_i$*. Here* $m(x)$ *is
