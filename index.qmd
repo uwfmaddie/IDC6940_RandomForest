@@ -84,21 +84,132 @@ while identifying areas for further refinement.
 
 ## Methods
 
-The random forest algorithm generates numerous decision trees using randomization and then aggregates the output of these trees into one output. A decision tree is an algorithm that has a ‘tree-like’ structure, consisting of a root node, branches, internal nodes and leaf nodes. The root node branches out into internal nodes, and depending on the outcome of each internal node, it ultimately leads to the leaf node; or the final outcome, or decision. In the formation of a random forest, a voting method is used for classification and an averaging method for regression. Randomization is done in two steps. The first uses bootstrap aggregation or bagging at the data set level, creating new randomized samples for the model development and testing. Bagging consists of randomly sampling from the original data set with replacement, ensuring the sample set is completely random. The data that is not used in the sampled data set is considered the out-of-bag (OOB) data. The next level of randomization happens at the decision node level. A certain number of predictors are chosen, which is often the square root of the number of predictors in the data set. The algorithm tests all possible thresholds for all selected variables and chooses the variable-threshold combination which results in the best split – the split which most effectively separates cases from controls, for instance [@rigatti2017random]. This random selection of variables and threshold testing continues until either “pure” nodes are reached (containing only cases or controls) or some pre-defined endpoint [@rigatti2017random]. 
+The random forest algorithm generates numerous decision trees using
+randomization and then aggregates the output of these trees into one
+output. A decision tree is an algorithm that has a ‘tree-like’
+structure, consisting of a root node, branches, internal nodes and leaf
+nodes. The root node branches out into internal nodes, and depending on
+the outcome of each internal node, it ultimately leads to the leaf node;
+or the final outcome, or decision. In the formation of a random forest,
+a voting method is used for classification and an averaging method for
+regression. Randomization is done in two steps. The first uses bootstrap
+aggregation or bagging at the data set level, creating new randomized
+samples for the model development and testing. Bagging consists of
+randomly sampling from the original data set with replacement, ensuring
+the sample set is completely random. The data that is not used in the
+sampled data set is considered the out-of-bag (OOB) data. The next level
+of randomization happens at the decision node level. A certain number of
+predictors are chosen, which is often the square root of the number of
+predictors in the data set. The algorithm tests all possible thresholds
+for all selected variables and chooses the variable-threshold
+combination which results in the best split – the split which most
+effectively separates cases from controls, for instance
+[@rigatti2017random]. This random selection of variables and threshold
+testing continues until either “pure” nodes are reached (containing only
+cases or controls) or some pre-defined endpoint [@rigatti2017random].
 
 ![Figure 1. [@probst2019rfhealth]](RF.png)
 
 ![Figure 2. [@probst2019hyperparameters]](RF2.png)
 
-Figure 2 provides an overview of the hyperparameters available to tune the decision forest, along with the recommended or default values. The decision forest algorithm is designed to work well without much tuning. It’s been found that an increased number of trees provides a better output, but there’s typically a limit in which there’s no more gain in accuracy, and only a decrease or slow down in performance with too many trees. The hyperparameter ‘mtry’ has been found to have the most influence, where the best value of ‘mtry’ depends on the number of variables that are related to the outcome [@probst2019hyperparameters].
+Figure 2 provides an overview of the hyperparameters available to tune
+the decision forest, along with the recommended or default values. The
+decision forest algorithm is designed to work well without much tuning.
+It’s been found that an increased number of trees provides a better
+output, but there’s typically a limit in which there’s no more gain in
+accuracy, and only a decrease or slow down in performance with too many
+trees. The hyperparameter ‘mtry’ has been found to have the most
+influence, where the best value of ‘mtry’ depends on the number of
+variables that are related to the outcome [@probst2019hyperparameters].
 
-The random forest algorithm uses the Gini measure of impurity to select the split with the lowest impurity at every node [@khalilia2011predicting]. The gini impurity can range between 0 - 0.5, with the lower the impurity, the better the split. If a gini impurity is 0, this means it is a ‘pure’ node and does not need to be split further. The formula for Gini Impurity is below, where p is the probability of samples belonging to the class i at a specific node.
+The random forest algorithm uses the Gini measure of impurity to select
+the split with the lowest impurity at every node
+[@khalilia2011predicting]. The gini impurity can range between 0 - 0.5,
+with the lower the impurity, the better the split. If a gini impurity is
+0, this means it is a ‘pure’ node and does not need to be split further.
+The formula for Gini Impurity is below, where p is the probability of
+samples belonging to the class i at a specific node.
 
 $$
 Gini = 1 -\sum_{i = 1}^{n}{(p_i)^2}
 $$
 
+***Random Forest Implementation in the Dataset***
+
+The random forest model will be applied to analyze the dataset
+containing multiple clinical and demographic factors. This dataset has
+features like Age, Sex, Type of Chest Pain, Resting Blood Pressure
+(RestingBP), Cholesterol level, Fasting Blood Sugar (FastingBS),
+Electrocardiogram Results when at Rest (RestingECG), Maximum Heart Rate
+attained (MaxHR), Angina induced by exercise, Oldpeak, and ST Slope. The
+model will be fitted to the data so the presence or lack of heart
+disease (HeartDisease) can be predicted. This variable is the target
+(0 - No Heart Disease, 1 - Heart Disease).
+
+***Model Training***\
+In order to train the model, a dataset will first be created by
+splitting it into an 80% training and 20% testing set for evaluation.
+The random forest will have an ensemble of 100 decision trees
+(n_estimators = 100) and the mtry value for each split will be the
+square root of the total number of features [@oshiro2012many]. The Gini
+impurity metric will be utilized and will ensure that the most
+informative features are selected [@khalilia2011predicting]. Other
+parameter control methodologies such as grid or randomized search will
+be used to optimize the number of trees, maximum depth, and minimum
+sample split (Probst, Wright, & Boulesteix, 2019b).
+
+***Model Evaluation and Performance Metrics***
+
+For the model evaluation, the following metrics will be applied:
+
+-   AUC-ROC Score: Evaluates the model's classification capability for
+    distinguishing classes (Heart Disease vs. No Heart Disease)
+    [@probst2019rfhealth]. The AUC ROC Score is the area under the curve
+    of the ROC (receiver-operating characteristic curve) curve. The ROC
+    curve graphs the true positive rate over the false positive rate.
+    The higher the ROC AUC, the better.
+
+-   F1-score:
+$$
+F1 = \frac{2*(Precision*Recall)}{(Precision + Recall)}
+$$
+
+-   Precision:
+$$
+Precision = \frac{True Positives}{(True Positives + False Positives)}
+$$
+
+***Advantages/Disadvantages***
+
+The random forests method remains one of the most robust and versatile
+methods for solving classification tasks, especially in the healthcare
+sector. Their capability to manage high dimensional data, model
+intricate relationships, and rank order features makes them particularly
+useful in disease prediction and risk factor evaluation
+[@breiman2001random]. All of these benefits come with caveats. While
+random forests are robust in overfitting and are efficient with missing
+values [@khalilia2011predicting], they also demand above-average
+computing power, can be inefficient with time on large databases, and
+are less clear than logistic regression models [@probst2019rfhealth].
+Imposing certain values to parameters improves these shortcomings but
+not without a loss of performance and efficiency in specific datasets.
+Regardless, random forests are still a good choice in predictive
+modeling in medical research and decision support systems
+[@biau2016random].
+
+In summary the Random Forest algorithm has been used in this study
+because of its compatibility with structured clinical datasets and its
+ability to integrate categorical and numerical data without significant
+preprocessing [@breiman2001random]. In contrast to logistic regression,
+which applies a mode of linearity, Random Forest is able to capture
+complex non-linear relationships in healthcare data
+[@probst2019rfhealth]. Another advantage of Random Forest is its
+provision of feature importance indices, which enhances the model’s
+interpretability by medical practitioners concerning risk prediction and
+proactive measures’ implementation[@khalilia2011predicting]
+
 ## Analysis and Results
+
 ### Data Exploration and Visualization
 
 ***Data Set Overview***
@@ -113,19 +224,24 @@ electrocardiogram results, max heart rate, exercise-induced angina, old
 peak, and slope of peak exercise ST segment. The data set is used to
 predict whether the patient has heart disease or not.
 
-- **Age**: Age of the patient (years)
-- **Sex**: Sex of the patient (M: Male, F: Female)
-- **ChestPainType**: Chest pain type (TA: Typical Angina, ATA: Atypical Angina, NAP: Non-Anginal Pain, ASY: Asymptomatic)
-- **RestingBP**: Resting blood pressure (mm Hg)
-- **Cholesterol**: Serum cholesterol (mg/dL)
-- **FastingBS**: Fasting blood sugar (1: if FastingBS > 120 mg/dL, 0: otherwise)
-- **RestingECG**: Resting electrocardiogram results (Normal, ST: having ST-T wave abnormality, LVH: showing probable or definite left ventricular hypertrophy by Estes' criteria)
-- **MaxHR**: Maximum heart rate achieved (Numeric value between 60 and 202)
-- **ExerciseAngina**: Exercise-induced angina (Y: Yes, N: No)
-- **Oldpeak**: Oldpeak = ST (Numeric value measured in depression)
-- **ST_Slope**: The slope of the peak exercise ST segment (Up: upsloping, Flat: flat, Down: downsloping)
-- **HeartDisease**: Output class (1: heart disease, 0: Normal)
-
+-   **Age**: Age of the patient (years)
+-   **Sex**: Sex of the patient (M: Male, F: Female)
+-   **ChestPainType**: Chest pain type (TA: Typical Angina, ATA:
+    Atypical Angina, NAP: Non-Anginal Pain, ASY: Asymptomatic)
+-   **RestingBP**: Resting blood pressure (mm Hg)
+-   **Cholesterol**: Serum cholesterol (mg/dL)
+-   **FastingBS**: Fasting blood sugar (1: if FastingBS \> 120 mg/dL, 0:
+    otherwise)
+-   **RestingECG**: Resting electrocardiogram results (Normal, ST:
+    having ST-T wave abnormality, LVH: showing probable or definite left
+    ventricular hypertrophy by Estes' criteria)
+-   **MaxHR**: Maximum heart rate achieved (Numeric value between 60 and
+    202)
+-   **ExerciseAngina**: Exercise-induced angina (Y: Yes, N: No)
+-   **Oldpeak**: Oldpeak = ST (Numeric value measured in depression)
+-   **ST_Slope**: The slope of the peak exercise ST segment (Up:
+    upsloping, Flat: flat, Down: downsloping)
+-   **HeartDisease**: Output class (1: heart disease, 0: Normal)
 
 ```{r}
 #Loading packages
@@ -145,6 +261,7 @@ library(gtsummary)
 data <- read.csv('heart.csv')
 #head(data,5)
 ```
+
 ***Table 1: Data Structure Overview***
 
 ```{r}
@@ -159,19 +276,40 @@ structure_table <- data_dt[, .(Column = names(data_dt),
 # display the table 
 kable(structure_table, caption = "Data Structure Overview")
 ```
+
 (Table 1: Data structure overview of Heart Disease dataset)
 
-The data structure overview table is an essential starting point for working with the heart disease prediction dataset. The table contains column names, data types, and examples for every feature as a sample overview of the dataset. All columns within the dataset are associated to some clinically significant feature which have the potential to be used for estimating the risk of heart disease.
+The data structure overview table is an essential starting point for
+working with the heart disease prediction dataset. The table contains
+column names, data types, and examples for every feature as a sample
+overview of the dataset. All columns within the dataset are associated
+to some clinically significant feature which have the potential to be
+used for estimating the risk of heart disease.
 
 ***Table 2: Summary Statistics***
+
 ```{r}
 # statistics of the dataset 
 tbl_summary(data) 
 ```
+
 (Table 2: Summary Statistics of Heart Disease dataset)
 
-The dataset comprises of 918 records and 11 features which include both categorical and numerical variables that help assess heart disease risk. Key variables indicating the health of patients include Age, Resting Blood Pressure (RestingBP), Cholesterol, Maximum Heart Rate (MaxHR), and ST Depression (Oldpeak) among others. It has no missing or duplicate values. It is also noted from the data that there are more male patients (79%) than female patients (21%) which may be noteworthy for analysis. More than half of the patients (54%) however do not experience chest pain (ASY) which is rather puzzling despite the patient potentially having heart disease. In addition, the variable depicting the target i.e. HeartDisease is relatively balanced with 55.3 percent of patients diagnosed to have heart disease and 44.7 percent of patients with no heart disease. Also, RestingBP and Cholesterol value of 0 may need some consideration as they are unrealistic and require correction prior to analysis.
-
+The dataset comprises of 918 records and 11 features which include both
+categorical and numerical variables that help assess heart disease risk.
+Key variables indicating the health of patients include Age, Resting
+Blood Pressure (RestingBP), Cholesterol, Maximum Heart Rate (MaxHR), and
+ST Depression (Oldpeak) among others. It has no missing or duplicate
+values. It is also noted from the data that there are more male patients
+(79%) than female patients (21%) which may be noteworthy for analysis.
+More than half of the patients (54%) however do not experience chest
+pain (ASY) which is rather puzzling despite the patient potentially
+having heart disease. In addition, the variable depicting the target
+i.e. HeartDisease is relatively balanced with 55.3 percent of patients
+diagnosed to have heart disease and 44.7 percent of patients with no
+heart disease. Also, RestingBP and Cholesterol value of 0 may need some
+consideration as they are unrealistic and require correction prior to
+analysis.
 
 ***Figure 1: Distribution of some Features***
 
@@ -208,17 +346,26 @@ cplot <- ggplot(data, aes(x = Cholesterol)) +
 grid.arrange(hdplot, splot, ageplot, cplot, ncol = 2, nrow=2)
 
 ```
-(Figure 1: Pictorical representation of some of distribution/trends of Heart Disease data set)
 
-Figure 1 outlines some distribution/trends which are relevant in predicting heart diseases.
+(Figure 1: Pictorical representation of some of distribution/trends of
+Heart Disease data set)
 
-- **Heart Disease Distribution (Top-Left):** The distribution is appropriately balanced, minimizing the chances of bias in the model.
-- **Sex Distribution (Top-Right):** The dataset has more male patients than female, which might impact predictions.
-- **Age Distribution (Bottom-Left):** Most patients fall within the 40-70 years age range, which may reduce model accuracy for younger individuals.
-- **Cholesterol Distribution (Bottom-Right):** The presence of zero values in cholesterol is unrealistic, indicating the need for data cleaning.
+Figure 1 outlines some distribution/trends which are relevant in
+predicting heart diseases.
 
+-   **Heart Disease Distribution (Top-Left):** The distribution is
+    appropriately balanced, minimizing the chances of bias in the model.
+-   **Sex Distribution (Top-Right):** The dataset has more male patients
+    than female, which might impact predictions.
+-   **Age Distribution (Bottom-Left):** Most patients fall within the
+    40-70 years age range, which may reduce model accuracy for younger
+    individuals.
+-   **Cholesterol Distribution (Bottom-Right):** The presence of zero
+    values in cholesterol is unrealistic, indicating the need for data
+    cleaning.
 
 ***Figure 2: Correlation Matrix – Understanding Key Relationships***
+
 ```{r, warning=FALSE, echo=T, message=FALSE}
 
 # correlation matrix for numeric features
@@ -228,12 +375,24 @@ cor_matrix <- cor(numeric_data)
 corrplot(cor_matrix, method = "circle", type = "upper", 
          tl.col = "black", tl.cex = 0.7, addCoef.col = "black")
 ```
+
 (Figure 2: Relationships of features in dataset with heart disease)
 
-In figure 2, relationships of features in dataset with heart disease. Among the predictors, Oldpeak (0.40) stands out since higher ST depression is associated with heart disease risk. Patients who have heart disease are more likely to have high heart rates, which is strongly  correlated with heart disease( MaxHR (-0.40)). Age (0.28) and Fasting Blood Sugar (0.27) also emerged as positive correlates, confirming that older people and people with high fasting blood sugar levels are at risk. Cholesterol with its weak negative correlation is also interesting (-0.23) and can be explained through medication or lifestyle changes.
+In figure 2, relationships of features in dataset with heart disease.
+Among the predictors, Oldpeak (0.40) stands out since higher ST
+depression is associated with heart disease risk. Patients who have
+heart disease are more likely to have high heart rates, which is
+strongly correlated with heart disease( MaxHR (-0.40)). Age (0.28) and
+Fasting Blood Sugar (0.27) also emerged as positive correlates,
+confirming that older people and people with high fasting blood sugar
+levels are at risk. Cholesterol with its weak negative correlation is
+also interesting (-0.23) and can be explained through medication or
+lifestyle changes.
 
-These insights could assist with feature selection and simultaneously ensure that major predictors such as Oldpeak, MaxHR, and Age, which are associated , leading to  more reliable and clinically relevant predictions of heart disease.
-
+These insights could assist with feature selection and simultaneously
+ensure that major predictors such as Oldpeak, MaxHR, and Age, which are
+associated , leading to more reliable and clinically relevant
+predictions of heart disease.
 
 ### Modeling and Results
 

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Maddie Sortino and Jisa Jose (Advisor: Dr. Cohen)">
-<meta name="dcterms.date" content="2025-03-09">
+<meta name="dcterms.date" content="2025-03-10">
 
 <title>Random Forest in the Health Industry</title>
 <style>
@@ -3263,7 +3263,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 9, 2025</p>
+      <p class="date">March 10, 2025</p>
     </div>
   </div>
   
@@ -3305,6 +3305,24 @@ window.Quarto = {
 <p><span class="math display">\[
 Gini = 1 -\sum_{i = 1}^{n}{(p_i)^2}
 \]</span></p>
+<p><strong><em>Random Forest Implementation in the Dataset</em></strong></p>
+<p>The random forest model will be applied to analyze the dataset containing multiple clinical and demographic factors. This dataset has features like Age, Sex, Type of Chest Pain, Resting Blood Pressure (RestingBP), Cholesterol level, Fasting Blood Sugar (FastingBS), Electrocardiogram Results when at Rest (RestingECG), Maximum Heart Rate attained (MaxHR), Angina induced by exercise, Oldpeak, and ST Slope. The model will be fitted to the data so the presence or lack of heart disease (HeartDisease) can be predicted. This variable is the target (0 - No Heart Disease, 1 - Heart Disease).</p>
+<p><strong><em>Model Training</em></strong><br>
+In order to train the model, a dataset will first be created by splitting it into an 80% training and 20% testing set for evaluation. The random forest will have an ensemble of 100 decision trees (n_estimators = 100) and the mtry value for each split will be the square root of the total number of features <span class="citation" data-cites="oshiro2012many">(<a href="#ref-oshiro2012many" role="doc-biblioref">Oshiro, Perez, and Baranauskas 2012</a>)</span>. The Gini impurity metric will be utilized and will ensure that the most informative features are selected <span class="citation" data-cites="khalilia2011predicting">(<a href="#ref-khalilia2011predicting" role="doc-biblioref">Khalilia, Chakraborty, and Popescu 2011</a>)</span>. Other parameter control methodologies such as grid or randomized search will be used to optimize the number of trees, maximum depth, and minimum sample split (Probst, Wright, &amp; Boulesteix, 2019b).</p>
+<p><strong><em>Model Evaluation and Performance Metrics</em></strong></p>
+<p>For the model evaluation, the following metrics will be applied:</p>
+<ul>
+<li><p>AUC-ROC Score: Evaluates the model’s classification capability for distinguishing classes (Heart Disease vs. No Heart Disease) <span class="citation" data-cites="probst2019rfhealth">(<a href="#ref-probst2019rfhealth" role="doc-biblioref">Probst, Wright, and Boulesteix 2019a</a>)</span>. The AUC ROC Score is the area under the curve of the ROC (receiver-operating characteristic curve) curve. The ROC curve graphs the true positive rate over the false positive rate. The higher the ROC AUC, the better.</p></li>
+<li><p>F1-score: <span class="math display">\[
+F1 = \frac{2*(Precision*Recall)}{(Precision + Recall)}
+\]</span></p></li>
+<li><p>Precision: <span class="math display">\[
+Precision = \frac{True Positives}{(True Positives + False Positives)}
+\]</span></p></li>
+</ul>
+<p><strong><em>Advantages/Disadvantages</em></strong></p>
+<p>The random forests method remains one of the most robust and versatile methods for solving classification tasks, especially in the healthcare sector. Their capability to manage high dimensional data, model intricate relationships, and rank order features makes them particularly useful in disease prediction and risk factor evaluation <span class="citation" data-cites="breiman2001random">(<a href="#ref-breiman2001random" role="doc-biblioref">Breiman 2001</a>)</span>. All of these benefits come with caveats. While random forests are robust in overfitting and are efficient with missing values <span class="citation" data-cites="khalilia2011predicting">(<a href="#ref-khalilia2011predicting" role="doc-biblioref">Khalilia, Chakraborty, and Popescu 2011</a>)</span>, they also demand above-average computing power, can be inefficient with time on large databases, and are less clear than logistic regression models <span class="citation" data-cites="probst2019rfhealth">(<a href="#ref-probst2019rfhealth" role="doc-biblioref">Probst, Wright, and Boulesteix 2019a</a>)</span>. Imposing certain values to parameters improves these shortcomings but not without a loss of performance and efficiency in specific datasets. Regardless, random forests are still a good choice in predictive modeling in medical research and decision support systems <span class="citation" data-cites="biau2016random">(<a href="#ref-biau2016random" role="doc-biblioref">Biau and Scornet 2016</a>)</span>.</p>
+<p>In summary the Random Forest algorithm has been used in this study because of its compatibility with structured clinical datasets and its ability to integrate categorical and numerical data without significant preprocessing <span class="citation" data-cites="breiman2001random">(<a href="#ref-breiman2001random" role="doc-biblioref">Breiman 2001</a>)</span>. In contrast to logistic regression, which applies a mode of linearity, Random Forest is able to capture complex non-linear relationships in healthcare data <span class="citation" data-cites="probst2019rfhealth">(<a href="#ref-probst2019rfhealth" role="doc-biblioref">Probst, Wright, and Boulesteix 2019a</a>)</span>. Another advantage of Random Forest is its provision of feature importance indices, which enhances the model’s interpretability by medical practitioners concerning risk prediction and proactive measures’ implementation<span class="citation" data-cites="khalilia2011predicting">(<a href="#ref-khalilia2011predicting" role="doc-biblioref">Khalilia, Chakraborty, and Popescu 2011</a>)</span></p>
 </section>
 <section id="analysis-and-results" class="level2">
 <h2 class="anchored" data-anchor-id="analysis-and-results">Analysis and Results</h2>
@@ -3321,7 +3339,10 @@ Gini = 1 -\sum_{i = 1}^{n}{(p_i)^2}
 <li><strong>Cholesterol</strong>: Serum cholesterol (mg/dL)</li>
 <li><strong>FastingBS</strong>: Fasting blood sugar (1: if FastingBS &gt; 120 mg/dL, 0: otherwise)</li>
 <li><strong>RestingECG</strong>: Resting electrocardiogram results (Normal, ST: having ST-T wave abnormality, LVH: showing probable or definite left ventricular hypertrophy by Estes’ criteria)</li>
-<li><strong>MaxHR</strong>: Maximum heart rate achieved (Numeric value between 60 and 202)</li>
+<li><strong>MaxHR</strong>: Maximum heart rate achieved (Numeric value between 60 and
+<ol start="202" type="1">
+<li></li>
+</ol></li>
 <li><strong>ExerciseAngina</strong>: Exercise-induced angina (Y: Yes, N: No)</li>
 <li><strong>Oldpeak</strong>: Oldpeak = ST (Numeric value measured in depression)</li>
 <li><strong>ST_Slope</strong>: The slope of the peak exercise ST segment (Up: upsloping, Flat: flat, Down: downsloping)</li>
@@ -3450,20 +3471,20 @@ Gini = 1 -\sum_{i = 1}^{n}{(p_i)^2}
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl_summary</span>(data) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="ylgfgbqbsk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ylgfgbqbsk table {
+<div id="wvqmnmfylc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#wvqmnmfylc table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#ylgfgbqbsk thead, #ylgfgbqbsk tbody, #ylgfgbqbsk tfoot, #ylgfgbqbsk tr, #ylgfgbqbsk td, #ylgfgbqbsk th {
+#wvqmnmfylc thead, #wvqmnmfylc tbody, #wvqmnmfylc tfoot, #wvqmnmfylc tr, #wvqmnmfylc td, #wvqmnmfylc th {
 border-style: none;
 }
-#ylgfgbqbsk p {
+#wvqmnmfylc p {
 margin: 0;
 padding: 0;
 }
-#ylgfgbqbsk .gt_table {
+#wvqmnmfylc .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -3488,11 +3509,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#ylgfgbqbsk .gt_caption {
+#wvqmnmfylc .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#ylgfgbqbsk .gt_title {
+#wvqmnmfylc .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -3503,7 +3524,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#ylgfgbqbsk .gt_subtitle {
+#wvqmnmfylc .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -3514,7 +3535,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#ylgfgbqbsk .gt_heading {
+#wvqmnmfylc .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -3525,12 +3546,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#ylgfgbqbsk .gt_bottom_border {
+#wvqmnmfylc .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#ylgfgbqbsk .gt_col_headings {
+#wvqmnmfylc .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -3544,7 +3565,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#ylgfgbqbsk .gt_col_heading {
+#wvqmnmfylc .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3563,7 +3584,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#ylgfgbqbsk .gt_column_spanner_outer {
+#wvqmnmfylc .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3574,13 +3595,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#ylgfgbqbsk .gt_column_spanner_outer:first-child {
+#wvqmnmfylc .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#ylgfgbqbsk .gt_column_spanner_outer:last-child {
+#wvqmnmfylc .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#ylgfgbqbsk .gt_column_spanner {
+#wvqmnmfylc .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -3591,10 +3612,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#ylgfgbqbsk .gt_spanner_row {
+#wvqmnmfylc .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#ylgfgbqbsk .gt_group_heading {
+#wvqmnmfylc .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3619,7 +3640,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#ylgfgbqbsk .gt_empty_group_heading {
+#wvqmnmfylc .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -3633,13 +3654,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#ylgfgbqbsk .gt_from_md > :first-child {
+#wvqmnmfylc .gt_from_md > :first-child {
 margin-top: 0;
 }
-#ylgfgbqbsk .gt_from_md > :last-child {
+#wvqmnmfylc .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#ylgfgbqbsk .gt_row {
+#wvqmnmfylc .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3657,7 +3678,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#ylgfgbqbsk .gt_stub {
+#wvqmnmfylc .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3669,7 +3690,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ylgfgbqbsk .gt_stub_row_group {
+#wvqmnmfylc .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3682,13 +3703,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#ylgfgbqbsk .gt_row_group_first td {
+#wvqmnmfylc .gt_row_group_first td {
 border-top-width: 2px;
 }
-#ylgfgbqbsk .gt_row_group_first th {
+#wvqmnmfylc .gt_row_group_first th {
 border-top-width: 2px;
 }
-#ylgfgbqbsk .gt_summary_row {
+#wvqmnmfylc .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -3697,14 +3718,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ylgfgbqbsk .gt_first_summary_row {
+#wvqmnmfylc .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#ylgfgbqbsk .gt_first_summary_row.thick {
+#wvqmnmfylc .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#ylgfgbqbsk .gt_last_summary_row {
+#wvqmnmfylc .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3713,7 +3734,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#ylgfgbqbsk .gt_grand_summary_row {
+#wvqmnmfylc .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -3722,7 +3743,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ylgfgbqbsk .gt_first_grand_summary_row {
+#wvqmnmfylc .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3731,7 +3752,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#ylgfgbqbsk .gt_last_grand_summary_row_top {
+#wvqmnmfylc .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3740,10 +3761,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#ylgfgbqbsk .gt_striped {
+#wvqmnmfylc .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#ylgfgbqbsk .gt_table_body {
+#wvqmnmfylc .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -3751,7 +3772,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#ylgfgbqbsk .gt_footnotes {
+#wvqmnmfylc .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -3764,7 +3785,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#ylgfgbqbsk .gt_footnote {
+#wvqmnmfylc .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -3772,7 +3793,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ylgfgbqbsk .gt_sourcenotes {
+#wvqmnmfylc .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -3785,64 +3806,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#ylgfgbqbsk .gt_sourcenote {
+#wvqmnmfylc .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ylgfgbqbsk .gt_left {
+#wvqmnmfylc .gt_left {
 text-align: left;
 }
-#ylgfgbqbsk .gt_center {
+#wvqmnmfylc .gt_center {
 text-align: center;
 }
-#ylgfgbqbsk .gt_right {
+#wvqmnmfylc .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#ylgfgbqbsk .gt_font_normal {
+#wvqmnmfylc .gt_font_normal {
 font-weight: normal;
 }
-#ylgfgbqbsk .gt_font_bold {
+#wvqmnmfylc .gt_font_bold {
 font-weight: bold;
 }
-#ylgfgbqbsk .gt_font_italic {
+#wvqmnmfylc .gt_font_italic {
 font-style: italic;
 }
-#ylgfgbqbsk .gt_super {
+#wvqmnmfylc .gt_super {
 font-size: 65%;
 }
-#ylgfgbqbsk .gt_footnote_marks {
+#wvqmnmfylc .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#ylgfgbqbsk .gt_asterisk {
+#wvqmnmfylc .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#ylgfgbqbsk .gt_indent_1 {
+#wvqmnmfylc .gt_indent_1 {
 text-indent: 5px;
 }
-#ylgfgbqbsk .gt_indent_2 {
+#wvqmnmfylc .gt_indent_2 {
 text-indent: 10px;
 }
-#ylgfgbqbsk .gt_indent_3 {
+#wvqmnmfylc .gt_indent_3 {
 text-indent: 15px;
 }
-#ylgfgbqbsk .gt_indent_4 {
+#wvqmnmfylc .gt_indent_4 {
 text-indent: 20px;
 }
-#ylgfgbqbsk .gt_indent_5 {
+#wvqmnmfylc .gt_indent_5 {
 text-indent: 25px;
 }
-#ylgfgbqbsk .katex-display {
+#wvqmnmfylc .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#ylgfgbqbsk div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#wvqmnmfylc div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -4098,6 +4119,9 @@ Khine, Wai Wai, and Zaw Tun. 2022. <span>“Diabetes Prediction Based on Machine
 </div>
 <div id="ref-mbonyinshuti2022demand" class="csl-entry" role="listitem">
 Mbonyinshuti, François, Jean Nshimiyimana, and Claude Uwitonze. 2022. <span>“Application of Random Forest Model to Predict the Demand of Essential Medicines for Non-Communicable Diseases Management in Public Health Facilities.”</span> <em>Pan African Medical Journal</em> 42: 89. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9379432/">https://pmc.ncbi.nlm.nih.gov/articles/PMC9379432/</a>.
+</div>
+<div id="ref-oshiro2012many" class="csl-entry" role="listitem">
+Oshiro, Thais Mayumi, Pedro Santoro Perez, and José Augusto Baranauskas. 2012. <span>“How Many Trees in a Random Forest?”</span> In <em>Machine Learning and Data Mining in Pattern Recognition: 8th International Conference, MLDM 2012, Berlin, Germany, July 13-20, 2012. Proceedings 8</em>, 154–68. Springer. <a href="https://doi.org/10.1007/978-3-642-31537-4_13">https://doi.org/10.1007/978-3-642-31537-4_13</a>.
 </div>
 <div id="ref-probst2019rfhealth" class="csl-entry" role="listitem">
 Probst, Philipp, Marvin N. Wright, and Anne-Laure Boulesteix. 2019a. <span>“Random Forest Algorithms in Health Care Sectors: A Review of Applications.”</span> <em>Wiley Interdisciplinary Reviews: Data Mining and Knowledge Discovery</em> 9 (3): e1301. <a href="https://www.researchgate.net/publication/358128515_Random_Forest_Algorithms_in_Health_Care_Sectors_A_Review_of_Applications">https://www.researchgate.net/publication/358128515_Random_Forest_Algorithms_in_Health_Care_Sectors_A_Review_of_Applications</a>.
