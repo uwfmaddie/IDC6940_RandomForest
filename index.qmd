@@ -279,11 +279,9 @@ library(data.table)
 library(knitr)
 #install.packages("gtsummary")
 library(gtsummary)
-```
 
-```{r}
+#read data to dataframe
 data <- read.csv('heart.csv')
-class(data)
 #head(data,5)
 ```
 
@@ -450,6 +448,8 @@ dmy <- dummyVars(" ~ .", data = newdata)
 encoded <- data.frame(predict(dmy, newdata = newdata))
 kable(encoded[1:3, ])
 ```
+
+
 
 
 ### Conclusion
