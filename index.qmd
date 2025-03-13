@@ -422,21 +422,19 @@ predictions of heart disease.
 
 ***Data Preprocessing and Cleaning***
 
-We found there to be no missing data in the data exploration phase, and
-therefore will not remove null values. We did find that there were some
-RestingBP and Cholesterol values of 0.
+While there was no null or NA missing values found in the data set, we did find that there were some RestingBP and Cholesterol values of 0. There was one row with a RestingBP = 0 and 172 rows with Cholesterol = 0. We decided to drop these rows from the data set, as they were missing valid data.
 
 ```{r}
+#| include: false
 bp0 <- sum(data$RestingBP == '0')
 bp0
-```
-
-```{r}
 cho1 <- sum(data$Cholesterol == '0' & data$HeartDisease == '1')
 cho1
 cho2 <- sum(data$Cholesterol == '0' & data$HeartDisease == '0')
 cho2
 ```
+
+
 
 ### Conclusion
 
