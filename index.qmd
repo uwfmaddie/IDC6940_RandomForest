@@ -441,8 +441,15 @@ newdata <- data[data$Cholesterol != 0, ]
 bp0 <- sum(newdata$RestingBP == '0') #results in 0
 cho <- sum(newdata$Cholesterol == '0') #results in 0
 ```
+Our next step is to encode the data. The random forest alogorithm, along with most machine learning algorithms, functions best with numerical values. Therefore, we will transform the categorical variables to numeric. We will use one-hot encoding to transform the categorical variables into a binary column that indicates the presense (1) or absence (0) of the category.
 
-
+Encoded Data Preview
+```{r}
+library(caret)
+dmy <- dummyVars(" ~ .", data = newdata)
+encoded <- data.frame(predict(dmy, newdata = newdata))
+kable(encoded[1:3, ])
+```
 
 
 ### Conclusion
