@@ -446,9 +446,37 @@ Encoded Data Preview
 library(caret)
 dmy <- dummyVars(" ~ .", data = newdata)
 encoded <- data.frame(predict(dmy, newdata = newdata))
+encoded$HeartDisease <- as.factor(encoded$HeartDisease)
 kable(encoded[1:3, ])
 ```
 
+Splitting the Data - 80% Train and 20% Test
+```{r}
+#install.packages("caTools")
+library(caTools)
+## set seed for reproducibility
+set.seed(555)
+
+ind = sample.split(Y = encoded$HeartDisease, SplitRatio = 0.7)
+
+#subsetting into Train data
+train = encoded[ind,]
+
+#subsetting into Test data
+test = encoded[!ind,]
+```
+```{r}
+library(randomForest)
+rf <- randomForest(HeartDisease ~ .,  
+                        data = train,  
+                        n_tree=100)
+print(rf)
+
+prediction <- predict(rf, newdata = test)
+
+accuracy <- sum(prediction==test$HeartDisease) / nrow(test)
+accuracy
+```
 
 
 
