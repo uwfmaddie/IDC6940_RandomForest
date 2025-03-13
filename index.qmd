@@ -108,11 +108,37 @@ effectively separates cases from controls, for instance
 testing continues until either “pure” nodes are reached (containing only
 cases or controls) or some pre-defined endpoint [@rigatti2017random].
 
-![Figure 1. [@probst2019rfhealth]](RF.png)
+```{r}
+table = data.frame(Hyperparameter = c("mtry",
+                                      "Sample size",
+                                      "Replacement",
+                                      "Node size",
+                                      "Number of trees",
+                                      "Splitting rule"),
+Description = c("Number of drawn candidate variables in each split",
+                "Number of observations that are drawn for each tree",
+                "Draw observations with or without replacement",
+                "Minimum number of observations in a terminal node",
+                "Number of trees in a forest",
+                "Splitting criteria in the nodes"),
+"Typical Default Values" = c("sqrt(p), p/3 for regression",
+                           "n",
+                           "TRUE (with replacement)",
+                           "1 for classification, 5 for regression",
+                           "500, 1,000",
+                           "Gini impurity, p value, random")
+)
 
-![Figure 2. [@probst2019hyperparameters]](RF2.png)
+knitr::kable(table, 
+             caption = "Overview of the different hyperparameters of random forest and typical devault values. n is the number of observations and p is the number of variables in the dataset",
+             col.names = c("Hyperparameter",
+                           "Description",
+                           "Typical Default Values"))
+```
 
-Figure 2 provides an overview of the hyperparameters available to tune
+Table 1. [@probst2019hyperparameters]
+
+Table 1 provides an overview of the hyperparameters available to tune
 the decision forest, along with the recommended or default values. The
 decision forest algorithm is designed to work well without much tuning.
 It’s been found that an increased number of trees provides a better
@@ -169,15 +195,13 @@ For the model evaluation, the following metrics will be applied:
     curve graphs the true positive rate over the false positive rate.
     The higher the ROC AUC, the better.
 
--   F1-score:
-$$
-F1 = \frac{2*(Precision*Recall)}{(Precision + Recall)}
-$$
+-   F1-score: $$
+    F1 = \frac{2*(Precision*Recall)}{(Precision + Recall)}
+    $$
 
--   Precision:
-$$
-Precision = \frac{True Positives}{(True Positives + False Positives)}
-$$
+-   Precision: $$
+    Precision = \frac{True Positives}{(True Positives + False Positives)}
+    $$
 
 ***Advantages/Disadvantages***
 
@@ -236,7 +260,7 @@ predict whether the patient has heart disease or not.
     having ST-T wave abnormality, LVH: showing probable or definite left
     ventricular hypertrophy by Estes' criteria)
 -   **MaxHR**: Maximum heart rate achieved (Numeric value between 60 and
-    202)
+    202) 
 -   **ExerciseAngina**: Exercise-induced angina (Y: Yes, N: No)
 -   **Oldpeak**: Oldpeak = ST (Numeric value measured in depression)
 -   **ST_Slope**: The slope of the peak exercise ST segment (Up:
@@ -396,16 +420,22 @@ predictions of heart disease.
 
 ### Modeling and Results
 
--   Explain your data preprocessing and cleaning steps.
+***Data Preprocessing and Cleaning***
 
--   Present your key findings in a clear and concise manner.
-
--   Use visuals to support your claims.
-
--   **Tell a story about what the data reveals.**
+We found there to be no missing data in the data exploration phase, and
+therefore will not remove null values. We did find that there were some
+RestingBP and Cholesterol values of 0.
 
 ```{r}
+bp0 <- sum(data$RestingBP == '0')
+bp0
+```
 
+```{r}
+cho1 <- sum(data$Cholesterol == '0' & data$HeartDisease == '1')
+cho1
+cho2 <- sum(data$Cholesterol == '0' & data$HeartDisease == '0')
+cho2
 ```
 
 ### Conclusion
