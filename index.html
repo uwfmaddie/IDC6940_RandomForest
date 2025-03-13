@@ -3436,23 +3436,30 @@ Precision = \frac{True Positives}{(True Positives + False Positives)}
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;heart.csv&#39;</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#head(data,5)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] &quot;data.frame&quot;</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#head(data,5)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p><strong><em>Table 1: Data Structure Overview</em></strong></p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to a data.table</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>data_dt <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(data)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the structure table with Column, Type, and Sample Values</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>structure_table <span class="ot">&lt;-</span> data_dt[, .(<span class="at">Column =</span> <span class="fu">names</span>(data_dt), </span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                               <span class="at">Type =</span> <span class="fu">sapply</span>(data_dt, class), </span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                               <span class="at">values =</span> <span class="fu">lapply</span>(data_dt, <span class="cf">function</span>(x) <span class="fu">paste</span>(<span class="fu">head</span>(x, <span class="dv">5</span>), <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>)))]</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># display the table </span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(structure_table, <span class="at">caption =</span> <span class="st">&quot;Data Structure Overview&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to a data.table</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>data_dt <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(data)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the structure table with Column, Type, and Sample Values</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>structure_table <span class="ot">&lt;-</span> data_dt[, .(<span class="at">Column =</span> <span class="fu">names</span>(data_dt), </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                               <span class="at">Type =</span> <span class="fu">sapply</span>(data_dt, class), </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                               <span class="at">values =</span> <span class="fu">lapply</span>(data_dt, <span class="cf">function</span>(x) <span class="fu">paste</span>(<span class="fu">head</span>(x, <span class="dv">5</span>), <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>)))]</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># display the table </span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(structure_table, <span class="at">caption =</span> <span class="st">&quot;Data Structure Overview&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -3535,24 +3542,24 @@ Precision = \frac{True Positives}{(True Positives + False Positives)}
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># statistics of the dataset </span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl_summary</span>(data) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># statistics of the dataset </span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl_summary</span>(data) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="klzjbelajg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#klzjbelajg table {
+<div id="ipcszjyxkv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ipcszjyxkv table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#klzjbelajg thead, #klzjbelajg tbody, #klzjbelajg tfoot, #klzjbelajg tr, #klzjbelajg td, #klzjbelajg th {
+#ipcszjyxkv thead, #ipcszjyxkv tbody, #ipcszjyxkv tfoot, #ipcszjyxkv tr, #ipcszjyxkv td, #ipcszjyxkv th {
 border-style: none;
 }
-#klzjbelajg p {
+#ipcszjyxkv p {
 margin: 0;
 padding: 0;
 }
-#klzjbelajg .gt_table {
+#ipcszjyxkv .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -3577,11 +3584,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#klzjbelajg .gt_caption {
+#ipcszjyxkv .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#klzjbelajg .gt_title {
+#ipcszjyxkv .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -3592,7 +3599,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#klzjbelajg .gt_subtitle {
+#ipcszjyxkv .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -3603,7 +3610,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#klzjbelajg .gt_heading {
+#ipcszjyxkv .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -3614,12 +3621,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#klzjbelajg .gt_bottom_border {
+#ipcszjyxkv .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#klzjbelajg .gt_col_headings {
+#ipcszjyxkv .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -3633,7 +3640,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#klzjbelajg .gt_col_heading {
+#ipcszjyxkv .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3652,7 +3659,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#klzjbelajg .gt_column_spanner_outer {
+#ipcszjyxkv .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3663,13 +3670,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#klzjbelajg .gt_column_spanner_outer:first-child {
+#ipcszjyxkv .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#klzjbelajg .gt_column_spanner_outer:last-child {
+#ipcszjyxkv .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#klzjbelajg .gt_column_spanner {
+#ipcszjyxkv .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -3680,10 +3687,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#klzjbelajg .gt_spanner_row {
+#ipcszjyxkv .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#klzjbelajg .gt_group_heading {
+#ipcszjyxkv .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3708,7 +3715,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#klzjbelajg .gt_empty_group_heading {
+#ipcszjyxkv .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -3722,13 +3729,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#klzjbelajg .gt_from_md > :first-child {
+#ipcszjyxkv .gt_from_md > :first-child {
 margin-top: 0;
 }
-#klzjbelajg .gt_from_md > :last-child {
+#ipcszjyxkv .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#klzjbelajg .gt_row {
+#ipcszjyxkv .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3746,7 +3753,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#klzjbelajg .gt_stub {
+#ipcszjyxkv .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3758,7 +3765,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#klzjbelajg .gt_stub_row_group {
+#ipcszjyxkv .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3771,13 +3778,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#klzjbelajg .gt_row_group_first td {
+#ipcszjyxkv .gt_row_group_first td {
 border-top-width: 2px;
 }
-#klzjbelajg .gt_row_group_first th {
+#ipcszjyxkv .gt_row_group_first th {
 border-top-width: 2px;
 }
-#klzjbelajg .gt_summary_row {
+#ipcszjyxkv .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -3786,14 +3793,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#klzjbelajg .gt_first_summary_row {
+#ipcszjyxkv .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#klzjbelajg .gt_first_summary_row.thick {
+#ipcszjyxkv .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#klzjbelajg .gt_last_summary_row {
+#ipcszjyxkv .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3802,7 +3809,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#klzjbelajg .gt_grand_summary_row {
+#ipcszjyxkv .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -3811,7 +3818,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#klzjbelajg .gt_first_grand_summary_row {
+#ipcszjyxkv .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3820,7 +3827,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#klzjbelajg .gt_last_grand_summary_row_top {
+#ipcszjyxkv .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3829,10 +3836,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#klzjbelajg .gt_striped {
+#ipcszjyxkv .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#klzjbelajg .gt_table_body {
+#ipcszjyxkv .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -3840,7 +3847,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#klzjbelajg .gt_footnotes {
+#ipcszjyxkv .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -3853,7 +3860,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#klzjbelajg .gt_footnote {
+#ipcszjyxkv .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -3861,7 +3868,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#klzjbelajg .gt_sourcenotes {
+#ipcszjyxkv .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -3874,64 +3881,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#klzjbelajg .gt_sourcenote {
+#ipcszjyxkv .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#klzjbelajg .gt_left {
+#ipcszjyxkv .gt_left {
 text-align: left;
 }
-#klzjbelajg .gt_center {
+#ipcszjyxkv .gt_center {
 text-align: center;
 }
-#klzjbelajg .gt_right {
+#ipcszjyxkv .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#klzjbelajg .gt_font_normal {
+#ipcszjyxkv .gt_font_normal {
 font-weight: normal;
 }
-#klzjbelajg .gt_font_bold {
+#ipcszjyxkv .gt_font_bold {
 font-weight: bold;
 }
-#klzjbelajg .gt_font_italic {
+#ipcszjyxkv .gt_font_italic {
 font-style: italic;
 }
-#klzjbelajg .gt_super {
+#ipcszjyxkv .gt_super {
 font-size: 65%;
 }
-#klzjbelajg .gt_footnote_marks {
+#ipcszjyxkv .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#klzjbelajg .gt_asterisk {
+#ipcszjyxkv .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#klzjbelajg .gt_indent_1 {
+#ipcszjyxkv .gt_indent_1 {
 text-indent: 5px;
 }
-#klzjbelajg .gt_indent_2 {
+#ipcszjyxkv .gt_indent_2 {
 text-indent: 10px;
 }
-#klzjbelajg .gt_indent_3 {
+#ipcszjyxkv .gt_indent_3 {
 text-indent: 15px;
 }
-#klzjbelajg .gt_indent_4 {
+#ipcszjyxkv .gt_indent_4 {
 text-indent: 20px;
 }
-#klzjbelajg .gt_indent_5 {
+#ipcszjyxkv .gt_indent_5 {
 text-indent: 25px;
 }
-#klzjbelajg .katex-display {
+#ipcszjyxkv .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#klzjbelajg div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ipcszjyxkv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -4074,36 +4081,36 @@ height: 0px !important;
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The distribution of &#39;Age&#39; with a histogram - normal distribution</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ageplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Age)) <span class="sc">+</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Age Distribution&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Age&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># The distribution of &#39;Heart Disease&#39; with a histogram - no class imbalance</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>hdplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> HeartDisease)) <span class="sc">+</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Heart Disease Class Distribution&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Heart Disease&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>)</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co"># The distribution of &#39;Sex&#39; with a histogram - imbalance: ~4x more males than females</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>splot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Sex)) <span class="sc">+</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Sex Distribution&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Sex&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>)</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co"># The distribution of &#39;Cholesterol&#39; with a histogram - over 150 records with a cholesterol of 0; otherwise normal distribution</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>cplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Cholesterol)) <span class="sc">+</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Cholesterol Distribution&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Cholesterol&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>)</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(hdplot, splot, ageplot, cplot, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The distribution of &#39;Age&#39; with a histogram - normal distribution</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ageplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Age)) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Age Distribution&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Age&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># The distribution of &#39;Heart Disease&#39; with a histogram - no class imbalance</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>hdplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> HeartDisease)) <span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Heart Disease Class Distribution&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Heart Disease&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co"># The distribution of &#39;Sex&#39; with a histogram - imbalance: ~4x more males than females</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>splot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Sex)) <span class="sc">+</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Sex Distribution&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Sex&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>)</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="co"># The distribution of &#39;Cholesterol&#39; with a histogram - over 150 records with a cholesterol of 0; otherwise normal distribution</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>cplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Cholesterol)) <span class="sc">+</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Cholesterol Distribution&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Cholesterol&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>)</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(hdplot, splot, ageplot, cplot, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -4125,12 +4132,12 @@ height: 0px !important;
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># correlation matrix for numeric features</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>numeric_data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">where</span>(is.numeric))</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>cor_matrix <span class="ot">&lt;-</span> <span class="fu">cor</span>(numeric_data)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(cor_matrix, <span class="at">method =</span> <span class="st">&quot;circle&quot;</span>, <span class="at">type =</span> <span class="st">&quot;upper&quot;</span>, </span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.col =</span> <span class="st">&quot;black&quot;</span>, <span class="at">tl.cex =</span> <span class="fl">0.7</span>, <span class="at">addCoef.col =</span> <span class="st">&quot;black&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># correlation matrix for numeric features</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>numeric_data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">where</span>(is.numeric))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>cor_matrix <span class="ot">&lt;-</span> <span class="fu">cor</span>(numeric_data)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(cor_matrix, <span class="at">method =</span> <span class="st">&quot;circle&quot;</span>, <span class="at">type =</span> <span class="st">&quot;upper&quot;</span>, </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.col =</span> <span class="st">&quot;black&quot;</span>, <span class="at">tl.cex =</span> <span class="fl">0.7</span>, <span class="at">addCoef.col =</span> <span class="st">&quot;black&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -4148,6 +4155,16 @@ height: 0px !important;
 <h3 class="anchored" data-anchor-id="modeling-and-results">Modeling and Results</h3>
 <p><strong><em>Data Preprocessing and Cleaning</em></strong></p>
 <p>While there was no null or NA missing values found in the data set, we did find that there were some RestingBP and Cholesterol values of 0. There was one row with a RestingBP = 0 and 172 rows with Cholesterol = 0. We decided to drop these rows from the data set, as they were missing valid data.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Remove the bad data</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>newdata <span class="ot">&lt;-</span> data[data<span class="sc">$</span>Cholesterol <span class="sc">!=</span> <span class="dv">0</span>, ]</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>bp0 <span class="ot">&lt;-</span> <span class="fu">sum</span>(newdata<span class="sc">$</span>RestingBP <span class="sc">==</span> <span class="st">&#39;0&#39;</span>) <span class="co">#results in 0</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>cho <span class="ot">&lt;-</span> <span class="fu">sum</span>(newdata<span class="sc">$</span>Cholesterol <span class="sc">==</span> <span class="st">&#39;0&#39;</span>) <span class="co">#results in 0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
 <section id="conclusion" class="level3">
 <h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>

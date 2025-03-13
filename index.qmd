@@ -283,6 +283,7 @@ library(gtsummary)
 
 ```{r}
 data <- read.csv('heart.csv')
+class(data)
 #head(data,5)
 ```
 
@@ -433,6 +434,14 @@ cho1
 cho2 <- sum(data$Cholesterol == '0' & data$HeartDisease == '0')
 cho2
 ```
+```{r}
+#Remove the bad data
+newdata <- data[data$Cholesterol != 0, ]
+
+bp0 <- sum(newdata$RestingBP == '0') #results in 0
+cho <- sum(newdata$Cholesterol == '0') #results in 0
+```
+
 
 
 
