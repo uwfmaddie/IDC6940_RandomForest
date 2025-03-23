@@ -108,6 +108,10 @@ effectively separates cases from controls, for instance
 testing continues until either “pure” nodes are reached (containing only
 cases or controls) or some pre-defined endpoint [@rigatti2017random].
 
+***Hyper parameters  Overview***
+
+Table 1 below shows a summary of the different hyperparameters of random forest and typical default values. Here, n is the number of observations and p is the number of variables in the dataset.
+
 ```{r}
 table = data.frame(Hyperparameter = c("mtry",
                                       "Sample size",
@@ -130,7 +134,7 @@ Description = c("Number of drawn candidate variables in each split",
 )
 
 knitr::kable(table, 
-             caption = "Overview of the different hyperparameters of random forest and typical devault values. n is the number of observations and p is the number of variables in the dataset",
+             caption = "Overview of the different hyperparameters",
              col.names = c("Hyperparameter",
                            "Description",
                            "Typical Default Values"))
@@ -147,6 +151,8 @@ accuracy, and only a decrease or slow down in performance with too many
 trees. The hyperparameter ‘mtry’ has been found to have the most
 influence, where the best value of ‘mtry’ depends on the number of
 variables that are related to the outcome [@probst2019hyperparameters].
+
+***Gini Impurity***
 
 The random forest algorithm uses the Gini measure of impurity to select
 the split with the lowest impurity at every node
@@ -172,9 +178,9 @@ model will be fitted to the data so the presence or lack of heart
 disease (HeartDisease) can be predicted. This variable is the target
 (0 - No Heart Disease, 1 - Heart Disease).
 
-***Model Training***\
+***Model Training***
 In order to train the model, a dataset will first be created by
-splitting it into an 80% training and 20% testing set for evaluation.
+splitting it into an 70% training and 30% testing set for evaluation.
 The random forest will have an ensemble of 100 decision trees
 (n_estimators = 100) and the mtry value for each split will be the
 square root of the total number of features [@oshiro2012many]. The Gini
@@ -182,7 +188,7 @@ impurity metric will be utilized and will ensure that the most
 informative features are selected [@khalilia2011predicting]. Other
 parameter control methodologies such as grid or randomized search will
 be used to optimize the number of trees, maximum depth, and minimum
-sample split (Probst, Wright, & Boulesteix, 2019b).
+sample split [@probst2019hyperparameters].
 
 ***Model Evaluation and Performance Metrics***
 
@@ -194,14 +200,21 @@ For the model evaluation, the following metrics will be applied:
     of the ROC (receiver-operating characteristic curve) curve. The ROC
     curve graphs the true positive rate over the false positive rate.
     The higher the ROC AUC, the better.
+    $$
+\text{AUC-ROC} = \int_{0}^{1} \text{TPR} \left( \text{FPR}^{-1}(x) \right) \, dx
+    $$
 
--   F1-score: $$
+-   Precision: Precision is the ratio of the true positive predictions to the total number of positive predictions $$
+    Precision = \frac{True Positives}{(True Positives + False Positives)}
+    $$
+-   Recall (Sensitivity): Recall is the ratio of the true positive predictions to all the actual positive instances: 
+$$\text{Recall} = \frac{TruePositives}{TruePositives + FalseNegatives}$$
+
+-   F1-score: F1 score is the average of precision and recall.
+    $$
     F1 = \frac{2*(Precision*Recall)}{(Precision + Recall)}
     $$
 
--   Precision: $$
-    Precision = \frac{True Positives}{(True Positives + False Positives)}
-    $$
 
 ***Advantages/Disadvantages***
 
@@ -231,6 +244,7 @@ complex non-linear relationships in healthcare data
 provision of feature importance indices, which enhances the model’s
 interpretability by medical practitioners concerning risk prediction and
 proactive measures’ implementation[@khalilia2011predicting]
+
 
 ## Analysis and Results
 
@@ -441,7 +455,7 @@ cho <- sum(newdata$Cholesterol == '0') #results in 0
 ```
 Our next step is to encode the data. The random forest alogorithm, along with most machine learning algorithms, functions best with numerical values. Therefore, we will transform the categorical variables to numeric. We will use one-hot encoding to transform the categorical variables into a binary column that indicates the presense (1) or absence (0) of the category.
 
-Encoded Data Preview
+***Encoded Data Preview***
 ```{r}
 library(caret)
 dmy <- dummyVars(" ~ .", data = newdata)
@@ -450,7 +464,7 @@ encoded$HeartDisease <- as.factor(encoded$HeartDisease)
 kable(encoded[1:3, ])
 ```
 
-Splitting the Data - 80% Train and 20% Test
+***Splitting the Data***(70% Train and 30% Test)
 ```{r}
 #install.packages("caTools")
 library(caTools)
@@ -465,21 +479,60 @@ train = encoded[ind,]
 #subsetting into Test data
 test = encoded[!ind,]
 ```
+
+***Model Fitting and Prediction***
 ```{r}
 library(randomForest)
 rf <- randomForest(HeartDisease ~ .,  
                         data = train,  
                         n_tree=100)
-print(rf)
+#print(rf)
 
 prediction <- predict(rf, newdata = test)
-
-accuracy <- sum(prediction==test$HeartDisease) / nrow(test)
-accuracy
 ```
 
+***Accuracy***
+```{r}
+accuracy <- sum(prediction==test$HeartDisease) / nrow(test)
+cat("Accuracy:", sprintf("%.1f%%", accuracy * 100))
+```
 
+***ROC Curve and AUC***
+```{r}
+library(pROC)
+rf_roc <- roc(as.numeric(test$HeartDisease), as.numeric(prediction))
+plot(rf_roc, main = "ROC Curve", col = "blue")
+auc(rf_roc)
+```
 
+***Confusion Matrix***
+```{r}
+
+library(ggplot2)
+library(yardstick)
+results_df <- tibble(
+  truth = test$HeartDisease,
+  prediction = prediction
+)
+
+conf_plot <- conf_mat(results_df, truth = truth, estimate = prediction)
+conf_data <- as.data.frame(conf_plot$table)
+names(conf_data) <- c("Prediction", "Truth", "Freq")
+
+ggplot(conf_data, aes(x = Truth, y = Prediction, fill = Freq)) +
+  geom_tile(color = "white") +
+  geom_text(aes(label = Freq), size = 5) +
+  scale_fill_gradient(low = "#deebf7", high = "#3182bd") +
+  labs(title = "Confusion Matrix", x = "Actual", y = "Predicted") +
+  theme_minimal()
+
+```
+
+***Feature Importance Plot***
+
+```{r}
+varImpPlot(rf, main = "Variable Importance")
+```
 ### Conclusion
 
 -   Summarize your key findings.
