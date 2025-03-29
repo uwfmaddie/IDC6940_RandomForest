@@ -108,9 +108,11 @@ effectively separates cases from controls, for instance
 testing continues until either “pure” nodes are reached (containing only
 cases or controls) or some pre-defined endpoint [@rigatti2017random].
 
-***Hyper parameters  Overview***
+***Hyper parameters Overview***
 
-Table 1 below shows a summary of the different hyperparameters of random forest and typical default values. Here, n is the number of observations and p is the number of variables in the dataset.
+Table 1 below shows a summary of the different hyperparameters of random
+forest and typical default values. Here, n is the number of observations
+and p is the number of variables in the dataset.
 
 ```{r}
 table = data.frame(Hyperparameter = c("mtry",
@@ -179,6 +181,7 @@ disease (HeartDisease) can be predicted. This variable is the target
 (0 - No Heart Disease, 1 - Heart Disease).
 
 ***Model Training***
+
 In order to train the model, a dataset will first be created by
 splitting it into an 70% training and 30% testing set for evaluation.
 The random forest will have an ensemble of 100 decision trees
@@ -199,22 +202,22 @@ For the model evaluation, the following metrics will be applied:
     [@probst2019rfhealth]. The AUC ROC Score is the area under the curve
     of the ROC (receiver-operating characteristic curve) curve. The ROC
     curve graphs the true positive rate over the false positive rate.
-    The higher the ROC AUC, the better.
-    $$
-\text{AUC-ROC} = \int_{0}^{1} \text{TPR} \left( \text{FPR}^{-1}(x) \right) \, dx
+    The higher the ROC AUC, the better. $$
+    \text{AUC-ROC} = \int_{0}^{1} \text{TPR} \left( \text{FPR}^{-1}(x) \right) \, dx
     $$
 
--   Precision: Precision is the ratio of the true positive predictions to the total number of positive predictions $$
+-   Precision: Precision is the ratio of the true positive predictions
+    to the total number of positive predictions $$
     Precision = \frac{True Positives}{(True Positives + False Positives)}
     $$
--   Recall (Sensitivity): Recall is the ratio of the true positive predictions to all the actual positive instances: 
-$$\text{Recall} = \frac{TruePositives}{TruePositives + FalseNegatives}$$
 
--   F1-score: F1 score is the average of precision and recall.
-    $$
+-   Recall (Sensitivity): Recall is the ratio of the true positive
+    predictions to all the actual positive instances:
+    $$\text{Recall} = \frac{TruePositives}{TruePositives + FalseNegatives}$$
+
+-   F1-score: F1 score is the average of precision and recall. $$
     F1 = \frac{2*(Precision*Recall)}{(Precision + Recall)}
     $$
-
 
 ***Advantages/Disadvantages***
 
@@ -244,7 +247,6 @@ complex non-linear relationships in healthcare data
 provision of feature importance indices, which enhances the model’s
 interpretability by medical practitioners concerning risk prediction and
 proactive measures’ implementation[@khalilia2011predicting]
-
 
 ## Analysis and Results
 
@@ -433,9 +435,20 @@ predictions of heart disease.
 
 ### Modeling and Results
 
+In this section, we will begin with performing any necessary cleaning
+and preprocessing of the data. We will then use the decision tree
+algorithm to demonstrate how a decision tree works, and show the
+performance of one tree. The next step will be using the random forest
+algorithm, which is a combination of decision trees, to see how it
+performs in comparison, ideally providing a more accurate prediction.
+
 ***Data Preprocessing and Cleaning***
 
-While there was no null or NA missing values found in the data set, we did find that there were some RestingBP and Cholesterol values of 0. There was one row with a RestingBP = 0 and 172 rows with Cholesterol = 0. We decided to drop these rows from the data set, as they were missing valid data.
+While there was no null or NA missing values found in the data set, we
+did find that there were some RestingBP and Cholesterol values of 0.
+There was one row with a RestingBP = 0 and 172 rows with Cholesterol =
+0. We decided to drop these rows from the data set, as they were missing
+valid data.
 
 ```{r}
 #| include: false
@@ -446,6 +459,7 @@ cho1
 cho2 <- sum(data$Cholesterol == '0' & data$HeartDisease == '0')
 cho2
 ```
+
 ```{r}
 #Remove the bad data
 newdata <- data[data$Cholesterol != 0, ]
@@ -453,9 +467,16 @@ newdata <- data[data$Cholesterol != 0, ]
 bp0 <- sum(newdata$RestingBP == '0') #results in 0
 cho <- sum(newdata$Cholesterol == '0') #results in 0
 ```
-Our next step is to encode the data. The random forest alogorithm, along with most machine learning algorithms, functions best with numerical values. Therefore, we will transform the categorical variables to numeric. We will use one-hot encoding to transform the categorical variables into a binary column that indicates the presense (1) or absence (0) of the category.
+
+Our next step is to encode the data. The random forest alogorithm, along
+with most machine learning algorithms, functions best with numerical
+values. Therefore, we will transform the categorical variables to
+numeric. We will use one-hot encoding to transform the categorical
+variables into a binary column that indicates the presense (1) or
+absence (0) of the category.
 
 ***Encoded Data Preview***
+
 ```{r}
 library(caret)
 dmy <- dummyVars(" ~ .", data = newdata)
@@ -464,7 +485,12 @@ encoded$HeartDisease <- as.factor(encoded$HeartDisease)
 kable(encoded[1:3, ])
 ```
 
-***Splitting the Data***(70% Train and 30% Test)
+***Splitting the Data*** (70% Train and 30% Test)
+
+We split the data set into training and test subsets. The training
+subset will contain 70% of the data, and the test subset will contain
+30% of the data.
+
 ```{r}
 #install.packages("caTools")
 library(caTools)
@@ -481,6 +507,38 @@ test = encoded[!ind,]
 ```
 
 ***Model Fitting and Prediction***
+
+**Decision Tree**
+
+We first demonstrate how a single decision tree would look for our data
+set. We achieved an accuracy of 81.7% without hyperparameter tuning. The
+decision tree can be followed to determine what the predicted end result
+would be. For example, if the patient has ST_SlopeUp = 1 and
+ChestPainTypeASY = 0; they likely do not have heart disease. If the
+patient has ST_SlopeUp = 0, MaxHR \< 151, SexF = 0, then the patient
+likely does have heart disease.
+
+```{r}
+library(rpart)
+library(rpart.plot)
+library(caret)
+tree <- rpart(HeartDisease ~ ., 
+                    data = train, 
+                    method = "class",
+                    control = rpart.control(minsplit = 10, cp = 0.01))
+
+rpart.plot(tree, box.palette = "auto", nn = TRUE)
+
+predictions <- predict(tree, test, type = "class")
+#confusionMatrix(predictions, test$HeartDisease)
+```
+
+**Random Forest**
+
+After gaining an understanding of how a single decision tree functions;
+we proceed with the bulk of our analysis using the random forest
+algorithm.
+
 ```{r}
 library(randomForest)
 rf <- randomForest(HeartDisease ~ .,  
@@ -492,12 +550,14 @@ prediction <- predict(rf, newdata = test)
 ```
 
 ***Accuracy***
+
 ```{r}
 accuracy <- sum(prediction==test$HeartDisease) / nrow(test)
 cat("Accuracy:", sprintf("%.1f%%", accuracy * 100))
 ```
 
 ***ROC Curve and AUC***
+
 ```{r}
 library(pROC)
 rf_roc <- roc(as.numeric(test$HeartDisease), as.numeric(prediction))
@@ -506,6 +566,7 @@ auc(rf_roc)
 ```
 
 ***Confusion Matrix***
+
 ```{r}
 
 library(ggplot2)
@@ -533,6 +594,7 @@ ggplot(conf_data, aes(x = Truth, y = Prediction, fill = Freq)) +
 ```{r}
 varImpPlot(rf, main = "Variable Importance")
 ```
+
 ### Conclusion
 
 -   Summarize your key findings.
