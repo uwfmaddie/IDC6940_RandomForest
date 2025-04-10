@@ -381,9 +381,10 @@ cplot <- ggplot(data, aes(x = Cholesterol)) +
 
 grid.arrange(hdplot, splot, ageplot, cplot, ncol = 2, nrow=2)
 ```
-
-Figure 1 outlines some distribution/trends which are relevant in
+- Distribution/trends which are relevant in
 predicting heart diseases.
+
+## Distribution Explanations {.smaller}
 
 -   **Heart Disease Distribution (Top-Left):** The distribution is
     appropriately balanced, minimizing the chances of bias in the model.
@@ -409,7 +410,7 @@ corrplot(cor_matrix, method = "circle", type = "upper",
          tl.col = "black", tl.cex = 0.7, addCoef.col = "black")
 ```
 
-(Figure 2: Relationships of features in dataset with heart disease)
+## Correlation Matrix Insights {.smaller}
 
 - Figure 2 shows correlations of features in the data set with heart disease.
 - Oldpeak (0.40) stands out since higher ST depression is associated with heart disease risk.
@@ -418,27 +419,21 @@ corrplot(cor_matrix, method = "circle", type = "upper",
 confirming that older people and people with high fasting blood sugar
 levels are at risk.
 
-- These insights could assist with feature selection and simultaneously
-ensure that major predictors such as Oldpeak, MaxHR, and Age, which are
-associated, leading to more reliable and clinically relevant
-predictions of heart disease.
+## Modeling and Results {.smaller}
 
-### Modeling and Results
+- Begin with performing any necessary cleaning and preprocessing of the data.
 
-In this section, we will begin with performing any necessary cleaning
-and preprocessing of the data. We will then use the decision tree
-algorithm to demonstrate how a decision tree works, and show the
-performance of one tree. The next step will be using the random forest
-algorithm, which is a combination of decision trees, to see how it
-performs in comparison, ideally providing a more accurate prediction.
+- We will then use the decision tree algorithm to demonstrate how a decision tree works, and show the
+performance of one tree.
 
-***Data Preprocessing and Cleaning***
+- The next step will be using the random forest algorithm, which is a combination of decision trees, to see how it performs in comparison, ideally providing a more accurate prediction.
 
-While there was no null or NA missing values found in the data set, we
-did find that there were some RestingBP and Cholesterol values of 0.
-There was one row with a RestingBP = 0 and 172 rows with Cholesterol =
-0. We decided to drop these rows from the data set, as they were missing
-valid data.
+## Data Preprocessing and Cleaning {.smaller}
+
+- No null or NA missing values found in the data set
+- One row with a RestingBP = 0
+- 172 rows with Cholesterol = 0
+- We decided to drop these rows from the data set, as they were missing valid data.
 
 ```{r}
 #| include: false
@@ -458,12 +453,12 @@ bp0 <- sum(newdata$RestingBP == '0') #results in 0
 cho <- sum(newdata$Cholesterol == '0') #results in 0
 ```
 
-Our next step is to encode the data. The random forest alogorithm, along
-with most machine learning algorithms, functions best with numerical
-values. Therefore, we will transform the categorical variables to
-numeric. We will use one-hot encoding to transform the categorical
-variables into a binary column that indicates the presense (1) or
-absence (0) of the category.
+## Data Encoding {.smaller}
+
+- The next step is to encode the data.
+- The random forest alogorithm, along with most machine learning algorithms, functions best with numerical
+values.
+- Use one-hot encoding to transform the categorical variables into a binary column that indicates the presence (1) or absence (0) of the category.
 
 ***Encoded Data Preview***
 
@@ -475,11 +470,13 @@ encoded$HeartDisease <- as.factor(encoded$HeartDisease)
 kable(encoded[1:3, ])
 ```
 
-***Splitting the Data*** (70% Train and 30% Test)
+## Splitting Data {.smaller}
 
-We split the data set into training and test subsets. The training
-subset will contain 70% of the data, and the test subset will contain
-30% of the data.
+- We split the data set into training and test subsets.
+
+- The training subset will contain 70% of the data.
+
+- The test subset will contain 30% of the data.
 
 ```{r}
 #install.packages("caTools")
@@ -496,14 +493,16 @@ train = encoded[ind,]
 test = encoded[!ind,]
 ```
 
-***Model Fitting and Prediction***
+## Model Fitting and Prediction
 
 **Decision Tree**
 
-We first demonstrate how a single decision tree would look for our data
-set. We achieved an accuracy of 81.7% without hyperparameter tuning. The
-decision tree can be followed to determine what the predicted end result
-would be. For example, if the patient has ST_SlopeUp = 1 and
+- We first demonstrate how a single decision tree would look for our data
+set.
+- We achieved an accuracy of 81.7% without hyperparameter tuning.
+- The decision tree can be followed to determine what the predicted end result
+would be.
+- For example, if the patient has ST_SlopeUp = 1 and
 ChestPainTypeASY = 0; they likely do not have heart disease. If the
 patient has ST_SlopeUp = 0, MaxHR \< 151, SexF = 0, then the patient
 likely does have heart disease.
@@ -522,6 +521,8 @@ rpart.plot(tree, box.palette = "auto", nn = TRUE)
 predictions <- predict(tree, test, type = "class")
 ```
 (Figure 3: Visualization of a Single Decision Tree Used in Heart Disease Classification)
+
+## Random Forest
 
 **Random Forest**
 
