@@ -493,7 +493,7 @@ train = encoded[ind,]
 test = encoded[!ind,]
 ```
 
-## Model Fitting and Prediction
+## Model Fitting and Prediction {.smaller}
 
 **Decision Tree**
 
@@ -506,6 +506,8 @@ would be.
 ChestPainTypeASY = 0; they likely do not have heart disease. If the
 patient has ST_SlopeUp = 0, MaxHR \< 151, SexF = 0, then the patient
 likely does have heart disease.
+
+## Decision Tree
 
 ```{r}
 library(rpart)
@@ -520,15 +522,14 @@ rpart.plot(tree, box.palette = "auto", nn = TRUE)
 
 predictions <- predict(tree, test, type = "class")
 ```
-(Figure 3: Visualization of a Single Decision Tree Used in Heart Disease Classification)
 
-## Random Forest
+## Random Forest {.smaller}
 
-**Random Forest**
-
-After gaining an understanding of how a single decision tree functions;
+- After gaining an understanding of how a single decision tree functions;
 we proceed with the bulk of our analysis using the random forest
-algorithm. We trained the random forest using 100 trees and graphed the decision tree and evaluation metrics below. The random forest achieved an accuracy of 88.4%, which is higher than the 81.7% obtained from the single decision tree, as expected. The confusion matrix shows that there were 104 true negatives (HeartDisease=0), 94 true positives (HeartDisease=1), 13 false negatives, and 13 false positives. Precision, recall, sensitivity, and F1 scores were all the same.
+algorithm.
+- We trained the random forest using 100 trees and graphed the decision tree and evaluation metrics below. The random forest achieved an accuracy of 88.4%, which is higher than the 81.7% obtained from the single decision tree, as expected.
+- The confusion matrix shows that there were 104 true negatives (HeartDisease=0), 94 true positives (HeartDisease=1), 13 false negatives, and 13 false positives. Precision, recall, sensitivity, and F1 scores were all the same.
 
 ```{r}
 library(randomForest)
@@ -541,6 +542,7 @@ prediction <- predict(rf, newdata = test)
 
 ```
 
+## Confusion Matrix - Default {.smaller}
 ```{r}
 cm <- confusionMatrix(prediction, test$HeartDisease)
 
@@ -593,23 +595,24 @@ draw_confusion_matrix <- function(cm) {
 draw_confusion_matrix(cm)
 
 ```
-(Figure 4: Confusion Matrix for Random Forest Model)
+
 ```{r}
 library(pROC)
 rf_roc1 <- roc(as.numeric(test$HeartDisease), as.numeric(prediction))
 
 auc_value1 <- auc(rf_roc1)
-
-
 ```
 
-***Hyperparameter Tuning***
+## Hyperparameter Tuning {.smaller}
 
-After achieving an accuracy of 88.4% on the initial random forest model built using default parameters, we used hyperparameter tuning to improve the model further. Tuning the model is a crucial step in machine learning because the default values will not be the most accurate or generalizable [@probst2019rfhealth]. We conducted model enhancement by implementing 5-fold cross-validation in the process of tuning the key parameter mtry, which is the number of variables that are randomly chosen at every split of the tree. 
+- After achieving an accuracy of 88.4% on the initial random forest model built using default parameters, we used hyperparameter tuning to improve the model further.
+- Tuning the model is a crucial step in machine learning because the default values will not be the most accurate or generalizable [@probst2019rfhealth].
+- We conducted model enhancement by implementing 5-fold cross-validation in the process of tuning the key parameter mtry, which is the number of variables that are randomly chosen at every split of the tree. 
 
-For the cross-validation, the training data was divided into five sets, where the model was trained on four sets and validated on the remaining part. The cycle was executed for every fold, aggregated performance across folds, and used the Area Under the ROC Curve (AUC) to serve as the main optimization metric.  The AUC was chosen because it assesses a model’s performance and does not take into account classification thresholds, which matters greatly in binary classification problems with an imbalanced dataset. For instance, Khalilia, Chakraborty and Popescu (2011) applied Random Forests to predict risk of chronic diseases (including heart diseases) on a large, disorderly medical dataset, achieving an average AUC of 88.79%. This illustrates the method’s effectiveness in real world healthcare applications. Though these authors worked with different datasets and broader disease categories, they illustrated the importance of AUC in performance assessment, which proves to be quite useful in medical context. [@khalilia2011predicting].
-
-We evaluated mtry parameters from 2 through 5. Based on analysis, we discovered that mtry=3 achieved the greatest mean AUC (0.9302) which suggested that this setting provided the optimal compromise between overfitting and underfitting [@oshiro2012many].
+- For the cross-validation, the training data was divided into five sets, where the model was trained on four sets and validated on the remaining part.
+- The cycle was executed for every fold, aggregated performance across folds, and used the Area Under the ROC Curve (AUC) to serve as the main optimization metric. 
+- The AUC was chosen because it assesses a model’s performance and does not take into account classification thresholds, which matters greatly in binary classification problems with an imbalanced dataset.
+- We evaluated mtry parameters from 2 through 5. Based on analysis, we discovered that mtry=3 achieved the greatest mean AUC (0.9302) which suggested that this setting provided the optimal compromise between overfitting and underfitting [@oshiro2012many].
 
 ```{r}
 # Load necessary libraries
@@ -659,6 +662,7 @@ rf_probs <- predict(rf_tuned, newdata = test, type = "prob")[, "Yes"]
 
 ```
 
+## Confusion Matrix - Tuned Model
 ```{r}
 # Predict using the tuned random forest model
 predictions2 <- predict(rf_tuned, newdata = test)
@@ -717,26 +721,8 @@ draw_confusion_matrix(cm)
 
 
 ```
-(Figure 5: Confusion Matrix for Tuned Random Forest Model)
 
-The confusion matrix indicated for the test dataset that the last model most accurately classified for mtry = 3 and 100 trees. It’s performance on the dataset was as follows:<br/>  
-
-- *Accuracy* = (TP + TN) / (Total) = (111 + 85) / 223 ≈ 88%<br/> This represents the proportion of overall correct predictions out of total predictions made.
-
-- *Sensitivity* (Recall) = TP / (TP + FN) = 85 / (85 + 21) ≈ 94.9%<br/> This shows the model’s ability to correctly identify patients with heart disease. A high sensitivity is vital in healthcare applications where failing to detect a condition can have serious consequences.
-
-- *Specificity* = TN / (TN + FP) = 111 / (111 + 6) ≈ 80.2%<br/> This indicates the model’s effectiveness in correctly identifying patients who do not have heart disease.
-
-- *Precision* = TP / (TP + FP) = 85 / (85 + 6) ≈ 84.1%<br/> Precision measures how many of the predicted positive cases were actually positive. High precision reduces the likelihood of false alarms.
-
-- *F1 Score* = 2 × (Precision × Recall) / (Precision + Recall) = 0.892<br/> This is a harmonic mean of precision and recall, especially useful in scenarios with class imbalance.
-
-- *Kappa Statistic* = 0.756<br/> Kappa provides a normalized score that compares the model’s accuracy to what would be expected by chance. A value above 0.75 is generally considered substantial agreement [@viera2005understanding]
-
-These numbers demonstrate that the tuned model not only does well on the training folds but can also be expected to perform well on unseen data. As shown in Figure 1, the ROC curve indicates strong separation between classes, emphasizing a steep rise towards the top left corner which implies high sensitivity and low false positive rate.
-
-Figure 6 below shows ROC Curve with AUC Score for both models. The basic random forest model had AUC score of .8837 and the tuned random forest model’s ROC curve with an AUC score of 0.9371. This score suggests remarkable classification ability. 
-
+## Area Under Curve {.smaller}
 
 ```{r}
 
@@ -761,11 +747,23 @@ par(mfrow = c(1, 1))
 ```
 (Figure 6: ROC curve with an AUC score of both basic RF Model & tuned RF Model)
 
-The ROC (Receiver Operating Characteristic) curve displays the balance of sensitivity (true positive rate) against specificity (false positive rate) for different thresholds. From the figure we can see that AUC score of tuned model is notably higher than AUC score of basic model of 0.8837. The provided tuned model's AUC score of 0.9371 is indicative of the strong  power of the model in accurately classifying patients with heart disease from those without it. This shows how hyperparameter tuning can optimize accurately and reliably diagnosing heart disease.The AUC value, derived from the ROC curve, indicates strong discriminatory ability. An AUC above 0.90 is typically considered excellent[@fawcett2006introduction]. This means the model is highly effective at distinguishing between patients with and without heart disease, regardless of classification threshold.
+## Analysis Summary {.smaller}
 
-We also looked for feature importance, which showed ST_SlopeUp, ChestPainTypeASY, and ST_SlopeFlat to be some of the most important predictors. This is consistent with medical domain knowledge since changes in ST segments and chest pain types are known markers of cardiac abnormality [@khalilia2011predicting]. The model’s ability to capture meaningful physiological patterns is also supported by the high ranking of MaxHR and Oldpeak.  
+- These numbers demonstrate that the tuned model not only does well on the training folds but can also be expected to perform well on unseen data.
+- The ROC (Receiver Operating Characteristic) curve displays the balance of sensitivity (true positive rate) against specificity (false positive rate) for different thresholds. 
+- The ROC curve indicates strong separation between classes, emphasizing a steep rise towards the top left corner which implies high sensitivity and low false positive rate.
+- The basic random forest model had AUC score of .8837 and the tuned random forest model’s ROC curve with an AUC score of 0.9371.
+- This shows how hyperparameter tuning can optimize accurately and reliably diagnosing heart disease.
+- The AUC value, derived from the ROC curve, indicates strong discriminatory ability.
+- An AUC above 0.90 is typically considered excellent[@fawcett2006introduction]. 
 
+## Feature Importance {.smaller}
 
+- We also looked for feature importance, which showed ST_SlopeUp, ChestPainTypeASY, and ST_SlopeFlat to be some of the most important predictors.
+- This is consistent with medical domain knowledge since changes in ST segments and chest pain types are known markers of cardiac abnormality [@khalilia2011predicting].
+- The model’s ability to capture meaningful physiological patterns is also supported by the high ranking of MaxHR and Oldpeak.
+
+## Feature Importance {.smaller}
 ```{r}
 
 set.seed(123)
@@ -783,16 +781,19 @@ varImpPlot(rf_model,
 ```
 (Figure 7. Feature importance based on the average decrease in Gini index.)
 
-Predicted outcomes from the tuned random forest model showed highly accurate results across all evaluation metrics. These include a balanced accuracy of 87.96%, sensitivity of 94.9%, and an AUC of 0.9371. It also demonstrates significant clinical relevance. Most importantly, the model reduces the number of false negatives which is crucial for medical diagnostic systems that pose the risk of delayed treatment or other harmful consequences as result of failing to detect a condition[@khalilia2011predicting].
+## Conclusion {.smaller}
 
-### Conclusion
-
-The aim of the study was to evaluate the Random Forest algorithm. Using a data set to predict heart disease, we compared the results using default settings against a model that was optimized after hyperparameter tuning. Both models provided satisfactory classification properties (>80% accuracy), but the optimized model significantly showed improvement when compared against the initial model when comparing AUC values. Model 1 (default hyperparameters) had an AUC = 0.8837, whereas Model 2 (tuned) had an AUC = 0.9371. This shows that model 2 is better in discriminating between patients with and without heart disease.
-
-In addition to the improved AUC, the model we tuned showed strong proficiency in different metrics. The overall accuracy was 88.4% and the sensitivity was 94.9% with the corresponding F1 score of 0.892. These results demonstrate the importance of tuning in improving the performance of the model. This is especially true for clinical decision-support systems where reducing false negatives is critical.
-
-From a practical perspective, this study has important implications for the use of Random Forests in clinical decision support. The algorithm's robust nature and ability to handle various data types makes it an excellent algorithm for healthcare applications. The performance gain after tuning implies that we should not use a Random Forest with default hyperparameters in a real-world machine learning deployment, but it can be used as a baseline for beginning evaluation or determining which model type may be most appropriate.
-
-In conclusion, the Random Forest algorithm is an effective algorithm in medical prediction tasks, as well as various classification and regression problems. Random Forest can provide healthcare professionals with substantial support in terms of early diagnostics and risk stratification if it is tuned correctly, which can lead to improved patient outcomes and optimal use of clinical resources.
+- The aim of the study was to evaluate the Random Forest algorithm.
+- Using a data set to predict heart disease, we compared the results using default settings against a model that was optimized after hyperparameter tuning. 
+- Both models provided satisfactory classification properties (>80% accuracy)
+- the optimized model significantly showed improvement when compared against the initial model when comparing AUC values
+- The tuned model had an accuracy of 88.4% and sensitivity of 94.9% with the corresponding F1 score of 0.892.
+- These results demonstrate the importance of tuning in improving the performance of the model.
+- This is especially true for clinical decision-support systems where reducing false negatives is critical.
+- From a practical perspective, this study has important implications for the use of Random Forests in clinical decision support.
+- The algorithm's robust nature and ability to handle various data types makes it an excellent algorithm for healthcare applications.
+- The performance gain after tuning implies that we should not use a Random Forest with default hyperparameters in a real-world machine learning deployment, but it can be used as a baseline for beginning evaluation or determining which model type may be most appropriate.
+- Random Forest algorithm is an effective algorithm in medical prediction tasks, as well as various classification and regression problems.
+- Random Forest can provide healthcare professionals with substantial support in terms of early diagnostics and risk stratification if it is tuned correctly, which can lead to improved patient outcomes and optimal use of clinical resources.
 
 ## References
