@@ -82,6 +82,8 @@ synthesizing insights from multiple sources, this analysis provides a
 comprehensive understanding of RF’s potential in healthcare analytics
 while identifying areas for further refinement.
 
+In this study, we use the Random Forest algorithm on a clinical dataset with the goal of predicting heart disease. Our first step involves data exploration and preprocessing, which is later followed by training and evaluating a baseline decision tree model. After this, we create a Random Forest model and fine-tune it with cross-validation. To evaluate our model, we calculate accuracy, precision, recall, F1-score, AUC-ROC, and analyze feature importance to invoke relevance of the clinical reasoning behind the main predictors. With this endeavor, we strive to understand the practicality of exploiting Random Forest in real-world healthcare analytics and decision support systems.
+
 ## Methods
 
 The random forest algorithm generates numerous decision trees using

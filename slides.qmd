@@ -1,5 +1,5 @@
 ---
-title: "Random Forest in the Health Industry"
+title: "Random Forest Algorithm"
 subtitle: "An analysis of the random forest algorithm and its applications in the health industry"
 author: "Maddie Sortino and Jisa Jose (Advisor: Dr. Cohen)"
 date: '`r Sys.Date()`'
@@ -21,263 +21,123 @@ editor:
 ---
 
 ## Introduction {.smaller}
+_Overview of Random Forest Algorithm_ <br><br>
 
-Machine learning has significantly advanced predictive analytics,
-particularly in the medical industry and clinical decision-making. Among
-the many available algorithms, Random Forest (RF) has emerged as a
-powerful tool due to its ability to handle high-dimensional data,
-resistance to overfitting, and high accuracy in predicting medical
-events [@rigatti2017random]. RF is an ensemble learning method composed
-of multiple decision trees, which are generated through bagging and
-random feature selection. The combined efforts of these trees in
-bootstrap aggregation allow for superior classification and regression
-predictions compared to classical statistical models [@biau2016random].
-This flexibility enables biomedical experts to tackle various tasks,
-including cancer survival analysis, disease progression prediction, and
-healthcare resource optimization.
 
-One of the most notable applications of RF in healthcare is survival
-analysis, particularly in colon cancer research. Studies utilizing SEER
-data have compared RF to the Cox proportional hazards model,
-highlighting RF’s ability to handle missing data and complex
-interactions more effectively [@breiman2001random]. Additionally, RF has
-been widely used in clinical decision-making, such as predicting ICU
-patient outcomes and identifying those at high risk of sepsis.Another
-critical application is diabetes prediction and prevention. RF not only
-forecasts diabetes development but also provides personalized
-recommendations to healthcare professionals, helping them implement
-preventive measures and improve patient outcomes[@khine2022diabetes].
+- **Random Forest (RF)** is a widely used ensemble machine learning algorithm built on decision trees.
+- It combines two key techniques:
+  - **Bootstrapping (bagging):** Creates multiple subsets of data for training.
+  - **Random feature selection:** Randomly selects features at each split to reduce correlation between trees.
 
-Beyond diagnostics, RF is also instrumental in handling imbalanced
-datasets. For instance, in predicting disease susceptibility, random
-subsampling techniques within RF have been shown to outperform other
-machine learning models such as support vector machines, boosting, and
-bagging [@khalilia2011predicting]. Furthermore, RF has been used in
-healthcare resource planning, such as forecasting the demand for
-essential medications in public health facilities to ensure supply chain
-efficiency and prevent shortages [@mbonyinshuti2022demand].
 
-RF is a powerful algorithm, but it also has its challenges.
-Hyperparameter tuning is crucial for maximizing predictive accuracy,
-with factors such as the number of trees (L), sample size per tree, and
-the number of variables considered at each split (mtry) all
-significantly influencing model performance
-[@probst2019hyperparameters]. While RF often performs well with default
-settings, fine-tuning these parameters can enhance both reliability and
-speed [@boulesteix2012overview]. However, the major drawback remains
-model interpretability, which is critical in medical decision-making.
-Researchers have proposed methods such as conditional inference forests
-(CIF) to improve reliability while reducing bias in variable selection
-[@dai2018using].
+## Pros & Cons  {.smaller}
+_Overview of the strengths and limitations of using Random Forest for clinical applications_ <br><br>
 
-Since RF was first introduced to clinical diagnostics, it has been
-regarded as one of the most effective tools in medical prediction
-models. This study explores its performance compared to traditional
-statistical techniques and evaluates whether advancements in
-hyperparameter optimization can further enhance its effectiveness. By
-synthesizing insights from multiple sources, this analysis provides a
-comprehensive understanding of RF’s potential in healthcare analytics
-while identifying areas for further refinement.
 
-## Methods {.smaller}
+### Advantages in Healthcare:
+- Handles complex, high-dimensional clinical data  
+- Robust against overfitting, noise, and missing data  
+- Flexible for both classification and regression  
+- Provides insights through feature importance  
 
-The random forest algorithm generates numerous decision trees using
-randomization and then aggregates the output of these trees into one
-output. A decision tree is an algorithm that has a ‘tree-like’
-structure, consisting of a root node, branches, internal nodes and leaf
-nodes. The root node branches out into internal nodes, and depending on
-the outcome of each internal node, it ultimately leads to the leaf node;
-or the final outcome, or decision. In the formation of a random forest,
-a voting method is used for classification and an averaging method for
-regression. Randomization is done in two steps. The first uses bootstrap
-aggregation or bagging at the data set level, creating new randomized
-samples for the model development and testing. Bagging consists of
-randomly sampling from the original data set with replacement, ensuring
-the sample set is completely random. The data that is not used in the
-sampled data set is considered the out-of-bag (OOB) data. The next level
-of randomization happens at the decision node level. A certain number of
-predictors are chosen, which is often the square root of the number of
-predictors in the data set. The algorithm tests all possible thresholds
-for all selected variables and chooses the variable-threshold
-combination which results in the best split – the split which most
-effectively separates cases from controls, for instance
-[@rigatti2017random]. This random selection of variables and threshold
-testing continues until either “pure” nodes are reached (containing only
-cases or controls) or some pre-defined endpoint [@rigatti2017random].
+### Limitations:
+- High computational requirements  
+- Longer training time with large datasets  
+- Lower interpretability (compared to simpler methods)  
+- Performance may plateau with excessive tuning  
 
-***Hyper parameters Overview***
 
-Table 1 below shows a summary of the different hyperparameters of random
-forest and typical default values. Here, n is the number of observations
-and p is the number of variables in the dataset.
+## Real World Applications
 
-```{r}
-table = data.frame(Hyperparameter = c("mtry",
-                                      "Sample size",
-                                      "Replacement",
-                                      "Node size",
-                                      "Number of trees",
-                                      "Splitting rule"),
-Description = c("Number of drawn candidate variables in each split",
-                "Number of observations that are drawn for each tree",
-                "Draw observations with or without replacement",
-                "Minimum number of observations in a terminal node",
-                "Number of trees in a forest",
-                "Splitting criteria in the nodes"),
-"Typical Default Values" = c("sqrt(p), p/3 for regression",
-                           "n",
-                           "TRUE (with replacement)",
-                           "1 for classification, 5 for regression",
-                           "500, 1,000",
-                           "Gini impurity, p value, random")
-)
+- Colon cancer survival analysis using SEER data  
+- ICU outcome prediction and sepsis risk classification  
+- Diabetes detection and prevention 
+- Medication demand forecasting 
 
-knitr::kable(table, 
-             caption = "Overview of the different hyperparameters",
-             col.names = c("Hyperparameter",
-                           "Description",
-                           "Typical Default Values"))
-```
+## Study Objective {.smaller}
 
-Table 1. [@probst2019hyperparameters]
+- Predict heart disease using Random Forest and structured clinical data  
+- Compare baseline model with tuned Random Forest model  
+- Evaluate model performance using key metrics:  
+  
+  - Accuracy 
+  - Precision   
+  - Recall
+  - F1 Score
+  - AUC-ROC (Area under the Receiver Operating Characteristic curve)  
 
-Table 1 provides an overview of the hyperparameters available to tune
-the decision forest, along with the recommended or default values. The
-decision forest algorithm is designed to work well without much tuning.
-It’s been found that an increased number of trees provides a better
-output, but there’s typically a limit in which there’s no more gain in
-accuracy, and only a decrease or slow down in performance with too many
-trees. The hyperparameter ‘mtry’ has been found to have the most
-influence, where the best value of ‘mtry’ depends on the number of
-variables that are related to the outcome [@probst2019hyperparameters].
 
-***Gini Impurity***
+## Method Overview {.smaller}
+- Built Random Forest using the `caret` package in R  
+- Split data into 70% training, 30% testing using `createDataPartition()`  
+- Trained 100 decision trees using the `randomForest` function  
+- Used bootstrapping (bagging) and random feature selection (`mtry`) at each split  
+- Evaluated splits based on Gini impurity  
+- Combined tree predictions via majority voting (classification)
 
-The random forest algorithm uses the Gini measure of impurity to select
-the split with the lowest impurity at every node
-[@khalilia2011predicting]. The gini impurity can range between 0 - 0.5,
-with the lower the impurity, the better the split. If a gini impurity is
-0, this means it is a ‘pure’ node and does not need to be split further.
-The formula for Gini Impurity is below, where p is the probability of
-samples belonging to the class i at a specific node.
+- Hyperparameter tuning:
+  - Used 5-fold cross-validation (`trainControl`)  
+  - ROC AUC as the optimization metric  
+  - `expand.grid(mtry = c(2, 3, 4, 5))` for tuning number of features per split
 
-$$
-Gini = 1 -\sum_{i = 1}^{n}{(p_i)^2}
-$$
 
-***Random Forest Implementation in the Dataset***
 
-The random forest model will be applied to analyze the dataset
-containing multiple clinical and demographic factors. This dataset has
-features like Age, Sex, Type of Chest Pain, Resting Blood Pressure
-(RestingBP), Cholesterol level, Fasting Blood Sugar (FastingBS),
-Electrocardiogram Results when at Rest (RestingECG), Maximum Heart Rate
-attained (MaxHR), Angina induced by exercise, Oldpeak, and ST Slope. The
-model will be fitted to the data so the presence or lack of heart
-disease (HeartDisease) can be predicted. This variable is the target
-(0 - No Heart Disease, 1 - Heart Disease).
 
-***Model Training***
+##  Hyperparameter Tuning Explanation {.smaller}
 
-In order to train the model, a dataset will first be created by
-splitting it into an 70% training and 30% testing set for evaluation.
-The random forest will have an ensemble of 100 decision trees
-(n_estimators = 100) and the mtry value for each split will be the
-square root of the total number of features [@oshiro2012many]. The Gini
-impurity metric will be utilized and will ensure that the most
-informative features are selected [@khalilia2011predicting]. Other
-parameter control methodologies such as grid or randomized search will
-be used to optimize the number of trees, maximum depth, and minimum
-sample split [@probst2019hyperparameters].
+- Hyperparameters are adjustable settings that influence how the model learns from data
 
-***Model Evaluation and Performance Metrics***
+- In Random Forest, hyperparameters control:
+  - How trees are built  
+  - How features are selected  
+  - How predictions are aggregated  
 
-For the model evaluation, the following metrics will be applied:
+- Proper tuning helps:
+  - Improve predictive accuracy  
+  - Reduce over fitting  
+  - Ensure the model generalizes well, especially in sensitive fields like healthcare
 
--   AUC-ROC Score: Evaluates the model's classification capability for
-    distinguishing classes (Heart Disease vs. No Heart Disease)
-    [@probst2019rfhealth]. The AUC ROC Score is the area under the curve
-    of the ROC (receiver-operating characteristic curve) curve. The ROC
-    curve graphs the true positive rate over the false positive rate.
-    The higher the ROC AUC, the better. $$
-    \text{AUC-ROC} = \int_{0}^{1} \text{TPR} \left( \text{FPR}^{-1}(x) \right) \, dx
-    $$
 
--   Precision: Precision is the ratio of the true positive predictions
-    to the total number of positive predictions $$
-    Precision = \frac{True Positives}{(True Positives + False Positives)}
-    $$
 
--   Recall (Sensitivity): Recall is the ratio of the true positive
-    predictions to all the actual positive instances:
-    $$\text{Recall} = \frac{TruePositives}{TruePositives + FalseNegatives}$$
+## Evaluation Metrics  {.smaller}
 
--   F1-score: F1 score is the average of precision and recall. $$
-    F1 = \frac{2*(Precision*Recall)}{(Precision + Recall)}
-    $$
 
-***Advantages/Disadvantages***
+- **Accuracy**: Measures overall correctness of the model.  
+  $$Accuracy = \frac{TP + TN}{TP + TN + FP + FN}$$
 
-The random forests method remains one of the most robust and versatile
-methods for solving classification tasks, especially in the healthcare
-sector. Their capability to manage high dimensional data, model
-intricate relationships, and rank order features makes them particularly
-useful in disease prediction and risk factor evaluation
-[@breiman2001random]. All of these benefits come with caveats. While
-random forests are robust in overfitting and are efficient with missing
-values [@khalilia2011predicting], they also demand above-average
-computing power, can be inefficient with time on large databases, and
-are less clear than logistic regression models [@probst2019rfhealth].
-Imposing certain values to parameters improves these shortcomings but
-not without a loss of performance and efficiency in specific datasets.
-Regardless, random forests are still a good choice in predictive
-modeling in medical research and decision support systems
-[@biau2016random].
+- **Precision**: Measures how many predicted positives are truly positive.  
+  $$Precision = \frac{TP}{TP + FP}$$
 
-In summary the Random Forest algorithm has been used in this study
-because of its compatibility with structured clinical datasets and its
-ability to integrate categorical and numerical data without significant
-preprocessing [@breiman2001random]. In contrast to logistic regression,
-which applies a mode of linearity, Random Forest is able to capture
-complex non-linear relationships in healthcare data
-[@probst2019rfhealth]. Another advantage of Random Forest is its
-provision of feature importance indices, which enhances the model’s
-interpretability by medical practitioners concerning risk prediction and
-proactive measures’ implementation[@khalilia2011predicting]
+- **Recall (Sensitivity)**: Measures how many actual positives were correctly identified.  
+  $$Recall = \frac{TP}{TP + FN}$$
 
-## Data Exploration and Visualization {.smaller}
+- **F1 Score**: Balances precision and recall. A good measure for imbalanced datasets.  
+  $$F1 = \frac{2 \cdot (Precision \cdot Recall)}{Precision + Recall}$$
 
-***Data Set Overview***
+- **AUC-ROC**: Area under the ROC curve; shows how well the model distinguishes between classes.  
+  - Higher AUC means better class separation performance.
 
-Data Set: [Heart Failure Prediction
-Data](https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction/data)
 
-This data set is a compilation of five different data sets from around
-the world. It contains 11 features: age, sex, chest pain type, resting
-blood pressure, cholesterol, fasting blood sugar, resting
-electrocardiogram results, max heart rate, exercise-induced angina, old
-peak, and slope of peak exercise ST segment. The data set is used to
-predict whether the patient has heart disease or not.
 
--   **Age**: Age of the patient (years)
--   **Sex**: Sex of the patient (M: Male, F: Female)
--   **ChestPainType**: Chest pain type (TA: Typical Angina, ATA:
-    Atypical Angina, NAP: Non-Anginal Pain, ASY: Asymptomatic)
--   **RestingBP**: Resting blood pressure (mm Hg)
--   **Cholesterol**: Serum cholesterol (mg/dL)
--   **FastingBS**: Fasting blood sugar (1: if FastingBS \> 120 mg/dL, 0:
-    otherwise)
--   **RestingECG**: Resting electrocardiogram results (Normal, ST:
-    having ST-T wave abnormality, LVH: showing probable or definite left
-    ventricular hypertrophy by Estes' criteria)
--   **MaxHR**: Maximum heart rate achieved (Numeric value between 60 and
-    202) 
--   **ExerciseAngina**: Exercise-induced angina (Y: Yes, N: No)
--   **Oldpeak**: Oldpeak = ST (Numeric value measured in depression)
--   **ST_Slope**: The slope of the peak exercise ST segment (Up:
-    upsloping, Flat: flat, Down: downsloping)
--   **HeartDisease**: Output class (1: heart disease, 0: Normal)
+(TP = True Positive, TN = True Negative, FP = False Positive, FN = False Negative)
 
+## Dataset Overview {.smaller}
+
+- **Source**: Kaggle – Heart Failure Prediction Dataset  
+- **Total Records**: 918 patient entries, with 11 clinical and demographic features
+
+### Key Features:
+
+- **Demographic / General Clinical Features:**  
+Age, Sex, RestingBP (Resting Blood Pressure), Cholesterol, MaxHR (Maximum Heart Rate Achieved), FastingBS (Fasting Blood Sugar)
+
+- **Cardiac-Specific Clinical Features:**  
+ChestPainType, RestingECG (Resting Electrocardiogram results), ExerciseAngina (Exercise-induced Angina), Oldpeak (ST Depression), ST_Slope (Slope of ST segment)
+
+### Target Variable:  
+HeartDisease (1 = indicates heart disease, 0 = no heart disease)
+
+## {.smaller}
 ```{r}
 #Loading packages
 library(readr)
@@ -290,12 +150,12 @@ library(data.table)
 library(knitr)
 #install.packages("gtsummary")
 library(gtsummary)
+```
 
-#read data to dataframe
+```{r}
 data <- read.csv('heart.csv')
 #head(data,5)
 ```
-
 ***Table 1: Data Structure Overview***
 
 ```{r}
@@ -309,18 +169,9 @@ structure_table <- data_dt[, .(Column = names(data_dt),
 
 # display the table 
 kable(structure_table, caption = "Data Structure Overview")
+
 ```
-
-(Table 1: Data structure overview of Heart Disease dataset)
-
-The data structure overview table is an essential starting point for
-working with the heart disease prediction dataset. The table contains
-column names, data types, and examples for every feature as a sample
-overview of the dataset. All columns within the dataset are associated
-to some clinically significant feature which have the potential to be
-used for estimating the risk of heart disease.
-
-***Table 2: Summary Statistics***
+## Summary Statistics {.smaller}
 
 ```{r}
 # statistics of the dataset 
@@ -329,21 +180,24 @@ tbl_summary(data)
 
 (Table 2: Summary Statistics of Heart Disease dataset)
 
-The dataset comprises of 918 records and 11 features which include both
-categorical and numerical variables that help assess heart disease risk.
-Key variables indicating the health of patients include Age, Resting
-Blood Pressure (RestingBP), Cholesterol, Maximum Heart Rate (MaxHR), and
-ST Depression (Oldpeak) among others. It has no missing or duplicate
-values. It is also noted from the data that there are more male patients
-(79%) than female patients (21%) which may be noteworthy for analysis.
-More than half of the patients (54%) however do not experience chest
-pain (ASY) which is rather puzzling despite the patient potentially
-having heart disease. In addition, the variable depicting the target
-i.e. HeartDisease is relatively balanced with 55.3 percent of patients
-diagnosed to have heart disease and 44.7 percent of patients with no
-heart disease. Also, RestingBP and Cholesterol value of 0 may need some
-consideration as they are unrealistic and require correction prior to
-analysis.
+## Key Insights & Observations   {.smaller}
+
+- **Data Quality:**
+  - No missing or duplicate records  
+  - Some unrealistic values (e.g., cholesterol = 0) were cleaned prior to modeling  
+
+- **Gender Distribution:**
+  - 79% male, 21% female  
+  - Potential influence on model fairness and generalization  
+
+- **Chest Pain Type:**
+  - 54% of patients reported asymptomatic chest pain (ASY)  
+  - Indicates a high number of silent or undiagnosed cases  
+
+- **Heart Disease Distribution:**
+  - 55.3% diagnosed with heart disease  
+  - 44.7% undiagnosed  
+  - Fairly balanced for effective classification
 
 ## Distribution of Features {.smaller}
 
@@ -413,7 +267,7 @@ corrplot(cor_matrix, method = "circle", type = "upper",
 ## Correlation Matrix Insights {.smaller}
 
 - Figure 2 shows correlations of features in the data set with heart disease.
-- Oldpeak (0.40) stands out since higher ST depression is associated with heart disease risk.
+- Oldpeak (0.40) stands out since higher ST depression is associated with heart disease risk. Oldpeak refers to ST depression, a measurement on an ECG, indicating reduced blood flow to heart.
 - Patients who have heart disease are more likely to have lower maximum heart rate (MaxHR (-0.40)).
 - Age (0.28) and Fasting Blood Sugar (0.27) also emerged as positive correlates,
 confirming that older people and people with high fasting blood sugar

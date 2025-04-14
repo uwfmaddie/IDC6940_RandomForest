@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Maddie Sortino and Jisa Jose (Advisor: Dr. Cohen)">
-<meta name="dcterms.date" content="2025-04-07">
+<meta name="dcterms.date" content="2025-04-14">
 
 <title>Random Forest in the Health Industry</title>
 <style>
@@ -3263,7 +3263,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 7, 2025</p>
+      <p class="date">April 14, 2025</p>
     </div>
   </div>
   
@@ -3284,6 +3284,7 @@ window.Quarto = {
 <p>Beyond diagnostics, RF is also instrumental in handling imbalanced datasets. For instance, in predicting disease susceptibility, random subsampling techniques within RF have been shown to outperform other machine learning models such as support vector machines, boosting, and bagging <span class="citation" data-cites="khalilia2011predicting">(<a href="#ref-khalilia2011predicting" role="doc-biblioref">Khalilia, Chakraborty, and Popescu 2011</a>)</span>. Furthermore, RF has been used in healthcare resource planning, such as forecasting the demand for essential medications in public health facilities to ensure supply chain efficiency and prevent shortages <span class="citation" data-cites="mbonyinshuti2022demand">(<a href="#ref-mbonyinshuti2022demand" role="doc-biblioref">Mbonyinshuti, Nshimiyimana, and Uwitonze 2022</a>)</span>.</p>
 <p>RF is a powerful algorithm, but it also has its challenges. Hyperparameter tuning is crucial for maximizing predictive accuracy, with factors such as the number of trees (L), sample size per tree, and the number of variables considered at each split (mtry) all significantly influencing model performance <span class="citation" data-cites="probst2019hyperparameters">(<a href="#ref-probst2019hyperparameters" role="doc-biblioref">Probst, Wright, and Boulesteix 2019b</a>)</span>. While RF often performs well with default settings, fine-tuning these parameters can enhance both reliability and speed <span class="citation" data-cites="boulesteix2012overview">(<a href="#ref-boulesteix2012overview" role="doc-biblioref">Boulesteix et al. 2012</a>)</span>. However, the major drawback remains model interpretability, which is critical in medical decision-making. Researchers have proposed methods such as conditional inference forests (CIF) to improve reliability while reducing bias in variable selection <span class="citation" data-cites="dai2018using">(<a href="#ref-dai2018using" role="doc-biblioref">Dai et al. 2018</a>)</span>.</p>
 <p>Since RF was first introduced to clinical diagnostics, it has been regarded as one of the most effective tools in medical prediction models. This study explores its performance compared to traditional statistical techniques and evaluates whether advancements in hyperparameter optimization can further enhance its effectiveness. By synthesizing insights from multiple sources, this analysis provides a comprehensive understanding of RF’s potential in healthcare analytics while identifying areas for further refinement.</p>
+<p>In this study, we use the Random Forest algorithm on a clinical dataset with the goal of predicting heart disease. Our first step involves data exploration and preprocessing, which is later followed by training and evaluating a baseline decision tree model. After this, we create a Random Forest model and fine-tune it with cross-validation. To evaluate our model, we calculate accuracy, precision, recall, F1-score, AUC-ROC, and analyze feature importance to invoke relevance of the clinical reasoning behind the main predictors. With this endeavor, we strive to understand the practicality of exploiting Random Forest in real-world healthcare analytics and decision support systems.</p>
 </section>
 <section id="methods" class="level2">
 <h2 class="anchored" data-anchor-id="methods">Methods</h2>
@@ -3542,20 +3543,20 @@ F1 = \frac{2*(Precision*Recall)}{(Precision + Recall)}
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl_summary</span>(data) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="sxqbizonuf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#sxqbizonuf table {
+<div id="kcmifcuagf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#kcmifcuagf table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#sxqbizonuf thead, #sxqbizonuf tbody, #sxqbizonuf tfoot, #sxqbizonuf tr, #sxqbizonuf td, #sxqbizonuf th {
+#kcmifcuagf thead, #kcmifcuagf tbody, #kcmifcuagf tfoot, #kcmifcuagf tr, #kcmifcuagf td, #kcmifcuagf th {
 border-style: none;
 }
-#sxqbizonuf p {
+#kcmifcuagf p {
 margin: 0;
 padding: 0;
 }
-#sxqbizonuf .gt_table {
+#kcmifcuagf .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -3580,11 +3581,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#sxqbizonuf .gt_caption {
+#kcmifcuagf .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#sxqbizonuf .gt_title {
+#kcmifcuagf .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -3595,7 +3596,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#sxqbizonuf .gt_subtitle {
+#kcmifcuagf .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -3606,7 +3607,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#sxqbizonuf .gt_heading {
+#kcmifcuagf .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -3617,12 +3618,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#sxqbizonuf .gt_bottom_border {
+#kcmifcuagf .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#sxqbizonuf .gt_col_headings {
+#kcmifcuagf .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -3636,7 +3637,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#sxqbizonuf .gt_col_heading {
+#kcmifcuagf .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3655,7 +3656,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#sxqbizonuf .gt_column_spanner_outer {
+#kcmifcuagf .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3666,13 +3667,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#sxqbizonuf .gt_column_spanner_outer:first-child {
+#kcmifcuagf .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#sxqbizonuf .gt_column_spanner_outer:last-child {
+#kcmifcuagf .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#sxqbizonuf .gt_column_spanner {
+#kcmifcuagf .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -3683,10 +3684,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#sxqbizonuf .gt_spanner_row {
+#kcmifcuagf .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#sxqbizonuf .gt_group_heading {
+#kcmifcuagf .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3711,7 +3712,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#sxqbizonuf .gt_empty_group_heading {
+#kcmifcuagf .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -3725,13 +3726,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#sxqbizonuf .gt_from_md > :first-child {
+#kcmifcuagf .gt_from_md > :first-child {
 margin-top: 0;
 }
-#sxqbizonuf .gt_from_md > :last-child {
+#kcmifcuagf .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#sxqbizonuf .gt_row {
+#kcmifcuagf .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3749,7 +3750,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#sxqbizonuf .gt_stub {
+#kcmifcuagf .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3761,7 +3762,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#sxqbizonuf .gt_stub_row_group {
+#kcmifcuagf .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3774,13 +3775,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#sxqbizonuf .gt_row_group_first td {
+#kcmifcuagf .gt_row_group_first td {
 border-top-width: 2px;
 }
-#sxqbizonuf .gt_row_group_first th {
+#kcmifcuagf .gt_row_group_first th {
 border-top-width: 2px;
 }
-#sxqbizonuf .gt_summary_row {
+#kcmifcuagf .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -3789,14 +3790,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#sxqbizonuf .gt_first_summary_row {
+#kcmifcuagf .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#sxqbizonuf .gt_first_summary_row.thick {
+#kcmifcuagf .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#sxqbizonuf .gt_last_summary_row {
+#kcmifcuagf .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3805,7 +3806,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#sxqbizonuf .gt_grand_summary_row {
+#kcmifcuagf .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -3814,7 +3815,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#sxqbizonuf .gt_first_grand_summary_row {
+#kcmifcuagf .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3823,7 +3824,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#sxqbizonuf .gt_last_grand_summary_row_top {
+#kcmifcuagf .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3832,10 +3833,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#sxqbizonuf .gt_striped {
+#kcmifcuagf .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#sxqbizonuf .gt_table_body {
+#kcmifcuagf .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -3843,7 +3844,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#sxqbizonuf .gt_footnotes {
+#kcmifcuagf .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -3856,7 +3857,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#sxqbizonuf .gt_footnote {
+#kcmifcuagf .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -3864,7 +3865,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#sxqbizonuf .gt_sourcenotes {
+#kcmifcuagf .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -3877,64 +3878,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#sxqbizonuf .gt_sourcenote {
+#kcmifcuagf .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#sxqbizonuf .gt_left {
+#kcmifcuagf .gt_left {
 text-align: left;
 }
-#sxqbizonuf .gt_center {
+#kcmifcuagf .gt_center {
 text-align: center;
 }
-#sxqbizonuf .gt_right {
+#kcmifcuagf .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#sxqbizonuf .gt_font_normal {
+#kcmifcuagf .gt_font_normal {
 font-weight: normal;
 }
-#sxqbizonuf .gt_font_bold {
+#kcmifcuagf .gt_font_bold {
 font-weight: bold;
 }
-#sxqbizonuf .gt_font_italic {
+#kcmifcuagf .gt_font_italic {
 font-style: italic;
 }
-#sxqbizonuf .gt_super {
+#kcmifcuagf .gt_super {
 font-size: 65%;
 }
-#sxqbizonuf .gt_footnote_marks {
+#kcmifcuagf .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#sxqbizonuf .gt_asterisk {
+#kcmifcuagf .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#sxqbizonuf .gt_indent_1 {
+#kcmifcuagf .gt_indent_1 {
 text-indent: 5px;
 }
-#sxqbizonuf .gt_indent_2 {
+#kcmifcuagf .gt_indent_2 {
 text-indent: 10px;
 }
-#sxqbizonuf .gt_indent_3 {
+#kcmifcuagf .gt_indent_3 {
 text-indent: 15px;
 }
-#sxqbizonuf .gt_indent_4 {
+#kcmifcuagf .gt_indent_4 {
 text-indent: 20px;
 }
-#sxqbizonuf .gt_indent_5 {
+#kcmifcuagf .gt_indent_5 {
 text-indent: 25px;
 }
-#sxqbizonuf .katex-display {
+#kcmifcuagf .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#sxqbizonuf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#kcmifcuagf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -4556,7 +4557,7 @@ height: 0px !important;
 <li><p><em>Specificity</em> = TN / (TN + FP) = 111 / (111 + 6) ≈ 80.2%<br> This indicates the model’s effectiveness in correctly identifying patients who do not have heart disease.</p></li>
 <li><p><em>Precision</em> = TP / (TP + FP) = 85 / (85 + 6) ≈ 84.1%<br> Precision measures how many of the predicted positive cases were actually positive. High precision reduces the likelihood of false alarms.</p></li>
 <li><p><em>F1 Score</em> = 2 × (Precision × Recall) / (Precision + Recall) = 0.892<br> This is a harmonic mean of precision and recall, especially useful in scenarios with class imbalance.</p></li>
-<li><p><em>Kappa Statistic</em> = 0.756<br> Kappa provides a normalized score that compares the model’s accuracy to what would be expected by chance. A value above 0.75 is generally considered substantial agreement <span class="citation" data-cites="viera2005understanding">(<a href="#ref-viera2005understanding" role="doc-biblioref"><strong>viera2005understanding?</strong></a>)</span></p></li>
+<li><p><em>Kappa Statistic</em> = 0.756<br> Kappa provides a normalized score that compares the model’s accuracy to what would be expected by chance. A value above 0.75 is generally considered substantial agreement <span class="citation" data-cites="viera2005understanding">(<a href="#ref-viera2005understanding" role="doc-biblioref">Viera and Garrett 2005</a>)</span></p></li>
 </ul>
 <p>These numbers demonstrate that the tuned model not only does well on the training folds but can also be expected to perform well on unseen data. As shown in Figure 1, the ROC curve indicates strong separation between classes, emphasizing a steep rise towards the top left corner which implies high sensitivity and low false positive rate.</p>
 <p>Figure 6 below shows ROC Curve with AUC Score for both models. The basic random forest model had AUC score of .8837 and the tuned random forest model’s ROC curve with an AUC score of 0.9371. This score suggests remarkable classification ability.</p>
@@ -4593,7 +4594,7 @@ height: 0px !important;
 </details>
 </div>
 <p>(Figure 6: ROC curve with an AUC score of both basic RF Model &amp; tuned RF Model)</p>
-<p>The ROC (Receiver Operating Characteristic) curve displays the balance of sensitivity (true positive rate) against specificity (false positive rate) for different thresholds. From the figure we can see that AUC score of tuned model is notably higher than AUC score of basic model of 0.8837. The provided tuned model’s AUC score of 0.9371 is indicative of the strong power of the model in accurately classifying patients with heart disease from those without it. This shows how hyperparameter tuning can optimize accurately and reliably diagnosing heart disease.The AUC value, derived from the ROC curve, indicates strong discriminatory ability. An AUC above 0.90 is typically considered excellent<span class="citation" data-cites="fawcett2006introduction">(<a href="#ref-fawcett2006introduction" role="doc-biblioref"><strong>fawcett2006introduction?</strong></a>)</span>. This means the model is highly effective at distinguishing between patients with and without heart disease, regardless of classification threshold.</p>
+<p>The ROC (Receiver Operating Characteristic) curve displays the balance of sensitivity (true positive rate) against specificity (false positive rate) for different thresholds. From the figure we can see that AUC score of tuned model is notably higher than AUC score of basic model of 0.8837. The provided tuned model’s AUC score of 0.9371 is indicative of the strong power of the model in accurately classifying patients with heart disease from those without it. This shows how hyperparameter tuning can optimize accurately and reliably diagnosing heart disease.The AUC value, derived from the ROC curve, indicates strong discriminatory ability. An AUC above 0.90 is typically considered excellent<span class="citation" data-cites="fawcett2006introduction">(<a href="#ref-fawcett2006introduction" role="doc-biblioref">Fawcett 2006</a>)</span>. This means the model is highly effective at distinguishing between patients with and without heart disease, regardless of classification threshold.</p>
 <p>We also looked for feature importance, which showed ST_SlopeUp, ChestPainTypeASY, and ST_SlopeFlat to be some of the most important predictors. This is consistent with medical domain knowledge since changes in ST segments and chest pain types are known markers of cardiac abnormality <span class="citation" data-cites="khalilia2011predicting">(<a href="#ref-khalilia2011predicting" role="doc-biblioref">Khalilia, Chakraborty, and Popescu 2011</a>)</span>. The model’s ability to capture meaningful physiological patterns is also supported by the high ranking of MaxHR and Oldpeak.</p>
 <div class="cell">
 <details class="code-fold">
@@ -4647,6 +4648,9 @@ Breiman, Leo. 2001. <span>“Random Forests.”</span> <em>Machine Learning</em>
 <div id="ref-dai2018using" class="csl-entry" role="listitem">
 Dai, Bin, Rung-Ching Chen, Shun-Zhi Zhu, and Wei-Wei Zhang. 2018. <span>“Using Random Forest Algorithm for Breast Cancer Diagnosis.”</span> In <em>2018 International Symposium on Computer, Consumer and Control (IS3C)</em>, 449–52. IEEE. <a href="https://doi.org/10.1109/IS3C.2018.00119">https://doi.org/10.1109/IS3C.2018.00119</a>.
 </div>
+<div id="ref-fawcett2006introduction" class="csl-entry" role="listitem">
+Fawcett, Tom. 2006. <span>“An Introduction to ROC Analysis.”</span> <em>Pattern Recognition Letters</em> 27 (8): 861–74. <a href="https://doi.org/10.1016/j.patrec.2005.10.010">https://doi.org/10.1016/j.patrec.2005.10.010</a>.
+</div>
 <div id="ref-khalilia2011predicting" class="csl-entry" role="listitem">
 Khalilia, Mohammed, Sounak Chakraborty, and Mihail Popescu. 2011. <span>“Predicting Disease Risks from Highly Imbalanced Data Using Random Forest.”</span> <em>BMC Medical Informatics and Decision Making</em> 11: 1–13. <a href="https://doi.org/10.1186/1472-6947-11-51">https://doi.org/10.1186/1472-6947-11-51</a>.
 </div>
@@ -4667,6 +4671,9 @@ Probst, Philipp, Marvin N Wright, and Anne-Laure Boulesteix. 2019b. <span>“Hyp
 </div>
 <div id="ref-rigatti2017random" class="csl-entry" role="listitem">
 Rigatti, Steven J. 2017. <span>“Random Forest.”</span> <em>Journal of Insurance Medicine</em> 47 (1): 31–39. <a href="https://doi.org/10.17849/insm-47-01-31-39.1">https://doi.org/10.17849/insm-47-01-31-39.1</a>.
+</div>
+<div id="ref-viera2005understanding" class="csl-entry" role="listitem">
+Viera, Anthony J, and Joanne M Garrett. 2005. <span>“Understanding Interobserver Agreement: The Kappa Statistic.”</span> <em>Family Medicine</em> 37 (5): 360–63.
 </div>
 </div></section></div></main>
 <!-- /main column -->
