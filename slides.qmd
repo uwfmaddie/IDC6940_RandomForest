@@ -68,20 +68,15 @@ _Overview of the strengths and limitations of using Random Forest for clinical a
 
 
 ## Method Overview {.smaller}
-- Built Random Forest using the `caret` package in R  
-- Split data into 70% training, 30% testing using `createDataPartition()`  
-- Trained 100 decision trees using the `randomForest` function  
-- Used bootstrapping (bagging) and random feature selection (`mtry`) at each split  
-- Evaluated splits based on Gini impurity  
-- Combined tree predictions via majority voting (classification)
+- **Step 1: Single Decision Tree (Baseline)**  
+  - Built a simple decision tree to establish a baseline and gain initial insights into the data  
 
-- Hyperparameter tuning:
-  - Used 5-fold cross-validation (`trainControl`)  
-  - ROC AUC as the optimization metric  
-  - `expand.grid(mtry = c(2, 3, 4, 5))` for tuning number of features per split
+- **Step 2: Random Forest Model**  
+  - Improved predictions using a Random Forest with 100 decision trees  
 
-
-
+- **Step 3: Hyperparameter Tuning**  
+  - Optimized model performance using 5-fold cross-validation  
+  - Tuned the `mtry` parameter (number of features considered at each split)
 
 ##  Hyperparameter Tuning Explanation {.smaller}
 
