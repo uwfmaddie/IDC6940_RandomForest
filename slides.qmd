@@ -49,10 +49,10 @@ _Overview of the strengths and limitations of using Random Forest for clinical a
 
 ## Real World Applications
 
-- Colon cancer survival analysis using SEER data  
-- ICU outcome prediction and sepsis risk classification  
-- Diabetes detection and prevention 
-- Medication demand forecasting 
+- Colon cancer survival analysis using SEER data [@rigatti2017random]
+- ICU outcome prediction and sepsis risk classification [@probst2019rfhealth]
+- Diabetes detection and prevention [@khine2022diabetes]
+- Medication demand forecasting  [@mbonyinshuti2022demand]
 
 ## Study Objective {.smaller}
 
@@ -240,8 +240,7 @@ predicting heart diseases.
 -   **Sex Distribution (Top-Right):** The dataset has more male patients
     than female, which might impact predictions.
 -   **Age Distribution (Bottom-Left):** Most patients fall within the
-    40-70 years age range, which may reduce model accuracy for younger
-    individuals.
+    40-70 years age range, with the data being normally distributed.
 -   **Cholesterol Distribution (Bottom-Right):** The presence of zero
     values in cholesterol is unrealistic, indicating the need for data
     cleaning.
@@ -262,7 +261,7 @@ corrplot(cor_matrix, method = "circle", type = "upper",
 ## Correlation Matrix Insights {.smaller}
 
 - Figure 2 shows correlations of features in the data set with heart disease.
-- Oldpeak (0.40) stands out since higher ST depression is associated with heart disease risk. Oldpeak refers to ST depression, a measurement on an ECG, indicating reduced blood flow to heart.
+- Oldpeak (0.40), or ST depression, stands out since higher ST depression is associated with heart disease risk. This is a measurement on an ECG, indicating reduced blood flow to heart.
 - Patients who have heart disease are more likely to have lower maximum heart rate (MaxHR (-0.40)).
 - Age (0.28) and Fasting Blood Sugar (0.27) also emerged as positive correlates,
 confirming that older people and people with high fasting blood sugar
@@ -377,8 +376,9 @@ predictions <- predict(tree, test, type = "class")
 - After gaining an understanding of how a single decision tree functions;
 we proceed with the bulk of our analysis using the random forest
 algorithm.
-- We trained the random forest using 100 trees and graphed the decision tree and evaluation metrics below. The random forest achieved an accuracy of 88.4%, which is higher than the 81.7% obtained from the single decision tree, as expected.
-- The confusion matrix shows that there were 104 true negatives (HeartDisease=0), 94 true positives (HeartDisease=1), 13 false negatives, and 13 false positives. Precision, recall, sensitivity, and F1 scores were all the same.
+- We trained the random forest using 100 trees
+- The random forest achieved an accuracy of 88.4%, which is higher than the 81.7% obtained from the single decision tree, as expected.
+- The confusion matrix shows that there were 104 true negatives (HeartDisease=0), 94 true positives (HeartDisease=1), 13 false negatives, and 13 false positives.
 
 ```{r}
 library(randomForest)
@@ -455,13 +455,11 @@ auc_value1 <- auc(rf_roc1)
 ## Hyperparameter Tuning {.smaller}
 
 - After achieving an accuracy of 88.4% on the initial random forest model built using default parameters, we used hyperparameter tuning to improve the model further.
-- Tuning the model is a crucial step in machine learning because the default values will not be the most accurate or generalizable [@probst2019rfhealth].
+- Tuning the model is a crucial step in machine learning because the default values may not be the most accurate or generalizable [@probst2019rfhealth].
 - We conducted model enhancement by implementing 5-fold cross-validation in the process of tuning the key parameter mtry, which is the number of variables that are randomly chosen at every split of the tree. 
-
-- For the cross-validation, the training data was divided into five sets, where the model was trained on four sets and validated on the remaining part.
-- The cycle was executed for every fold, aggregated performance across folds, and used the Area Under the ROC Curve (AUC) to serve as the main optimization metric. 
+- Area Under the ROC Curve (AUC) was used as the main optimization metric. 
 - The AUC was chosen because it assesses a model’s performance and does not take into account classification thresholds, which matters greatly in binary classification problems with an imbalanced dataset.
-- We evaluated mtry parameters from 2 through 5. Based on analysis, we discovered that mtry=3 achieved the greatest mean AUC (0.9302) which suggested that this setting provided the optimal compromise between overfitting and underfitting [@oshiro2012many].
+- mtry=3 achieved the greatest mean AUC (0.9302) which suggested that this setting provided the optimal compromise between overfitting and underfitting [@oshiro2012many].
 
 ```{r}
 # Load necessary libraries
@@ -598,12 +596,10 @@ par(mfrow = c(1, 1))
 
 ## Analysis Summary {.smaller}
 
-- These numbers demonstrate that the tuned model not only does well on the training folds but can also be expected to perform well on unseen data.
 - The ROC (Receiver Operating Characteristic) curve displays the balance of sensitivity (true positive rate) against specificity (false positive rate) for different thresholds. 
-- The ROC curve indicates strong separation between classes, emphasizing a steep rise towards the top left corner which implies high sensitivity and low false positive rate.
-- The basic random forest model had AUC score of .8837 and the tuned random forest model’s ROC curve with an AUC score of 0.9371.
+- The ROC curve indicates strong separation between classes
+- The basic random forest model had AUC score of .8837 and the tuned random forest model had an AUC score of 0.9371.
 - This shows how hyperparameter tuning can optimize accurately and reliably diagnosing heart disease.
-- The AUC value, derived from the ROC curve, indicates strong discriminatory ability.
 - An AUC above 0.90 is typically considered excellent[@fawcett2006introduction]. 
 
 ## Feature Importance {.smaller}
@@ -635,14 +631,11 @@ varImpPlot(rf_model,
 - The aim of the study was to evaluate the Random Forest algorithm.
 - Using a data set to predict heart disease, we compared the results using default settings against a model that was optimized after hyperparameter tuning. 
 - Both models provided satisfactory classification properties (>80% accuracy)
-- the optimized model significantly showed improvement when compared against the initial model when comparing AUC values
+- The optimized model showed improvement when compared against the initial model when comparing AUC values
 - The tuned model had an accuracy of 88.4% and sensitivity of 94.9% with the corresponding F1 score of 0.892.
-- These results demonstrate the importance of tuning in improving the performance of the model.
-- This is especially true for clinical decision-support systems where reducing false negatives is critical.
 - From a practical perspective, this study has important implications for the use of Random Forests in clinical decision support.
 - The algorithm's robust nature and ability to handle various data types makes it an excellent algorithm for healthcare applications.
-- The performance gain after tuning implies that we should not use a Random Forest with default hyperparameters in a real-world machine learning deployment, but it can be used as a baseline for beginning evaluation or determining which model type may be most appropriate.
-- Random Forest algorithm is an effective algorithm in medical prediction tasks, as well as various classification and regression problems.
-- Random Forest can provide healthcare professionals with substantial support in terms of early diagnostics and risk stratification if it is tuned correctly, which can lead to improved patient outcomes and optimal use of clinical resources.
+- The performance gain after tuning implies that default hyperparameters can be used as a baseline for beginning evaluation or determining which model type may be most appropriate, but tuning should be taken into consideration.
+- Random Forest can provide healthcare professionals with support in terms of risk and diagnostics
 
 ## References
